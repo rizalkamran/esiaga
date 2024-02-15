@@ -1,0 +1,63 @@
+.table {
+	color: $title-color;
+}
+.uikit-table-1 {
+	th {
+		border: 0 !important;
+		padding: 10px 20px;
+	}
+	td {
+		border: 0 !important;
+		padding: 12px 20px;
+	}
+	tbody {
+		tr {
+			border-top: 1px solid $border-color;
+		}
+	}
+}
+
+.uikit-table-2 {
+	background: var(--main-color) !important;
+	th {
+		border: 0 !important;
+		padding: 10px 20px;
+	}
+	td {
+		border: 0 !important;
+		padding: 12px 20px;
+	}
+	tbody {
+		tr {
+			border-top: 1px solid $border-color;
+		}
+	}
+}
+
+.uikit-table-3 {
+	th {
+		border: 0 !important;
+		padding: 10px 20px;
+	}
+	td {
+		border: 0 !important;
+		padding: 12px 20px;
+	}
+	tbody {
+		tr {
+			border-top: 1px solid $border-color;
+			&:nth-child(1){
+				background: #f3e9e9;
+			}
+			&:nth-child(3){
+				background: #f3e9e9;
+			}
+			&:nth-child(5){
+				background: #f3e9e9;
+			}
+			&:nth-child(7){
+				background: #f3e9e9;
+			}
+		}
+	}
+}

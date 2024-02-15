@@ -1,0 +1,68 @@
+/*
+Theme Name: Betpro
+Theme URI: http://s7template.com/Betpro
+Author: s7template
+Author URI: https://s7template.com
+Description: Betpro - Sports Betting mobile App Html5 Template
+Version: 1.0.0
+*/
+/*--------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Global
+    ## Global
+    ## Mixins
+    ## Variables
+    ## Common
+
+# Sections
+    ## Nav Bar
+    ## Banner
+    ## Brand Area
+    ## Footer
+    ## Widgets
+
+# Elements
+    ## accordion
+    ## filter
+    ## apartment
+    ## blog
+    ## city
+    ## feature
+    ## gallery
+    ## intro
+    ## main-search
+    ## pricing
+    ## service
+    ## team
+    ## user-list
+
+--------------------------------------------------------------*/
+
+//== Global Design
+@import "global/_mixins";
+@import "global/_variables";
+@import "global/_global";
+@import "global/_common";
+
+//== Sections
+@import "sections/_navbar";
+@import "sections/_demo";
+@import "sections/_content";
+@import "sections/_footer";
+@import "sections/_dark-page";
+
+//== Components 
+@import "components/_header-style";
+@import "components/_ui_commmon";
+@import "components/_accordion";
+@import "components/_alerts";
+@import "components/_buttons";
+@import "components/_modal";
+@import "components/_progress";
+@import "components/_tabs";
+@import "components/_tooltip";
+@import "components/_notifications";
+@import "components/_dark";
+@import "components/_badge";
+@import "components/_table";

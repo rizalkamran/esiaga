@@ -1,0 +1,179 @@
+/*dark area************/
+body.dark {
+    --main-color: #614BFF;
+    --heading-color: #fff;
+    --white-color: #1B183E;
+    --paragraph-color: #BDBDBE;
+    --border-color: rgba(255, 255, 255, 0.10);
+    background: #110E33;
+    .bg-main {
+        background: #110E33;
+    }
+    .demo-feature {
+      background: #110E33;
+    }
+    .demo-feature .demo-feature-wrap {
+      border: 1px solid #3c3473;
+    }
+    .onboard-page .btn-wrap .onboard-btn {
+      color: #fff;
+      &:hover {
+        color: $theme-color;
+      }
+    }
+    .phoneWrapper .mobile-mockup2 {
+      filter: brightness(9);
+    }
+    .or-border span {
+      background: #110E33;
+    }
+    .back-page-btn {
+      background: #2D2B4C;
+    }
+    .single-input-wrap {
+      border-color: #2D2B4C;
+      label {
+        filter: brightness(1.3);
+      }
+      input {
+        background: #1b183e;
+        color: var(--heading-color);
+        &::placeholder {
+          color: var(--paragraph-color);
+        }
+      }
+    }
+    .icon-btn,
+    .main-home-area .profile-area .media .media-body .balance {
+      background: #2D2B4C;
+    }
+    .home-search-wrap .default-form-wrap .single-input-wrap, .home-search-wrap .default-form-wrap .single-input-wrap input {
+      background: #2D2B4C;
+    }
+    .home-category-slider {
+      .owl-item {
+        &.active {
+          .home-category-item-wrap {
+            background: #2D2B4C;
+            color: #fff;
+            img {
+              filter: brightness(8);
+            }
+          }
+        }
+      }
+    }
+    .sports-slider .sports-slider-item.slick-current {
+      color: #fff;
+    }
+    .single-page-area .title-area {
+      background: #1B183E;
+    }
+    .single-product-wrap .betting-type ul li .betting-btn:hover, .single-product-wrap .betting-type ul li .betting-btn:focus, .single-product-wrap .betting-type ul li .betting-btn:active {
+      color: #fff;
+    }
+    .sports-list li .submenu li a,
+    .sports-list li label,
+    .sports-page-wrap .nav-tabs .nav-item .nav-link,
+    .sports-page-wrap .nav-tabs .nav-item .nav-link.active {
+      color: #fff;
+    }
+    .sports-list li:has(input:checked) label,
+    .sports-list li .submenu li a:hover,
+    .sports-list li label:hover {
+      background: rgba(235, 235, 237, 0.1);
+    }
+    .sports-list li label img {
+      filter: brightness(9);
+    }
+    .profile-details ul li span,
+    .profile-details ul li h6 {
+      color: #fff;
+    }
+    .profile-list-inner li .single-profile-wrap svg {
+      color: #BDBDBE;
+    }
+    .transaction-wrap .header-wrap {
+      background: #2D2B4C;
+    }
+    .transaction-wrap .header-wrap .media .single-select {
+      background: #1B183E;
+      color: #fff;
+    }
+    .transaction-wrap .header-wrap .media .single-select .list {
+      background: #2D2B4C;
+    }
+    .nice-select .option.focus, .nice-select .option.selected.focus, .nice-select .option:hover {
+      background: #1B183E;
+    }
+    .payment-method-card .payment-method-select .form-check .form-check-input:after,
+    .blog-page-wrap .nav-tabs .nav-item .nav-link.active,
+    .mybet-page-wrap .nav-tabs .nav-item .nav-link {
+      color: #fff;
+    }
+    .blog-page-wrap .nav-tabs {
+      background: #1B183E;
+    }
+    .blog-page-wrap .nav-tabs .nav-item .nav-link {
+      color: var(--paragraph-color);
+    }
+    .single-blog-card .play-btn {
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    .btn-close {
+      color: #fff;
+      filter: contrast(0.1);
+    }
+    .invite-wrap .input-wrap input,
+    .amount-wrap .single-input-wrap input {
+      background: #2D2B4C;
+    }
+    .invite-wrap .input-wrap input {
+      color: #fff;
+    }
+    .invite-wrap .input-wrap button {
+      color: #fff;
+    }
+  } 
+  
+  .dark-area {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    z-index: 9;
+    .switch {
+      height: 40px;
+      width: 180px;
+      .slider {
+        background: $theme-color;
+        &:after {
+          content: 'Light Mode';
+          position: absolute;
+          color: #fff;
+          font-size: 18px;
+          margin-left: 60px;
+          margin-top: 4px;
+          transition: 0.4s;
+        }
+      }
+      .slider:before {
+        content: "\f185";
+        font-family: "Font Awesome 5 free";
+        height: 100%;
+        top: 0;
+        left: 0;
+        line-height: 40px;
+        text-align: center;
+        width: 40px;
+        color: $theme-color;
+      }
+      input:checked + .slider:before {
+        transform: translateX(140px);
+        content: "\f186";
+      }
+      input:checked + .slider:after {
+        content: 'Dark Mode';
+        margin-left: 30px;
+      }
+    } 
+  }
