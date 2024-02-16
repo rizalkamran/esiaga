@@ -51,6 +51,7 @@
                             <input name="password" type="password" class="form-control" placeholder="Password" id="password">
                         </div>
                     </div>
+                    <div class="text-end"><a href="{{ route('mobile-forget') }}">Lupa Password?</a></div>
                 </div>
                 <button class="btn btn-base w-100" type="submit">Masuk</button>
             </form>

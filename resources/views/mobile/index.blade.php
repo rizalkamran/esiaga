@@ -20,9 +20,9 @@
         <div class="main-page bg-main d-flex align-items-center justify-content-center vh-100">
             <div class="container">
                 <div class="d-block text-center">
-                    <img class="light-logo" src="{{ asset('image/mobile/logo1.png') }}" alt="img"
+                    <img class="light-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
                         style="width: 25%; height:auto;">
-                    <img class="darkmode-logo" src="{{ asset('image/mobile/logo1.png') }}" alt="img"
+                    <img class="darkmode-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
                         style="width: 25%; height:auto;">
                     <a class="btn btn-white" href="{{ route('mobile-intro') }}">KLIK DISINI</a>
                 </div>

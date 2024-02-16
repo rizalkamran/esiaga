@@ -53,6 +53,9 @@ Route::get('/mobile-register', function () {
     return view('mobile.auth.register');
 })->name('mobile-register');
 
+Route::get('/mobile-forget', function () {
+    return view('mobile.auth.forget');
+})->name('mobile-forget');
 /**
  * Add 'verified'
  * to create soft lock

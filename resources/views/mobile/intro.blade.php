@@ -23,8 +23,8 @@
         <div class="align-items-center d-flex justify-content-center vh-100">
             <div>
                 <div class="logo-area text-center">
-                    <img class="light-logo" src="{{ asset('image/mobile/logo1.png') }}" alt="img" style="width: 25%; height:auto;">
-                    <img class="darkmode-logo" src="{{ asset('image/mobile/logo1.png') }}" alt="img" style="width: 25%; height:auto;">
+                    <img class="light-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img" style="width: 25%; height:auto;">
+                    <img class="darkmode-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img" style="width: 25%; height:auto;">
                 </div>
                 <h3>E-SIAGA</h3>
                 <p>Sihlakan login dengan akun anda, atau daftar akun baru</p>

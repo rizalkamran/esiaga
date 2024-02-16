@@ -67,7 +67,11 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         Fortify::requestPasswordResetLinkView(function () {
-            return view('auth.forget-pass');
+            if ($this->isMobileDevice()) {
+                return view('mobile.auth.forget');
+            } else {
+                return view('auth.forget-pass');
+            }
         });
 
         Fortify::verifyEmailView(function (){
