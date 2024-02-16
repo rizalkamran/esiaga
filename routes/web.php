@@ -35,12 +35,15 @@ Route::get('/', function () {
 
 Route::get('/mobile-landing', function () {
     return view('mobile.index');
-});
+})->name('mobile-landing');
 
 Route::get('/mobile-intro', function () {
     return view('mobile.intro');
-})->name('mobile-intro'); // Define a name for the route
+})->name('mobile-intro');
 
+Route::get('/mobile-profil', function () {
+    return view('mobile.profil');
+})->name('mobile-profil')->middleware('auth');
 
 Route::get('/mobile-login', function () {
     return view('mobile.auth.login');
