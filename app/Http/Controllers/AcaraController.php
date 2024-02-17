@@ -16,11 +16,21 @@ class AcaraController extends Controller
      */
     public function index()
     {
+        // Check if the user is authorized to view the page
         if (Gate::allows('logged-in')) {
-            $acaras = Acara::paginate(5); // Paginate with 10 records per page
-            return view('acara.index', ['acaras' => $acaras]);
+            // Check if the request is coming from a mobile device
+            if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
+                // If it's a mobile device, return the mobile view
+                $acaras = Acara::where('status_acara', 1)->get();
+                return view('mobile.acara.index', ['acaras' => $acaras]);
+            } else {
+                // If it's not a mobile device, return the regular view
+                $acaras = Acara::paginate(5); // Paginate with * records per page
+                return view('acara.index', ['acaras' => $acaras]);
+            }
         }
 
+        // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action.');
     }
 

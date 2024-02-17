@@ -20,6 +20,9 @@
         <div class="main-page bg-main d-flex align-items-center justify-content-center vh-100">
             <div class="container">
                 <div class="d-block text-center">
+                    <button type="button" class="btn-c btn-success mb-3">DINAS PEMUDA DAN OLAHRAGA PROV KALTIM</button>
+                </div>
+                <div class="d-block text-center">
                     <img class="light-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
                         style="width: 25%; height:auto;">
                     <img class="darkmode-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
@@ -68,24 +71,6 @@
                         <label>E-SIAGA</label>
                         <input type="text" class="form-control" placeholder="Halaman dashboard">
                     </div>
-                    <div class="single-input-wrap">
-                        <label>Content 2</label>
-                        <input type="text" class="form-control" placeholder="text content 2">
-                    </div>
-                    <div class="row">
-                        <div class="col-6">
-                            <div class="single-input-wrap">
-                                <label>Inline Content 1</label>
-                                <input type="text" class="form-control" placeholder="Inline text 2">
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="single-input-wrap">
-                                <label>Inline Content 2</label>
-                                <input type="text" class="form-control" placeholder="Inline text 2">
-                            </div>
-                        </div>
-                    </div>
                 </form>
 
                 <div class="main-footer-bottom d-block text-center">
@@ -103,7 +88,7 @@
                             </a>
                         </li>
                         <li>
-                            <a class="menu-bar" href="#">
+                            <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
                                 <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
                                 Acara
                             </a>

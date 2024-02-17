@@ -29,7 +29,7 @@
                         @foreach ($acaras as $acara)
                             <tr>
                                 <td>{{ $acara->id }}</td>
-                                <td>{{ $acara->nama_acara }}</td>
+                                <td>{{ Illuminate\Support\Str::limit($acara->nama_acara, 30) }}</td>
                                 <td>{{ $acara->lokasi_acara }}</td>
                                 <td>{{ $acara->tingkat_wilayah_acara }}</td>
                                 <td>{{ \Carbon\Carbon::parse($acara->tanggal_awal_acara)->format('d-m-Y') }}</td>

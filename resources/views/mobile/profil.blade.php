@@ -70,7 +70,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="menu-bar" href="#">
+                    <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
                         <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
                         Acara
                     </a>

@@ -8,6 +8,7 @@ use App\Http\Controllers\AnggotaPeranController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
+use App\Http\Controllers\RegistrasiController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -76,6 +77,13 @@ Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){
 
 //Acara
 Route::resource('/acara', AcaraController::class);
+Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.acara.index');
+//Registrasi
+Route::resource('/registrasi', RegistrasiController::class);
+Route::get('/mobile/registrasi', [RegistrasiController::class, 'index'])->name('mobile.registrasi.index');
+Route::get('/mobile/registrasi/create', [RegistrasiController::class, 'create'])->name('mobile.registrasi.create');
+Route::post('/mobile/registrasi', [RegistrasiController::class, 'store'])->name('mobile.registrasi.store');
+
 //Biodata
 Route::get('/get-kota/{provinsiId}', [BiodataController::class, 'getKota']);
 Route::resource('/biodata', BiodataController::class);

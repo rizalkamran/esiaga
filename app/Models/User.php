@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\AnggotaPeran;
+use App\Models\AnggotaAcaraRegistrasi;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -83,5 +84,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function anggotaPeran()
     {
         return $this->hasMany(AnggotaPeran::class, 'user_id');
+    }
+
+    public function anggotaAcaraRegistrasi()
+    {
+        return $this->hasMany(AnggotaAcaraRegistrasi::class);
     }
 }

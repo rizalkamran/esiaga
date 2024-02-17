@@ -51,13 +51,11 @@
                                   Data Master
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                  <li><a class="dropdown-item" href="#">Anggota</a></li>
-                                  <li><hr class="dropdown-divider"></li>
                                   <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Data User</a></li>
                                   <li><a class="dropdown-item" href="#">Role</a></li>
                                 </ul>
                             </li>
-                        @endcan
+
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -70,20 +68,27 @@
                               <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
                             </ul>
                         </li>
+                        @endcan
 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Anggota
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                @can('logged-in')
+                                <li><a class="dropdown-item" href="{{ route('biodata.index') }}">Biodata</a></li>
+                                @endcan
+                            </ul>
+                        </li>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Acara
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @can('logged-in')
-                                <li><a class="dropdown-item" href="{{ route('biodata.index') }}">Biodata</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                @endcan
                                 <li><a class="dropdown-item" href="{{ route('acara.index') }}">Daftar Acara</a></li>
                                 @can('logged-in')
-                                <li><a class="dropdown-item" href="#">Register Acara</a></li>
+                                <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Peserta</a></li>
                                 @endcan
                             </ul>
                         </li>
