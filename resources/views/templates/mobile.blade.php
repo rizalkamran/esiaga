@@ -34,7 +34,6 @@
     @yield('content')
 
 
-
     <!-- all plugins here -->
     <script src="{{ asset('js/mobile/jquery.3.6.min.js') }}"></script>
     <script src="{{ asset('js/mobile/bootstrap.min.js') }}"></script>

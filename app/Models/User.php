@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\AnggotaPeran;
 use App\Models\AnggotaAcaraRegistrasi;
+use App\Models\Biodata;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -89,5 +90,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function anggotaAcaraRegistrasi()
     {
         return $this->hasMany(AnggotaAcaraRegistrasi::class);
+    }
+
+    public function biodata()
+    {
+        return $this->hasOne(Biodata::class);
     }
 }

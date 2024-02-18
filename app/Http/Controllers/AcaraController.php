@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Acara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Biodata;
 use Carbon\Carbon;
 
 class AcaraController extends Controller
@@ -20,9 +21,17 @@ class AcaraController extends Controller
         if (Gate::allows('logged-in')) {
             // Check if the request is coming from a mobile device
             if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
-                // If it's a mobile device, return the mobile view
-                $acaras = Acara::where('status_acara', 1)->get();
-                return view('mobile.acara.index', ['acaras' => $acaras]);
+
+                $user = auth()->user();
+                $biodata = $user->biodata;
+
+                if ($biodata) {
+                    // If it's a mobile device, return the mobile view
+                    $acaras = Acara::where('status_acara', 1)->get();
+                    return view('mobile.acara.index', ['acaras' => $acaras]);
+                } else{
+                    return redirect()->route('mobile-profil')->with('error', 'Isi biodata terlebih dahulu !!!');
+                }
             } else {
                 // If it's not a mobile device, return the regular view
                 $acaras = Acara::paginate(5); // Paginate with * records per page

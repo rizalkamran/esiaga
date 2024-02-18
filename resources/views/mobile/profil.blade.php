@@ -25,9 +25,17 @@
         </div>
 
         <div class="container">
+
+            @if(session('error'))
+                <div class="alert alert-outline-danger alert-dismissible fade show mt-3 mb-2">
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <ul class="profile-list-inner">
                 <li>
-                    <a class="single-profile-wrap" href=#"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
+                    <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
                 </li>
                 <li>
                     <div class="single-profile-wrap">
@@ -40,9 +48,6 @@
                             </label>
                         </div>
                     </div>
-                </li>
-                <li>
-                    <a class="single-profile-wrap" href="statistics.html"><i class="fas fa-chart-line"></i> Statistik <i class="ri-arrow-right-s-line"></i></a>
                 </li>
                 <li>
                     <a class="single-profile-wrap" href="{{ route('logout') }}" onclick="event.preventDefault();

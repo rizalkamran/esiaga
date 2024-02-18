@@ -86,8 +86,11 @@ Route::get('/mobile/registrasi/create', [RegistrasiController::class, 'create'])
 Route::post('/mobile/registrasi', [RegistrasiController::class, 'store'])->name('mobile.registrasi.store');
 
 //Biodata
-Route::get('/get-kota/{provinsiId}', [BiodataController::class, 'getKota']);
 Route::resource('/biodata', BiodataController::class);
+Route::get('/mobile/biodata', [BiodataController::class, 'index'])->name('mobile.biodata.index');
+Route::get('/mobile/biodata/create', [BiodataController::class, 'create'])->name('mobile.biodata.create');
+Route::post('/mobile/biodata', [BiodataController::class, 'store'])->name('mobile.biodata.store');
+//Route::get('/mobile/biodata/get-kota/{provinsi_id}', [BiodataController::class, 'getKota']);
 //Route::get('/download/image/{imageName}', 'BiodataController@downloadImage')->name('download.image');
 
 

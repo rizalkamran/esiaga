@@ -78,12 +78,12 @@
                                 <div class="card-body">
                                     <div class="row mb-3">
                                         <div class="col">
-                                            <p class="fw-bold">Asal Provinsi - Kota:</p>
+                                            {{-- <p class="fw-bold">Asal Provinsi - Kota:</p>
                                             <p>
                                                 <span class="badge bg-success">
                                                     {{ $bio->provinsi->nama_provinsi }}
                                                 </span>
-                                            </p>
+                                            </p> --}}
                                             <p>
                                                 <span class="badge bg-success">
                                                     {{ $bio->kota->nama_kota }}

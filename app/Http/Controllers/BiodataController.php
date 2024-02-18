@@ -22,7 +22,12 @@ class BiodataController extends Controller
     {
         if (Gate::allows('logged-in')) {
 
-            $biodata = Biodata::where('user_id', auth()->user()->id)->paginate(10); // Change 10 to the desired number of items per page
+            if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
+                $biodata = Biodata::where('user_id', auth()->user()->id)->get(); // Change 10 to the desired number of items per page
+                return view('mobile.biodata.index', ['biodata' => $biodata]);
+            }
+        } elseif (Gate::allows('is-admin')) {
+            $biodata = Biodata::paginate(10);
             return view('biodata.index', ['biodata' => $biodata]);
         }
 
@@ -40,17 +45,23 @@ class BiodataController extends Controller
             // Get the authenticated user's ID
             $user_id = auth()->user()->id;
 
-            $provinsi = ReffProvinsi::all();
+            //$provinsi = ReffProvinsi::all();
             $kota = ReffKota::all();
 
-            return view('biodata.create', [
+            return view('mobile.biodata.create', [
                 'user_id' => $user_id,
-                'provinsi' => $provinsi,
+                //'provinsi' => $provinsi,
                 'kota' => $kota
             ]);
         }
 
-        abort(403, 'Unauthorized action.');
+        abort(403, 'Unauthorized action');
+    }
+
+    public function getKota($provinsiId)
+    {
+        $kota = ReffKota::where('provinsi_id', $provinsiId)->get();
+        return response()->json($kota);
     }
 
     /**
@@ -61,11 +72,13 @@ class BiodataController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request->all());
+
         $username = auth()->user()->name;
 
             $request->validate([
                 'user_id' => 'required',
-                'provinsi_id' => 'required',
+                //'provinsi_id' => 'required',
                 'kota_id' => 'required',
                 'telepon' => 'required|string',
                 'tempat_lahir' => 'required|string',
@@ -106,13 +119,11 @@ class BiodataController extends Controller
             $file3->storeAs($tujuan_upload3, $nama_file3);
 
 
-            //dd($validatedData);
-
             // Create Biodata instance with the validated data
             // Create Biodata instance with the validated data and file paths
             Biodata::create([
                 'user_id' => $request->user_id,
-                'provinsi_id' => $request->provinsi_id,
+                //'provinsi_id' => $request->provinsi_id,
                 'kota_id' => $request->kota_id,
                 'telepon' => $request->telepon,
                 'tempat_lahir' => $request->tempat_lahir,
@@ -132,7 +143,7 @@ class BiodataController extends Controller
                 'request_role' => $request->request_role,
             ]);
 
-            return redirect()->route('biodata.index')->with('success', 'Biodata created successfully.');
+            return redirect()->route('mobile.biodata.index');
 
     }
 

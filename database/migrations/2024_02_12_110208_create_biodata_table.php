@@ -16,7 +16,6 @@ class CreateBiodataTable extends Migration
         Schema::create('biodata', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('provinsi_id');
             $table->unsignedBigInteger('kota_id');
             $table->string('telepon');
             $table->string('tempat_lahir');
@@ -38,7 +37,6 @@ class CreateBiodataTable extends Migration
 
             // Foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('provinsi_id')->references('id')->on('reff_provinsi')->onDelete('cascade');
             $table->foreign('kota_id')->references('id')->on('reff_kota')->onDelete('cascade');
         });
     }

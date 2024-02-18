@@ -16,7 +16,6 @@ class Biodata extends Model
 
     protected $fillable = [
         'user_id',
-        'provinsi_id',
         'kota_id',
         'telepon',
         'tempat_lahir',
