@@ -70,16 +70,16 @@
                         </li>
                         @endcan
 
+                        @can('logged-in')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Anggota
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                @can('logged-in')
                                 <li><a class="dropdown-item" href="{{ route('biodata.index') }}">Biodata</a></li>
-                                @endcan
                             </ul>
                         </li>
+                        @endcan
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

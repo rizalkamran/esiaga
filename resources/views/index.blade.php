@@ -7,7 +7,7 @@
             <div class="row align-items-start">
                 <div class="col-md-6">
                     <img style="width: 50%"
-                        src="https://img.freepik.com/free-vector/sport-equipment-concept_1284-13034.jpg?w=740&t=st=1707364904~exp=1707365504~hmac=e587d53eb8eab78911329643c8aece50f90ac3424f52ce779c98f1e458b7c2e2"
+                        src="{{ asset('image/mobile/logo1_rm.png') }}"
                         class="img-fluid" alt="...">
                 </div>
                 <div class="col-md-6">

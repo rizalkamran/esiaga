@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Acara;
 use Illuminate\Support\Facades\Auth;
+use PDF;
 
 class RegistrasiController extends Controller
 {
@@ -15,8 +16,14 @@ class RegistrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // Retrieve all acara options for the dropdown
+        $acaraOptions = Acara::all();
+
+        // Retrieve the selected acara (if any) from the request
+        $selectedAcara = $request->input('acara');
+
         if (Gate::allows('logged-in')) {
             // Check if the request is coming from a mobile device
             if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
@@ -24,15 +31,30 @@ class RegistrasiController extends Controller
                 $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->get();
                 return view('mobile.registrasi.index', ['anggota' => $anggota]);
             } else {
-                // If it's not a mobile device, return the regular view
-                $anggota = AnggotaAcaraRegistrasi::paginate(10); // Paginate with * records per page
-                return view('registrasi.index', ['anggota' => $anggota]);
+                // If it's not a mobile device, check if the user is an admin
+                if (Gate::allows('is-admin')) {
+                    // Filter by acara if selected
+                    $query = AnggotaAcaraRegistrasi::query();
+                    if ($selectedAcara) {
+                        $query->whereHas('acara', function ($q) use ($selectedAcara) {
+                            $q->where('id', $selectedAcara);
+                        });
+                    }
+                    $anggota = $query->paginate(10); // Paginate with * records per page
+                    return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
+                } else {
+                    // If the user is not an admin, return regular view for non-admin users
+                    $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->paginate(10);
+                    return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
+                }
             }
         }
 
         // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action.');
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -69,7 +91,7 @@ class RegistrasiController extends Controller
         $requestData = array_merge($request->all(), ['user_id' => $user_id]);
 
         // Dump and die to inspect the request data before proceeding
-        dd($requestData);
+        //dd($requestData);
 
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
@@ -129,4 +151,16 @@ class RegistrasiController extends Controller
     {
         //
     }
+
+    public function exportPDF()
+    {
+        $anggota = AnggotaAcaraRegistrasi::all(); // Fetch data from the database
+
+        // Load the view and pass data to it
+        $pdf = PDF::loadView('registrasi.export-pdf', compact('anggota'));
+
+        // Stream the PDF to the browser
+        return $pdf->stream('registrasi.pdf');
+    }
+
 }
