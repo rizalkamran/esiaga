@@ -152,9 +152,21 @@ class RegistrasiController extends Controller
         //
     }
 
-    public function exportPDF()
+    public function exportPDF(Request $request)
     {
-        $anggota = AnggotaAcaraRegistrasi::all(); // Fetch data from the database
+        // Retrieve the 'acara' parameter from the request
+        $selectedAcara = $request->input('acara');
+
+        // Build your query based on conditions
+        $query = AnggotaAcaraRegistrasi::query();
+
+        // Apply the condition for 'acara_id'
+        if ($selectedAcara) {
+            $query->where('acara_id', $selectedAcara);
+        }
+
+        // Fetch data from the database based on the query
+        $anggota = $query->get();
 
         // Load the view and pass data to it
         $pdf = PDF::loadView('registrasi.export-pdf', compact('anggota'));

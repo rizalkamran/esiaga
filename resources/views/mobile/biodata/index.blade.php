@@ -28,7 +28,7 @@
                         <ul class="bet-details">
                             <button type="button" class="btn-c btn-gradient-03 btn-sm mb-2 mt-1">Data Diri</button>
                             <li><span>Nama Lengkap:</span><span>{{ $bio->user->nama_lengkap }}</span></li>
-                            <li><span>Jenis Kelamin:</span><span>{{ $bio->user->jenis_kelamin === 'p' ? 'Perempuan' : 'Laki-laki' }}</span></li>
+                            <li><span>Jenis Kelamin:</span><span>{{ $bio->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</span></li>
                             <li><span>Email:</span><span>{{ $bio->user->email }}</span></li>
                             <li><span>Telepon:</span><span>{{ $bio->telepon }}</span></li>
                             <li><span>Tempat Lahir:</span><span>{{ $bio->tempat_lahir }}</span></li>
@@ -51,6 +51,77 @@
                             <li><span>NIP ASN:</span><span>{{ $bio->nip_asn }}</span></li>
                             <li><span>NPWP:</span><span>{{ $bio->npwp }}</span></li>
                         </ul>
+                        <ul class="bet-details">
+                            <button type="button" class="btn-c btn-gradient-05 btn-sm mb-2 mt-1">Foto</button>
+                            <div class="row">
+                                <div class="col">
+                                    <button type="button" class="btn-c btn-gradient-02 btn-sm mb-2 mt-1" data-bs-toggle="modal" data-bs-target="#modal1">
+                                        Foto Diri
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn-c btn-gradient-02 btn-sm mb-2 mt-1" data-bs-toggle="modal" data-bs-target="#modal2">
+                                        Foto KTP
+                                    </button>
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn-c btn-gradient-02 btn-sm mb-2 mt-1" data-bs-toggle="modal" data-bs-target="#modal3">
+                                        Foto NPWP
+                                    </button>
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
+
+                    <div class="modal fade" id="modal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Foto Diri</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ asset('storage/foto_diri/' . $bio->foto_diri) }}" alt="Foto Diri">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-c btn-sm bg-red text-white" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Foto Diri</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ asset('storage/foto_ktp/' . $bio->foto_ktp) }}" alt="Foto Diri">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-c btn-sm bg-red text-white" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Foto Diri</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ asset('storage/foto_npwp/' . $bio->foto_npwp) }}" alt="Foto Diri">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-c btn-sm bg-red text-white" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 @endforeach
                 @else

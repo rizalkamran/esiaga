@@ -25,6 +25,9 @@
      integrity="sha512-g2SduJKxa4Lbn3GW+Q7rNz+pKP9AWMR++Ta8fgwsZRCUsawjPvF/BxSMkGS61VsR9yinGoEgrHPGPn2mrj8+4w=="
      crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+     <!--fivicon icon-->
+    <link href="{{ asset('image/mobile/favicon-esiaga.png') }}" rel="icon" type="image/png">
+
 </head>
 
 <body>

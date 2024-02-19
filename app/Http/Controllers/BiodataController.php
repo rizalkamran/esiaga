@@ -91,9 +91,9 @@ class BiodataController extends Controller
                 'alamat_rw' => 'nullable|string',
                 'kecamatan' => 'nullable|string',
                 'kelurahan' => 'nullable|string',
-                'foto_diri' => 'required|file|image',
-                'foto_ktp' => 'required|file|image',
-                'foto_npwp' => 'required|file|image',
+                'foto_diri' => 'required|file|image|max:1024',
+                'foto_ktp' => 'required|file|image|max:1024',
+                'foto_npwp' => 'required|file|image|max:1024',
                 'status_anggota' => 'nullable|integer',
                 'request_role' => 'nullable|integer',
             ]);

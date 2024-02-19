@@ -38,7 +38,7 @@
                 <tr>
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $ag->user->nama_lengkap }}</td>
-                    <td>{{ $ag->user->jenis_kelamin === 'p' ? 'Laki-laki' : 'Perempuan' }}</td>
+                    <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
                     <td>{{ $ag->user->nomor_ktp }}</td>
                     <td>{{ $ag->acara->nama_acara }}</td>
                     <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>

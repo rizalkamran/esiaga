@@ -29,7 +29,7 @@
                             </div>
                             <ul class="bet-details mt-3">
                                 <li><span>Nama Lengkap:</span><span>{{ $ag->user->nama_lengkap }}</span></li>
-                                <li><span>Jenis Kelamin:</span><span>{{ $ag->user->jenis_kelamin === 'p' ? 'Perempuan' : 'Laki-laki' }}</span></li>
+                                <li><span>Jenis Kelamin:</span><span>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</span></li>
                                 <li><span>Nama Lengkap:</span><span>{{ $ag->user->nomor_ktp }}</span></li>
                                 <li><span>Tanggal daftar:</span><span>{{ $ag->created_at->format('d-m-Y H:i:s') }}</span></li>
                             </ul>

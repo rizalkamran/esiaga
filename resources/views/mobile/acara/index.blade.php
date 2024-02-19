@@ -16,6 +16,8 @@
             <div class="container">
 
                 <a href="{{ route('mobile.registrasi.index') }}" class="btn-c btn-sm btn-gradient-03 mb-2">Registrasi</a>
+                <a href="#" class="btn-c btn-sm btn-gradient-01 mb-2">Kehadiran</a>
+
 
                 @foreach ($acaras as $acara)
                     <div class="mybet-single-card">

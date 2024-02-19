@@ -78,9 +78,10 @@ Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){
 //Acara
 Route::resource('/acara', AcaraController::class);
 Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.acara.index');
+
 //Registrasi
 Route::resource('/registrasi', RegistrasiController::class);
-Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->name('export-pdf');
+Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('export-pdf');
 Route::get('/mobile/registrasi', [RegistrasiController::class, 'index'])->name('mobile.registrasi.index');
 Route::get('/mobile/registrasi/create', [RegistrasiController::class, 'create'])->name('mobile.registrasi.create');
 Route::post('/mobile/registrasi', [RegistrasiController::class, 'store'])->name('mobile.registrasi.store');

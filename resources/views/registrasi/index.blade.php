@@ -7,23 +7,41 @@
             Data Registrasi Peserta
         </div>
         <div class="card-body">
+
             @can('is-admin')
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-success">Excel</button>
-                            <a href="{{ route('export-pdf') }}" target="_blank" class="btn btn-danger">PDF</a>
                             <button type="button" class="btn btn-primary">Reset</button>
                         </div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
+                        <div class="float-end">
+                            <form action="{{ route('export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
+                                <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <select class="form-control form-control-sm" id="acara" name="acara">
+                                        <option value="">All/Semua</option>
+                                        @foreach($acaraOptions as $acaraOption)
+                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                    <div class="col-md-3">
                         <div class="float-end">
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">All</option>
+                                        <option value="">All/Semua</option>
                                         @foreach($acaraOptions as $acaraOption)
-                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 40) }}</option>
+                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -54,7 +72,7 @@
                             <tr>
                                 <td>{{ $index + $anggota->firstItem() }}</td>
                                 <td>{{ $ag->user->nama_lengkap }}</td>
-                                <td>{{ $ag->user->jenis_kelamin === 'p' ? 'Laki-laki' : 'Perempuan' }}</td>
+                                <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
                                 <td>{{ $ag->user->nomor_ktp }}</td>
                                 <td>{{ Illuminate\Support\Str::limit($ag->acara->nama_acara, 30) }}</td>
                                 <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
