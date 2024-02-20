@@ -22,11 +22,13 @@ class AnggotaPeranController extends Controller
         // Retrieve records related to the authenticated user's ID with pagination
 
 
-        if (Gate::allows('is-publik')) {
-            $users = User::paginate(5);
+        if (Gate::allows('logged-in')) {
 
-            $anggotaPerans = AnggotaPeran::where('user_id', auth()->user()->id)->paginate(10); // Change 10 to your desired number of items per page
-            return view('publik.anggota_peran.index', compact('anggotaPerans'));
+            if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
+                $anggotaperan = AnggotaPeran::where('user_id', auth()->user()->id)->get(); // Change 10 to your desired number of items per page
+                return view('mobile.anggota.index', ['anggotaperan' => $anggotaperan]);
+            }
+
         }
 
         abort(403, 'Unauthorized action.');

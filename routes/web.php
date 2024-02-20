@@ -38,9 +38,17 @@ Route::get('/mobile-landing', function () {
     return view('mobile.index');
 })->name('mobile-landing');
 
+Route::get('/mobile-board', function () {
+    return view('mobile.board');
+})->name('mobile-board');
+
 Route::get('/mobile-intro', function () {
     return view('mobile.intro');
 })->name('mobile-intro');
+
+Route::get('/mobile-terms', function () {
+    return view('mobile.terms');
+})->name('mobile-terms');
 
 Route::get('/mobile-profil', function () {
     return view('mobile.profil');
@@ -78,6 +86,9 @@ Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){
 //Acara
 Route::resource('/acara', AcaraController::class);
 Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.acara.index');
+
+//Anggota
+Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');
 
 //Registrasi
 Route::resource('/registrasi', RegistrasiController::class);

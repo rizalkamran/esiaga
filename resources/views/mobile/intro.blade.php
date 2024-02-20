@@ -5,7 +5,7 @@
 @section('content')
 
 <!-- preloader area start -->
-<div class="preloader" id="preloader">
+{{-- <div class="preloader" id="preloader">
     <div class="preloader-inner">
         <div id="wave1">
         </div>
@@ -14,7 +14,7 @@
             <div class="dot2"></div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- preloader area end -->
 <div class="body-overlay" id="body-overlay"></div>
 
@@ -29,7 +29,7 @@
                 <h3>E-SIAGA</h3>
                 <p>Sihlakan login dengan akun anda, atau daftar akun baru</p>
                 <a class="btn btn-base w-100" href="{{ route('mobile-login') }}">Punya akun? Login</a>
-                <a class="btn btn-border w-100 mt-4" href="{{ route('mobile-register') }}">Buat akun baru</a>
+                <a class="btn btn-border w-100 mt-4" href="{{ route('mobile-terms') }}">Buat akun baru</a>
             </div>
         </div>
     </div>

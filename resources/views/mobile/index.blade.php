@@ -20,14 +20,15 @@
         <div class="main-page bg-main d-flex align-items-center justify-content-center vh-100">
             <div class="container">
                 <div class="d-block text-center">
-                    <button type="button" class="btn-c btn-success mb-3">DINAS PEMUDA DAN OLAHRAGA PROV KALTIM</button>
+
                 </div>
                 <div class="d-block text-center">
                     <img class="light-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
                         style="width: 25%; height:auto;">
                     <img class="darkmode-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
                         style="width: 25%; height:auto;">
-                    <a class="btn btn-white" href="{{ route('mobile-intro') }}">KLIK DISINI</a>
+                    <button type="button" class="btn-c btn-gradient-01 mt-3">DINAS PEMUDA DAN OLAHRAGA PROV KALTIM</button>
+                    <a class="btn btn-white" href="{{ route('mobile-board') }}">KLIK DISINI</a>
                 </div>
             </div>
         </div>
@@ -67,11 +68,16 @@
                         <label></label>
                         <input type="text" class="form-control" placeholder="">
                     </div>
-                    <div class="single-input-wrap">
-                        <label>E-SIAGA</label>
-                        <input type="text" class="form-control" placeholder="Halaman dashboard">
-                    </div>
                 </form>
+
+                <div class="mybet-single-card">
+                    <div class="card-title">
+                        <h6>Halaman Dashboard</h6>
+                    </div>
+                    <div class="mt-2">
+                        <p>Selamat datang di aplikasi E-SIAGA</p>
+                    </div>
+                </div>
 
                 <div class="main-footer-bottom d-block text-center">
                     <ul>

@@ -25,10 +25,12 @@ class BiodataController extends Controller
             if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
                 $biodata = Biodata::where('user_id', auth()->user()->id)->get(); // Change 10 to the desired number of items per page
                 return view('mobile.biodata.index', ['biodata' => $biodata]);
+            } else{
+                if (Gate::allows('is-admin')) {
+                    $biodata = Biodata::paginate(10);
+                    return view('biodata.index', ['biodata' => $biodata]);
+                }
             }
-        } elseif (Gate::allows('is-admin')) {
-            $biodata = Biodata::paginate(10);
-            return view('biodata.index', ['biodata' => $biodata]);
         }
 
         abort(403, 'Unauthorized action');
