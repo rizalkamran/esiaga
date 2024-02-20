@@ -38,6 +38,9 @@
                     <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
                 </li>
                 <li>
+                    <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-user"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
+                </li>
+                <li>
                     <div class="single-profile-wrap">
                         <i class="fas fa-cloud-moon"></i>
                         Dark/Light Mode

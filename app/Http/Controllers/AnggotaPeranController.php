@@ -8,6 +8,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\ReffPeran;
 use App\Models\ReffCabor;
+use App\Models\ReffKota;
 use Illuminate\Http\Request;
 
 class AnggotaPeranController extends Controller
@@ -41,16 +42,17 @@ class AnggotaPeranController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('is-publik')) {
+        if (Gate::allows('logged-in')) {
             // Get the authenticated user's ID
-            $userId = auth()->user()->id;
+            $user_id = auth()->user()->id;
 
             // Retrieve the necessary data from other tables
             $reffPerans = ReffPeran::all();
             $reffCabors = ReffCabor::all();
+            $kota = ReffKota::all();
 
             // Pass the data to the view
-            return view('publik.anggota_peran.create', compact('userId', 'reffPerans', 'reffCabors'));
+            return view('mobile.anggota.create', compact('user_id', 'reffPerans', 'reffCabors', 'kota'));
         }
 
 
@@ -88,7 +90,7 @@ class AnggotaPeranController extends Controller
         AnggotaPeran::create($validatedData);
 
         // Redirect or do something else...
-        return redirect()->route('publik.anggota_peran.index')->with('success', 'Data Berhasil dibuat, harap menunggu verifikasi');
+        return redirect()->route('mobile.anggota.index')->with('success', 'Data Berhasil dibuat, harap menunggu verifikasi');
     }
 
     /**

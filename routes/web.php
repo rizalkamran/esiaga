@@ -89,6 +89,8 @@ Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.aca
 
 //Anggota
 Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');
+Route::get('/mobile/anggota/create', [AnggotaPeranController::class, 'create'])->name('mobile.anggota.create');
+Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('mobile.anggota.store');
 
 //Registrasi
 Route::resource('/registrasi', RegistrasiController::class);

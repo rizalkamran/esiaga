@@ -13,7 +13,7 @@
                 <div class="col-md-4">
                     <div class="mb-3">
                         <label for="user_id" class="form-label">User ID:</label>
-                        <input type="text" class="form-control" name="user_id" id="user_id" value="{{ $userId }}" readonly>
+                        <input type="text" class="form-control" name="user_id" id="user_id" value="{{ $user_id }}" readonly>
                     </div>
                 </div>
                 <div class="col-md-4">

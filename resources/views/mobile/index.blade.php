@@ -23,10 +23,10 @@
 
                 </div>
                 <div class="d-block text-center">
-                    <img class="light-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
-                        style="width: 25%; height:auto;">
-                    <img class="darkmode-logo" src="{{ asset('image/mobile/logo1_rm.png') }}" alt="img"
-                        style="width: 25%; height:auto;">
+                    <img class="light-logo" src="{{ asset('image/mobile/logo-esiaga.png') }}" alt="img"
+                        style="width: 70%; height:auto;">
+                    <img class="darkmode-logo" src="{{ asset('image/mobile/logo-esiaga.png') }}" alt="img"
+                        style="width: 70%; height:auto;">
                     <button type="button" class="btn-c btn-gradient-01 mt-3">DINAS PEMUDA DAN OLAHRAGA PROV KALTIM</button>
                     <a class="btn btn-white" href="{{ route('mobile-board') }}">KLIK DISINI</a>
                 </div>

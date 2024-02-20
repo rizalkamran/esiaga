@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Import the User model
 use App\Models\ReffPeran; // Import the ReffPeran model
 use App\Models\ReffCabor; // Import the ReffCabor model
+use App\Models\ReffKota;
 
 
 class AnggotaPeran extends Model
@@ -41,5 +42,10 @@ class AnggotaPeran extends Model
     public function cabor()
     {
         return $this->belongsTo(ReffCabor::class, 'cabor_id');
+    }
+
+    public function kota()
+    {
+        return $this->belongsTo(ReffKota::class, 'kota_id');
     }
 }

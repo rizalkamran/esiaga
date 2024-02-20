@@ -85,7 +85,7 @@
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-base w-100 mt-4" href="{{ route('mobile-intro') }}">Klik Disini</a>
+                    <a class="btn btn-base w-100 mt-4" href="{{ route('mobile-intro') }}">Mulai</a>
                     <!-- End Basic Accordion -->
                 </div>
             </div>

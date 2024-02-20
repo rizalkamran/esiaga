@@ -11,12 +11,25 @@
             <a class="btn back-page-btn" href="{{ route('mobile-intro') }}"><i class="ri-arrow-left-s-line"></i></a>
             <h3>E-SIAGA</h3>
             <h4>Terms and Conditions</h4>
-            <p>Turpis venenatis sagittis accum san commodo. Aliquet a elementum pellentesque porta luctus ultricies. Vestibulum ac dignissim ultrices donec quam sapien mattis libero. Phasellus vitae diam sagittis nisi egestas ultrices vel eros iaculis. Arcu nulla non feugiat arcu tellus accumsan imperdiet neque dapibus. Sem ornare ac cras justo risus sit dignissim risus at.
-                Lorem ipsum dolor sit amet consectetur. Sed nisi et in urna tellus ac. Turpis venenatis sagittis accum san commodo. Aliquet a elementum pellentesque porta luctus ultricies. Vestibulum ac dignissim ultrices donec quam sapien
-                mattis libero. Phasellus vitae diam sagittis nisi egestas ultrices vel eros iaculis. Arcu nulla non feugiat arcu tellus accumsan imperdiet neque dapibus. Sem ornare ac cras justo risus sit dignissim risus at.</p>
+            <div style="text-align: justify;">
+                <ul>
+                    <li>
+                        Penggunaan aplikasi web ini menandakan persetujuan pengguna terhadap semua syarat dan ketentuan yang tercantum di sini.
+                    </li>
+                    <li>
+                        Pengguna bertanggung jawab penuh atas keamanan akun dan informasi pribadi yang diberikan saat menggunakan aplikasi web ini.
+                    </li>
+                    <li>
+                        Kami berhak untuk menangguhkan atau mengakhiri akses pengguna ke aplikasi web ini jika ditemukan pelanggaran terhadap syarat dan ketentuan ini.
+                    </li>
+                    <li>
+                        Kami berhak untuk memperbarui, mengubah, atau menghapus syarat dan ketentuan ini tanpa pemberitahuan sebelumnya. Pengguna diharapkan memeriksa halaman syarat dan ketentuan secara berkala
+                    </li>
+                </ul>
+            </div>
             <div class="btn-wrap">
-                <a class="btn btn-border" href="{{ route('mobile-landing') }}">Cancel</a>
-                <a class="btn btn-base" href="{{ route('mobile-register') }}">Agree</a>
+                <a class="btn btn-border" href="{{ route('mobile-landing') }}">Batal</a>
+                <a class="btn btn-base" href="{{ route('mobile-register') }}">Setuju</a>
             </div>
         </div>
     </div>
