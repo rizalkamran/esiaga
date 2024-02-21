@@ -21,28 +21,37 @@
     </style>
 </head>
 <body>
-    <h4>{{ $ag->acara->nama_acara }}</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Nomor</th>
-                <th>Nama Lengkap</th>
-                <th>Jenis Kelamin</th>
-                <th>NIK</th>
-                <th>Waktu Daftar</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($anggota as $index => $ag)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $ag->user->nama_lengkap }}</td>
-                    <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
-                    <td>{{ $ag->user->nomor_ktp }}</td>
-                    <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
-                </tr>
+    @if ($anggota->isNotEmpty())
+        <ul>
+            @foreach ($anggota->unique('acara_id') as $ag)
+                <li>{{ $ag->acara->nama_acara }}</li>
             @endforeach
-        </tbody>
-    </table>
+        </ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nomor</th>
+                    <th>Nama Lengkap</th>
+                    <th>Jenis Kelamin</th>
+                    <th>NIK</th>
+                    <th>Waktu Daftar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($anggota as $index => $ag)
+                    <tr>
+                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $ag->user->nama_lengkap }}</td>
+                        <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
+                        <td>{{ $ag->user->nomor_ktp }}</td>
+                        <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    @else
+        <h4>No Events Found</h4>
+    @endif
 </body>
 </html>

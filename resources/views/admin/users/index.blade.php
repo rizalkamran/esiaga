@@ -49,4 +49,6 @@
               {{ $users->links() }}
         </div>
     </div>
+
+    @include('templates.footer')
 @endsection
