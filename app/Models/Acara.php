@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AnggotaAcaraRegistrasi;
+use Illuminate\Support\Facades\Auth;
+use App\Models\KodeAcara;
 
 class Acara extends Model
 {
@@ -25,6 +27,19 @@ class Acara extends Model
     public function anggotaAcaraRegistrasi()
     {
         return $this->hasMany(AnggotaAcaraRegistrasi::class);
+    }
+
+    public function kodeAcaraRegistrasi()
+    {
+        return $this->hasMany(KodeAcara::class);
+    }
+
+    public function isRegisteredByUser($userId)
+    {
+        // Check if the user with the given ID is registered for this event
+        return $this->anggotaAcaraRegistrasi()
+            ->where('user_id', $userId)
+            ->exists();
     }
 
     // Add a cast for the 'status_acara' attribute to ensure it is treated as an integer

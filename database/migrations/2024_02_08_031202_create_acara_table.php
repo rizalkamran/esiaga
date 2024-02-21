@@ -20,7 +20,7 @@ class CreateAcaraTable extends Migration
             $table->date('tanggal_awal_acara');
             $table->date('tanggal_akhir_acara');
             $table->text('deskripsi_acara');
-            $table->unsignedInteger('status_acara')->default(0);;
+            $table->unsignedInteger('status_acara')->default(0);
             $table->string('tingkat_wilayah_acara');
             $table->timestamps();
         });

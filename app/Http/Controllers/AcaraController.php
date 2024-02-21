@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 use App\Models\Acara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\Biodata;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 
 class AcaraController extends Controller
 {
+
+    private function getActiveAcara()
+    {
+        return Acara::where('status_acara', 1)->get();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,20 +35,26 @@ class AcaraController extends Controller
 
                 if ($biodata) {
                     // If it's a mobile device, return the mobile view
-                    $acaras = Acara::where('status_acara', 1)->get();
+                    $acaras = $this->getActiveAcara();
                     return view('mobile.acara.index', ['acaras' => $acaras]);
-                } else{
+                } else {
                     return redirect()->route('mobile-profil')->with('error', 'Isi biodata terlebih dahulu !!!');
                 }
-            } else {
-                // If it's not a mobile device, return the regular view
-                $acaras = Acara::paginate(5); // Paginate with * records per page
-                return view('acara.index', ['acaras' => $acaras]);
             }
         }
 
         // If the user is not authorized, return a 403 Forbidden error
-        abort(403, 'Unauthorized action.');
+        abort(403, 'Unauthorized action');
+    }
+
+    public function admin()
+    {
+        if (Gate::allows('is-admin')){
+            $acaras = Acara::paginate(5); // Paginate with * records per page
+            return view('acara.index', ['acaras' => $acaras]);
+        }
+
+        abort(403, 'Unauthorized action');
     }
 
     /**
@@ -89,6 +103,33 @@ class AcaraController extends Controller
 
         return redirect()->route('acara.index')->with('success', 'Data Acara berhasil dibuat');
     }
+
+    public function register(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Validate that acara_id exists in the acara table
+            'qrcode_registrasi' => 'nullable'
+        ]);
+
+        // Retrieve the currently logged-in user's ID
+        $user_id = Auth::id();
+
+        // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
+        $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
+            'user_id' => $user_id,
+            'acara_id' => $request->input('acara_id'),
+            'qrcode_registrasi' => $request->input('qrcode_registrasi'),
+        ]);
+
+        // Save the instance to the database
+        $anggotaAcaraRegistrasi->save();
+
+        // Redirect the user back to the index page
+        return redirect()->route('mobile.acara.index');
+    }
+
+
 
     /**
      * Display the specified resource.

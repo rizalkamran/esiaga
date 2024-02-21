@@ -25,7 +25,7 @@ class ReffPeranController extends Controller
      */
     public function create()
     {
-        //
+        return view('peran.create');
     }
 
     /**
@@ -36,7 +36,12 @@ class ReffPeranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nama_peran' => 'required',
+        ]);
+
+        ReffPeran::create($validatedData);
+        return redirect()->route('peran.index');
     }
 
     /**

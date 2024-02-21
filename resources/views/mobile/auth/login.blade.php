@@ -35,20 +35,20 @@
         <div class="register-page">
             <a class="btn back-page-btn" href="{{ route('mobile-intro') }}"><i class="ri-arrow-left-s-line"></i></a>
             <h3>Login</h3>
-            <p>Gunakan email dan password</p>
+            <p>Gunakan username dan password</p>
             <form class="default-form-wrap" method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="row">
                     <div class="col-md-6">
                         <div class="single-input-wrap">
-                            <label for="email"><img src="{{ asset('image/mobile/icon/message.svg') }}" alt="img"></label>
-                            <input name="email" type="email" class="form-control" placeholder="Email" value="{{ old('email') }}" id="email">
+                            <label for="name"><img src="{{ asset('image/mobile/icon/profile.svg') }}" alt="img"></label>
+                            <input name="name" type="name" class="form-control" placeholder="Username" value="{{ old('name') }}" id="name">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="single-input-wrap">
                             <label for="password"><img src="{{ asset('image/mobile/icon/password.svg') }}" alt="img"></label>
-                            <input name="password" type="password" class="form-control" placeholder="Password" id="password">
+                            <input name="password" type="password" class="form-control" placeholder="Kata Sandi" id="password">
                         </div>
                     </div>
                     <div class="text-end"><a href="{{ route('mobile-forget') }}">Lupa Password?</a></div>

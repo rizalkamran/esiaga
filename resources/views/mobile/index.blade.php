@@ -49,8 +49,12 @@
             <div class="main-home-area">
                 <div class="profile-area">
                     <div class="media">
-                        <a href="profile.html" class="thumb">
-                            <img src="{{ asset('image/mobile/profile.png') }}" alt="img">
+                        <a href="{{ route('mobile-profil') }}" class="thumb">
+                            @if(Auth::user()->jenis_kelamin == 'L')
+                                <img src="{{ asset('avatar/man.png') }}" alt="img" style="width: 50px; height: 50px;">
+                            @elseif(Auth::user()->jenis_kelamin == 'P')
+                                <img src="{{ asset('avatar/woman.png') }}" alt="img" style="width: 50px; height: 50px;">
+                            @endif
                         </a>
                         <div class="media-body">
                             <span class="profile-name">{{ Auth::user()->nama_lengkap }}</span>
@@ -78,6 +82,21 @@
                         <p>Selamat datang di aplikasi E-SIAGA</p>
                     </div>
                 </div>
+
+                <ul class="profile-list-inner">
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Pendidikan <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-user"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Sertifikasi <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                </ul>
 
                 <div class="main-footer-bottom d-block text-center">
                     <ul>

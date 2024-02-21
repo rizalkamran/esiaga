@@ -13,7 +13,11 @@
         <div class="container">
             <div class="my-profile-wrap">
                 <div class="media">
-                    <img class="thumb" src="{{ asset('image/mobile/comment/my-profile.png') }}" alt="img">
+                    @if(Auth::user()->jenis_kelamin == 'L')
+                        <img class="thumb" src="{{ asset('avatar/man.png') }}" alt="img" style="width: 60px; height: 60px;">
+                    @elseif(Auth::user()->jenis_kelamin == 'P')
+                        <img class="thumb" src="{{ asset('avatar/woman.png') }}" alt="img" style="width: 60px; height: 60px;">
+                    @endif
                     <div class="media-body">
                         <h6 class="profile-name">{{ Auth::user()->nama_lengkap }}</h6>
                         <p class="profile-mail">{{ Auth::user()->email }}</p>

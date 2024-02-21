@@ -9,6 +9,7 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\KodeAcaraController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -72,7 +73,7 @@ Route::get('/mobile-forget', function () {
  * this (['auth', 'verified'])
  */
 
-//Admin
+//Admin - User
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function(){
     Route::resource('/users', UserController::class);
 });
@@ -86,6 +87,10 @@ Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){
 //Acara
 Route::resource('/acara', AcaraController::class);
 Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.acara.index');
+Route::get('/acara', [AcaraController::class, 'admin'])->name('acara.index');
+
+//Kode Acara
+Route::resource('/kode-acara', KodeAcaraController::class);
 
 //Anggota
 Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');
@@ -95,9 +100,8 @@ Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('
 //Registrasi
 Route::resource('/registrasi', RegistrasiController::class);
 Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('export-pdf');
-Route::get('/mobile/registrasi', [RegistrasiController::class, 'index'])->name('mobile.registrasi.index');
-Route::get('/mobile/registrasi/create', [RegistrasiController::class, 'create'])->name('mobile.registrasi.create');
-Route::post('/mobile/registrasi', [RegistrasiController::class, 'store'])->name('mobile.registrasi.store');
+Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
+Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register.store');
 
 //Biodata
 Route::resource('/biodata', BiodataController::class);

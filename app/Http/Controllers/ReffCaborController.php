@@ -14,7 +14,7 @@ class ReffCaborController extends Controller
      */
     public function index()
     {
-        $reffCabors = ReffCabor::paginate(10);
+        $reffCabors = ReffCabor::simplePaginate(10);
         return view('cabor.index', ['reffCabors' => $reffCabors]);
         //return view('cabor.index', compact('reffCabors'));
     }

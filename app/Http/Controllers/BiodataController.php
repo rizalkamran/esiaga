@@ -78,76 +78,84 @@ class BiodataController extends Controller
 
         $username = auth()->user()->name;
 
-            $request->validate([
-                'user_id' => 'required',
-                //'provinsi_id' => 'required',
-                'kota_id' => 'required',
-                'telepon' => 'required|string',
-                'tempat_lahir' => 'required|string',
-                'tanggal_lahir' => 'required|date',
-                'agama' => 'required|string',
-                'nip_asn' => 'nullable|string',
-                'npwp' => 'nullable|string',
-                'alamat_jalan' => 'nullable|string',
-                'alamat_rt' => 'nullable|string',
-                'alamat_rw' => 'nullable|string',
-                'kecamatan' => 'nullable|string',
-                'kelurahan' => 'nullable|string',
-                'foto_diri' => 'required|file|image|max:1024',
-                'foto_ktp' => 'required|file|image|max:1024',
-                'foto_npwp' => 'required|file|image|max:1024',
-                'status_anggota' => 'nullable|integer',
-                'request_role' => 'nullable|integer',
-            ]);
+        $request->validate([
+            'user_id' => 'required',
+            //'provinsi_id' => 'required',
+            'kota_id' => 'required',
+            'telepon' => 'required|string',
+            'tempat_lahir' => 'required|string',
+            'tanggal_lahir' => 'required|date',
+            'agama' => 'required|string',
+            'nip_asn' => 'required|string',
+            'npwp' => 'required|string',
+            'alamat_jalan' => 'required|string',
+            'alamat_rt' => 'required|string',
+            'alamat_rw' => 'required|string',
+            'kecamatan' => 'required|string',
+            'kelurahan' => 'required|string',
+            'foto_diri' => 'nullable|file|image|max:1024',
+            'foto_ktp' => 'nullable|file|image|max:1024',
+            'foto_npwp' => 'nullable|file|image|max:1024',
+            'status_anggota' => 'nullable|integer',
+            'request_role' => 'nullable|integer',
+        ]);
 
-            //$biodataData = $request->except(['foto_diri', 'foto_ktp', 'foto_npwp']);
-
-            // Process and store the first file
+        // Process and store the first file if uploaded
+        if ($request->hasFile('foto_diri')) {
             $file1 = $request->file('foto_diri');
             $nama_file1 = $username . '_' . $file1->getClientOriginalName();
             $tujuan_upload = 'foto_diri';
             $file1->storeAs($tujuan_upload, $nama_file1);
+        } else {
+            $nama_file1 = null; // or whatever default value you want to set
+        }
 
-            // Process and store the second file
+        // Process and store the second file if uploaded
+        if ($request->hasFile('foto_ktp')) {
             $file2 = $request->file('foto_ktp');
             $nama_file2 = $username . '_' . $file2->getClientOriginalName();
             $tujuan_upload2 = 'foto_ktp';
             $file2->storeAs($tujuan_upload2, $nama_file2);
+        } else {
+            $nama_file2 = null; // or whatever default value you want to set
+        }
 
-            // Process and store the third file
+        // Process and store the third file if uploaded
+        if ($request->hasFile('foto_npwp')) {
             $file3 = $request->file('foto_npwp');
             $nama_file3 = $username . '_' . $file3->getClientOriginalName();
             $tujuan_upload3 = 'foto_npwp';
             $file3->storeAs($tujuan_upload3, $nama_file3);
+        } else {
+            $nama_file3 = null; // or whatever default value you want to set
+        }
 
+        // Create Biodata instance with the validated data and file paths
+        Biodata::create([
+            'user_id' => $request->user_id,
+            //'provinsi_id' => $request->provinsi_id,
+            'kota_id' => $request->kota_id,
+            'telepon' => $request->telepon,
+            'tempat_lahir' => $request->tempat_lahir,
+            'tanggal_lahir' => $request->tanggal_lahir,
+            'agama' => $request->agama,
+            'nip_asn' => $request->nip_asn,
+            'npwp' => $request->npwp,
+            'alamat_jalan' => $request->alamat_jalan,
+            'alamat_rt' => $request->alamat_rt,
+            'alamat_rw' => $request->alamat_rw,
+            'kecamatan' => $request->kecamatan,
+            'kelurahan' => $request->kelurahan,
+            'foto_diri' => $nama_file1,
+            'foto_ktp' => $nama_file2,
+            'foto_npwp' => $nama_file3,
+            'status_anggota' => $request->status_anggota,
+            'request_role' => $request->request_role,
+        ]);
 
-            // Create Biodata instance with the validated data
-            // Create Biodata instance with the validated data and file paths
-            Biodata::create([
-                'user_id' => $request->user_id,
-                //'provinsi_id' => $request->provinsi_id,
-                'kota_id' => $request->kota_id,
-                'telepon' => $request->telepon,
-                'tempat_lahir' => $request->tempat_lahir,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'agama' => $request->agama,
-                'nip_asn' => $request->nip_asn,
-                'npwp' => $request->npwp,
-                'alamat_jalan' => $request->alamat_jalan,
-                'alamat_rt' => $request->alamat_rt,
-                'alamat_rw' => $request->alamat_rw,
-                'kecamatan' => $request->kecamatan,
-                'kelurahan' => $request->kelurahan,
-                'foto_diri' => $nama_file1,
-                'foto_ktp' => $nama_file2,
-                'foto_npwp' => $nama_file3,
-                'status_anggota' => $request->status_anggota,
-                'request_role' => $request->request_role,
-            ]);
-
-            return redirect()->route('mobile.biodata.index');
-
+        return redirect()->route('mobile.biodata.index');
     }
+
 
     /* public function downloadImage($imageName)
     {

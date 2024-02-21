@@ -51,7 +51,7 @@ class RegistrasiController extends Controller
         }
 
         // If the user is not authorized, return a 403 Forbidden error
-        abort(403, 'Unauthorized action.');
+        abort(403, 'Unauthorized action');
     }
 
 

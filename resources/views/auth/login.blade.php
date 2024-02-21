@@ -11,9 +11,9 @@
                         <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="form-floating border border-primary-subtle my-3">
-                                <input name="email" type="email" class="form-control @error('email') is-invalid @enderror" id="email" placeholder="name@example.com" value="{{ old('email') }}">
-                                <label for="email">Email address</label>
-                                @error('email')
+                                <input name="name" type="name" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="name@example.com" value="{{ old('name') }}">
+                                <label for="name">Username</label>
+                                @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>

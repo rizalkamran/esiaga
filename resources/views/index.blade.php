@@ -188,7 +188,109 @@
     @endif
 
     @if (Auth::check())
-        <!-- Content for authenticated users -->
+        <div class="card shadow mt-3">
+            <div class="card-body">
+                <div class="row mt-1 text-center">
+                    <h5 class="text-secondary">Pengaturan User</h5>
+                    <div class="col-md-4">
+                        <a href="{{ route('admin.users.index') }}">
+                            <img src="{{ asset('icon/man.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                Data user
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ route('biodata.index') }}">
+                            <img src="{{ asset('icon/team.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Biodata User
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#">
+                            <img src="{{ asset('icon/group.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Daftar Role
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-4 text-center">
+                    <h5 class="text-secondary">Pengaturan Acara</h5>
+                    <div class="col-md-4">
+                        <a href="{{ route('acara.index') }}">
+                            <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                Daftar Acara
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="{{ route('registrasi.index') }}">
+                            <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Data Registrasi Peserta
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#">
+                            <img src="{{ asset('icon/absent.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Data Kehadiran Peserta
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                <div class="row mt-4 text-center">
+                    <h5 class="text-secondary">Data Referensi</h5>
+                    <div class="col-md-3">
+                        <a href="{{ route('cabor.index') }}">
+                            <img src="{{ asset('icon/sports.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                Cabang Olahraga
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ route('peran.index') }}">
+                            <img src="{{ asset('icon/teacher.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Data Peran
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ route('data-provinsi.index') }}">
+                            <img src="{{ asset('icon/geo.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Data Provinsi
+                            </p>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ route('data-kota.index') }}">
+                            <img src="{{ asset('icon/city.png') }}" style="width:20%;border:none;"
+                                class="img-thumbnail">
+                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                Data Provinsi
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     @endif
 
     @include('templates.footer')

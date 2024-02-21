@@ -28,7 +28,6 @@
                 <form class="default-form-wrap" method="POST" action="{{ route('mobile.registrasi.store') }}">
                     @csrf
                     <div class="component-wrap mt-4">
-                        <h4>Basic</h4>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <select class="single-select w-100" name="acara_id">

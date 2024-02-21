@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-    <h1>Registrasi Data</h1>
+    <h4>{{ $ag->acara->nama_acara }}</h4>
     <table>
         <thead>
             <tr>
@@ -29,7 +29,6 @@
                 <th>Nama Lengkap</th>
                 <th>Jenis Kelamin</th>
                 <th>NIK</th>
-                <th>Acara</th>
                 <th>Waktu Daftar</th>
             </tr>
         </thead>
@@ -40,7 +39,6 @@
                     <td>{{ $ag->user->nama_lengkap }}</td>
                     <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
                     <td>{{ $ag->user->nomor_ktp }}</td>
-                    <td>{{ $ag->acara->nama_acara }}</td>
                     <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
                 </tr>
             @endforeach

@@ -25,16 +25,20 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
-                                <a class="btn btn-sm btn-success" href="{{ route('admin.users.edit', $user->id) }}" role="button">Edit</a>
-                                <button type="button" class="btn btn-sm btn-danger"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('delete-user-form-{{ $user->id }}').submit()">
-                                    Delete
-                                </button>
-                                <form id="delete-user-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none">
-                                    @csrf
-                                    @method("DELETE")
-                                </form>
+                                @if(auth()->user() && $user->id !== auth()->user()->id)
+                                    <a class="btn btn-sm btn-success" href="{{ route('admin.users.edit', $user->id) }}" role="button">Edit</a>
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('delete-user-form-{{ $user->id }}').submit()">
+                                        Delete
+                                    </button>
+                                    <form id="delete-user-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                        @method("DELETE")
+                                    </form>
+                                @else
+                                    <span class="text-muted">Anda sedang login</span>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

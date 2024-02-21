@@ -84,18 +84,19 @@
                         </li>
                         @endcan
 
+                        @can('logged-in')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Acara
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('acara.index') }}">Daftar Acara</a></li>
-                                @can('logged-in')
+                                {{-- <li><a class="dropdown-item" href="{{ route('kode-acara.index') }}">Data Kode Acara</a></li> --}}
                                 <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Peserta</a></li>
-                                @endcan
+                                <li><a class="dropdown-item" href="#">Data Kehadiran Peserta</a></li>
                             </ul>
                         </li>
-
+                        @endcan
 
                         @can('is-publik')
                         <li class="nav-item dropdown">

@@ -162,7 +162,7 @@
                             </div>
                         </div>
                         <div class="col-md-6"> <!-- Ensure this div has the appropriate column size -->
-                            <button class="btn-c btn-primary mb-2" type="submit">Daftar</button>
+                            <button class="btn-c btn-primary mb-2" type="submit">Simpan</button>
                         </div>
                     </div>
                 </form>
