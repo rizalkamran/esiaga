@@ -52,6 +52,19 @@ class UserController extends Controller
 
     }
 
+    public function createMobile()
+    {
+        // Fetch roles based on your predefined rules (e.g., roles with IDs 3 and 4)
+        $allowedRoles = [3, 4];
+        $roles = Role::whereIn('id', $allowedRoles)->get();
+
+        return view('mobile.new-user.register', [
+            'roles' => $roles,
+        ]);
+    }
+
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -61,8 +74,6 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         //dd($request);
-
-
 
         //$user = User::create($request->except(['_token', 'roles']));
         //$validate = $request->validated();
@@ -78,6 +89,26 @@ class UserController extends Controller
         $request->session()->flash('success', 'User berhasil dibuat');
 
         return redirect(route('admin.users.index'));
+    }
+
+    public function storeMobile(StoreUserRequest $request)
+    {
+        //dd($request);
+
+        //$user = User::create($request->except(['_token', 'roles']));
+        //$validate = $request->validated();
+        //$user = User::create($validate);
+
+        $newUser = new CreateNewUser();
+        $user = $newUser->create($request->all());
+
+        $user->roles()->sync($request->roles);
+
+        //Password::sendResetLink($request->only(['email']));
+
+        $request->session()->flash('success', 'User berhasil dibuat');
+
+        return redirect(route('mobile-login'));
     }
 
     /**

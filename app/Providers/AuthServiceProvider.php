@@ -25,10 +25,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('guest-mode', function($user){
-            return !$user;
-        });
-
         Gate::define('logged-in', function($user){
             return $user;
         });
@@ -43,6 +39,10 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('is-publik', function($user){
             return $user->hasAnyRole('publik');
+        });
+
+        Gate::define('is-non-publik', function($user){
+            return $user->hasAnyRole('non-publik');
         });
 
         //

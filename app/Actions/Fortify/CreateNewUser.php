@@ -20,7 +20,7 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'unique:users', 'max:255'],
+            'name' => ['required', 'string', 'unique:users', 'max:255', 'regex:/^\S*$/'],
             'email' => [
                 'required',
                 'string',
@@ -32,6 +32,14 @@ class CreateNewUser implements CreatesNewUsers
             'nomor_ktp' => ['required', 'string', 'size:16', 'unique:users'],
             'nama_lengkap' => ['required', 'string'],
             'jenis_kelamin' => ['required', 'string'],
+            'telepon' => ['required', 'numeric'],
+        ], [
+            'name.regex' => 'Username dilarang memakai spasi',
+            'nomor_ktp.required' => 'Nomor KTP wajib diisi',
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi',
+            'jenis_kelamin.required' => 'Jenis kelamin wajib diisi',
+            'telepon.required' => 'Telepon wajib diisi',
+            // Other custom error messages...
         ])->validate();
 
         return User::create([
@@ -41,6 +49,7 @@ class CreateNewUser implements CreatesNewUsers
             'nomor_ktp' => $input['nomor_ktp'],
             'nama_lengkap' => $input['nama_lengkap'],
             'jenis_kelamin' => $input['jenis_kelamin'],
+            'telepon' => $input['telepon'],
         ]);
     }
 }

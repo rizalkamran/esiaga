@@ -26,5 +26,9 @@ class RoleSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'publik'
         ]);
+
+        DB::table('roles')->insert([
+            'name' => 'non-publik'
+        ]);
     }
 }

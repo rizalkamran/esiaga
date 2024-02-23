@@ -29,7 +29,7 @@
             </div>
             <div class="btn-wrap">
                 <a class="btn btn-border" href="{{ route('mobile-landing') }}">Batal</a>
-                <a class="btn btn-base" href="{{ route('mobile-register') }}">Setuju</a>
+                <a class="btn btn-base" href="{{ route('mobile.new-user.register') }}">Setuju</a>
             </div>
         </div>
     </div>

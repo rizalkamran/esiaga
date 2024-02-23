@@ -14,6 +14,14 @@
 
         <div class="my-profile-detail">
             <div class="container">
+
+                @if(session('error'))
+                    <div class="alert alert-outline-danger alert-dismissible fade show mt-3 mb-2">
+                        {{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 @if ($errors->any())
                     <div class="alert alert-primary">
                         <ul>
@@ -32,13 +40,6 @@
                                 <label for="user_id">User ID</label>
                                 <input type="text" class="form-control" placeholder="User ID" name="user_id"
                                     id="user_id" value="{{ $user_id }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="single-input-wrap">
-                                <label for="telepon">Telepon</label>
-                                <input type="text" class="form-control" placeholder="Isi Data Nomor HP" id="telepon"
-                                    name="telepon" value="{{ old('telepon') }}">
                             </div>
                         </div>
                         <div class="col-md-6">

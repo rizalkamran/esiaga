@@ -6,8 +6,8 @@
 
     <div class="single-page-area">
         <div class="title-area justify-content-between">
-            <a class="btn back-page-btn" href="{{ route('mobile-landing') }}"><i class="ri-arrow-left-s-line"></i></a>
-            <h3 class="ps-4">Profil/Biodata</h3>
+            <a class="btn back-page-btn" href="{{ route('mobile-profil') }}"><i class="ri-arrow-left-s-line"></i></a>
+            <h3 class="ps-4">Pengaturan</h3>
         </div>
 
         <div class="container">
@@ -39,13 +39,24 @@
 
             <ul class="profile-list-inner">
                 <li>
-                    <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
+                    <div class="single-profile-wrap">
+                        <i class="fas fa-cloud-moon"></i>
+                        Dark/Light Mode
+                        <div class="dark-area">
+                            <label class="change-mode switch">
+                                <input type="checkbox" data-active="true">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
                 </li>
                 <li>
-                    <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
-                </li>
-                <li>
-                    <a class="single-profile-wrap" href="{{ route('mobile-setting') }}"><i class="fa fa-wrench"></i> Pengaturan <i class="ri-arrow-right-s-line"></i></a>
+                    <a class="single-profile-wrap" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i>Logout/Keluar <i class="ri-arrow-right-s-line"></i></a>
+
+                    <form method="POST" id="logout-form" action="{{ route('logout') }}" style="display: none">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </div>

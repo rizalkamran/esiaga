@@ -51,6 +51,10 @@ Route::get('/mobile-terms', function () {
     return view('mobile.terms');
 })->name('mobile-terms');
 
+Route::get('/mobile-setting', function () {
+    return view('mobile.setting');
+})->name('mobile-setting');
+
 Route::get('/mobile-profil', function () {
     return view('mobile.profil');
 })->name('mobile-profil')->middleware('auth');
@@ -77,6 +81,13 @@ Route::get('/mobile-forget', function () {
 Route::prefix('admin')->middleware('auth')->name('admin.')->group(function(){
     Route::resource('/users', UserController::class);
 });
+
+// Route for displaying the registration form for mobile users
+Route::get('/mobile/new-user/register', [UserController::class, 'createMobile'])->name('mobile.new-user.register');
+
+// Route for handling the form submission for mobile user registration
+Route::post('/mobile/new-user/register', [UserController::class, 'storeMobile'])->name('mobile.new-user.store');
+
 
 //staf
 Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){

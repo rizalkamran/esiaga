@@ -30,6 +30,13 @@
         </div>
     @endif
 
+    @if(session('success'))
+        <div class="alert alert-outline-primary alert-dismissible fade show mt-3 mb-2">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
     <div class="align-items-center d-flex justify-content-center vh-100">
 
         <div class="register-page">
@@ -56,7 +63,7 @@
                 <button class="btn btn-base w-100" type="submit">Masuk</button>
             </form>
 
-            <span class="another-way-link">Belum punya akun? <a href="{{ route('mobile-register') }}">Daftar</a></span>
+            <span class="another-way-link">Belum punya akun? <a href="{{ route('mobile.new-user.register') }}">Daftar</a></span>
         </div>
     </div>
 </div>

@@ -34,11 +34,12 @@ class AcaraController extends Controller
                 $biodata = $user->biodata;
 
                 if ($biodata) {
-                    // If it's a mobile device, return the mobile view
+                    // If it's a mobile device and biodata exists, return the mobile view
                     $acaras = $this->getActiveAcara();
                     return view('mobile.acara.index', ['acaras' => $acaras]);
                 } else {
-                    return redirect()->route('mobile-profil')->with('error', 'Isi biodata terlebih dahulu !!!');
+                    // If biodata doesn't exist, redirect to biodata create route
+                    return redirect()->route('mobile.biodata.create')->with('error', 'Agar dapat melanjutkan proses, silahkan lengkapi profil biodata Anda terlebih dahulu, terima kasih.');
                 }
             }
         }

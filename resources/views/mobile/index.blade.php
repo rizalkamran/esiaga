@@ -85,16 +85,18 @@
 
                 <ul class="profile-list-inner">
                     <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
+                        <a class="single-profile-wrap" href="{{ Auth::user()->biodata ? route('mobile.biodata.index') : route('mobile.biodata.create') }}">
+                            <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
+                        </a>
                     </li>
                     <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Pendidikan <i class="ri-arrow-right-s-line"></i></a>
+                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-book"></i> Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
                     </li>
                     <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-user"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
+                        <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
                     </li>
                     <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Sertifikasi <i class="ri-arrow-right-s-line"></i></a>
+                        <a class="single-profile-wrap" href="#"><i class="fa fa-tag"></i> Diklat <i class="ri-arrow-right-s-line"></i></a>
                     </li>
                 </ul>
 
