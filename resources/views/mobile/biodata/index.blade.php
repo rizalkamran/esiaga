@@ -16,11 +16,13 @@
             <div class="container">
 
                 @if ($biodata->isEmpty())
-                    <a href="{{ route('mobile.biodata.create') }}" class="btn-c btn-sm btn-gradient-03 mb-2">Buat Profil</a>
+                    <a href="{{ route('mobile.biodata.create') }}" class="btn-c btn-sm btn-gradient-01 mb-2">Buat Profil</a>
                 @endif
 
                 @if (!$biodata->isEmpty())
+
                 @foreach ($biodata as $bio)
+                    <a href="{{ route('mobile.biodata.edit', $bio->id) }}" class="btn-c btn-sm btn-gradient-01 mb-2">Edit Biodata</a>
                     <div class="mybet-single-card">
                         <div class="card-title">
                             <h6>Detail Biodata</h6>
@@ -30,10 +32,15 @@
                             <li><span>Nama Lengkap:</span><span>{{ $bio->user->nama_lengkap }}</span></li>
                             <li><span>Jenis Kelamin:</span><span>{{ $bio->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</span></li>
                             <li><span>Email:</span><span>{{ $bio->user->email }}</span></li>
-                            <li><span>Telepon:</span><span>{{ $bio->telepon }}</span></li>
+                            <li><span>Telepon:</span><span>{{ $bio->user->telepon }}</span></li>
                             <li><span>Tempat Lahir:</span><span>{{ $bio->tempat_lahir }}</span></li>
                             <li><span>Tanggal Lahir:</span><span>{{ \Carbon\Carbon::parse($bio->tanggal_lahir)->format('d-m-Y') }}</span></li>
                             <li><span>Agama:</span><span>{{ $bio->agama }}</span></li>
+                            <li><span>Golongan Darah:</span><span>{{ $bio->gol_darah }}</span></li>
+                            <li><span>Tinggi Badan:</span><span>{{ $bio->tinggi_badan }} cm</span></li>
+                            <li><span>Berat Badan:</span><span>{{ $bio->berat_badan }} kg</span></li>
+                            <li><span>Status Menikah:</span><span>{{ $bio->status_menikah }}</span></li>
+                            <li><span>Hobi:</span><span>{{ $bio->hobi }}</span></li>
                         </ul>
                         <ul class="bet-details">
                             <button type="button" class="btn-c btn-gradient-04 btn-sm mb-2 mt-1">Data Alamat</button>

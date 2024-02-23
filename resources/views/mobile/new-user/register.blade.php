@@ -48,7 +48,7 @@
                     <div class="col-md-6">
                         <div class="single-input-wrap">
                             <label for="nomor_ktp"><img src="{{ asset('image/mobile/icon/profile.svg') }}" alt="img"></label>
-                            <input name="nomor_ktp" type="text" class="form-control" placeholder="NIK/Nomor KTP" id="nomor_ktp" value="{{ old('nomor_ktp') }}">
+                            <input name="nomor_ktp" type="number" class="form-control" placeholder="NIK/Nomor KTP" id="nomor_ktp" value="{{ old('nomor_ktp') }}">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -60,7 +60,7 @@
                     <div class="col-md-6">
                         <div class="single-input-wrap">
                             <label for="telepon"><img src="{{ asset('image/mobile/icon/phone.svg') }}" alt="img"></label>
-                            <input name="telepon" type="text" class="form-control" placeholder="Telepon" id="telepon" value="{{ old('telepon') }}">
+                            <input name="telepon" type="number" class="form-control" placeholder="Telepon" id="telepon" value="{{ old('telepon') }}">
                         </div>
                     </div>
 

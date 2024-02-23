@@ -13,10 +13,12 @@
         <div class="container">
             <div class="my-profile-wrap">
                 <div class="media">
-                    @if(Auth::user()->jenis_kelamin == 'L')
-                        <img class="thumb" src="{{ asset('avatar/man.png') }}" alt="img" style="width: 60px; height: 60px;">
+                    @if (Auth::user()->jenis_kelamin == 'L')
+                        <img class="thumb" src="{{ asset('avatar/man.png') }}" alt="img"
+                            style="width: 60px; height: 60px;">
                     @elseif(Auth::user()->jenis_kelamin == 'P')
-                        <img class="thumb" src="{{ asset('avatar/woman.png') }}" alt="img" style="width: 60px; height: 60px;">
+                        <img class="thumb" src="{{ asset('avatar/woman.png') }}" alt="img"
+                            style="width: 60px; height: 60px;">
                     @endif
                     <div class="media-body">
                         <h6 class="profile-name">{{ Auth::user()->nama_lengkap }}</h6>
@@ -30,7 +32,7 @@
 
         <div class="container">
 
-            @if(session('error'))
+            @if (session('error'))
                 <div class="alert alert-outline-danger alert-dismissible fade show mt-3 mb-2">
                     {{ session('error') }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -38,14 +40,21 @@
             @endif
 
             <ul class="profile-list-inner">
+                @can('is-non-publik')
+                    <li>
+                        <a class="single-profile-wrap"
+                            href="{{ Auth::user()->biodata ? route('mobile.biodata.index') : route('mobile.biodata.create') }}">
+                            <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
+                        </a>
+                    </li>
+                @endcan
                 <li>
-                    <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i></a>
+                    <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i>
+                        Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
                 </li>
                 <li>
-                    <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
-                </li>
-                <li>
-                    <a class="single-profile-wrap" href="{{ route('mobile-setting') }}"><i class="fa fa-wrench"></i> Pengaturan <i class="ri-arrow-right-s-line"></i></a>
+                    <a class="single-profile-wrap" href="{{ route('mobile-setting') }}"><i class="fa fa-wrench"></i>
+                        Pengaturan <i class="ri-arrow-right-s-line"></i></a>
                 </li>
             </ul>
         </div>
@@ -64,12 +73,14 @@
                         Olahraga
                     </a>
                 </li>
-                <li>
-                    <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
-                        <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
-                        Acara
-                    </a>
-                </li>
+                @can('is-non-publik')
+                    <li>
+                        <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
+                            <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
+                            Acara
+                        </a>
+                    </li>
+                @endcan
                 <li>
                     <a href="#">
                         <img src="{{ asset('image/mobile/icon/svg/document.svg') }}" alt="img">

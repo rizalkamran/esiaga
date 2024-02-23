@@ -8,8 +8,8 @@
 
     <div class="single-page-area">
         <div class="title-area">
-            <a class="btn back-page-btn" href="{{ route('mobile-profil') }}"><i class="ri-arrow-left-s-line"></i></a>
-            <h3 class="ms-5 ps-5">Buat Biodata</h3>
+            <a class="btn back-page-btn" href="{{ route('mobile.biodata.index') }}"><i class="ri-arrow-left-s-line"></i></a>
+            <h3 class="ms-5 ps-5">Update Biodata</h3>
         </div>
 
         <div class="my-profile-detail">
@@ -32,95 +32,79 @@
                     </div>
                 @endif
 
-                <form class="edit-form-wrap" method="POST" enctype="multipart/form-data" action="{{ route('mobile.biodata.store') }}">
+                <form class="edit-form-wrap" method="POST" enctype="multipart/form-data" action="{{ route('mobile.biodata.update', $biodata->id) }}">
                     @csrf
+                    @method('PUT')
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="single-input-wrap">
-                                <label for="user_id">User ID</label>
-                                <input type="text" class="form-control" placeholder="User ID" name="user_id"
-                                    id="user_id" value="{{ $user_id }}" readonly>
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="tempat_lahir">Tempat Lahir</label>
                                 <input type="text" class="form-control" placeholder="Isi Data Tempat Lahir"
-                                    id="tempat_lahir" name="tempat_lahir" value="{{ old('tempat_lahir') }}">
+                                    id="tempat_lahir" name="tempat_lahir" value="{{ $biodata->tempat_lahir }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="tanggal_lahir">Tanggal Lahir</label>
                                 <input type="date" class="form-control" placeholder="Isi Data Tanggal Lahir"
-                                    id="tanggal_lahir" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                                    id="tanggal_lahir" name="tanggal_lahir" value="{{ $biodata->tanggal_lahir }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="nip_asn">NIP ASN</label>
                                 <input type="number" class="form-control" placeholder="Isi Data NIP" id="nip_asn"
-                                    name="nip_asn" value="{{ old('nip_asn') }}">
+                                    name="nip_asn" value="{{ $biodata->nip_asn }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="npwp">NPWP</label>
                                 <input type="number" class="form-control" placeholder="Isi Data NPWP" id="npwp"
-                                    name="npwp" value="{{ old('npwp') }}">
+                                    name="npwp" value="{{ $biodata->npwp }}">
                             </div>
                         </div>
+
                         <div class="col-md-6 mb-3">
                             <select class="single-select w-100" name="agama">
                                 <option selected disabled>Pilih Agama</option>
-                                <option value="Islam" {{ old('agama') == 'Islam' ? 'selected' : '' }}>Islam</option>
-                                <option value="Kristen" {{ old('agama') == 'Kristen' ? 'selected' : '' }}>Kristen</option>
-                                <option value="Katholik" {{ old('agama') == 'Katholik' ? 'selected' : '' }}>Katholik
-                                </option>
-                                <option value="Hindu" {{ old('agama') == 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                                <option value="Budha" {{ old('agama') == 'Budha' ? 'selected' : '' }}>Budha</option>
-                                <option value="Konghucu" {{ old('agama') == 'Konghucu' ? 'selected' : '' }}>Konghucu
-                                </option>
-                                <option value="Tidak" {{ old('agama') == 'Tidak' ? 'selected' : '' }}>Tidak ada</option>
+                                <option value="Islam" {{ $biodata->agama == 'Islam' ? 'selected' : '' }}>Islam</option>
+                                <option value="Kristen" {{ $biodata->agama == 'Kristen' ? 'selected' : '' }}>Kristen</option>
+                                <option value="Katholik" {{ $biodata->agama == 'Katholik' ? 'selected' : '' }}>Katholik</option>
+                                <option value="Hindu" {{ $biodata->agama == 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                                <option value="Budha" {{ $biodata->agama == 'Budha' ? 'selected' : '' }}>Budha</option>
+                                <option value="Konghucu" {{ $biodata->agama == 'Konghucu' ? 'selected' : '' }}>Konghucu</option>
+                                <option value="Tidak" {{ $biodata->agama == 'Tidak' ? 'selected' : '' }}>Tidak ada</option>
                             </select>
                         </div>
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="gol_darah">Golongan Darah</label>
-                                <input type="text" class="form-control" list="goldarah" id="gol_darah" placeholder="Isi Golongan Darah" name="gol_darah" value="{{ old('gol_darah') }}">
+                                <input type="text" class="form-control" list="goldarah" id="gol_darah" placeholder="Isi Golongan Darah" name="gol_darah" value="{{ $biodata->gol_darah }}">
                                 <datalist id="goldarah">
-                                        <option selected disabled>Golongan darah</option>
-                                        <option value="O" {{ old('gol_darah') == 'O' ? 'selected' : '' }}>O</option>
-                                        <option value="O-" {{ old('gol_darah') == 'O-' ? 'selected' : '' }}>O-</option>
-                                        <option value="O+" {{ old('gol_darah') == 'O+' ? 'selected' : '' }}>O+</option>
-                                        <option value="A" {{ old('gol_darah') == 'A' ? 'selected' : '' }}>A</option>
-                                        <option value="A-" {{ old('gol_darah') == 'A-' ? 'selected' : '' }}>A-</option>
-                                        <option value="A+" {{ old('gol_darah') == 'A+' ? 'selected' : '' }}>A+</option>
-                                        <option value="B" {{ old('gol_darah') == 'B' ? 'selected' : '' }}>B</option>
-                                        <option value="B-" {{ old('gol_darah') == 'B-' ? 'selected' : '' }}>B-</option>
-                                        <option value="B+" {{ old('gol_darah') == 'B+' ? 'selected' : '' }}>B+</option>
-                                        <option value="AB" {{ old('gol_darah') == 'AB' ? 'selected' : '' }}>AB</option>
-                                        <option value="AB-" {{ old('gol_darah') == 'AB-' ? 'selected' : '' }}>AB-</option>
-                                        <option value="AB+" {{ old('gol_darah') == 'AB+' ? 'selected' : '' }}>AB+</option>
+                                    <option disabled>Golongan darah</option>
+                                    <option value="O">O</option>
+                                    <option value="O-">O-</option>
+                                    <option value="O+">O+</option>
+                                    <option value="A">A</option>
+                                    <option value="A-">A-</option>
+                                    <option value="A+">A+</option>
+                                    <option value="B">B</option>
+                                    <option value="B-">B-</option>
+                                    <option value="B+">B+</option>
+                                    <option value="AB">AB</option>
+                                    <option value="AB-">AB-</option>
+                                    <option value="AB+">AB+</option>
                                 </datalist>
                             </div>
                         </div>
-
-                        {{-- <div class="col-md-6 mb-3">
-                            <select class="single-select w-100" name="provinsi_id" id="provinsi_id">
-                                <option selected disabled>Pilih Asal Provinsi</option>
-                                @foreach ($provinsi as $pro)
-                                    <option value="{{ $pro->id }}">{{ $pro->nama_provinsi }}</option>
-                                @endforeach
-                            </select>
-                        </div> --}}
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="tinggi_badan">Tinggi Badan</label>
                                 <input type="number" class="form-control" placeholder="Isi tinggi badan tanpa cm" id="tinggi_badan"
-                                    name="tinggi_badan" value="{{ old('tinggi_badan') }}">
+                                    name="tinggi_badan" value="{{ $biodata->tinggi_badan }}">
                             </div>
                         </div>
 
@@ -128,17 +112,17 @@
                             <div class="single-input-wrap">
                                 <label for="berat_badan">Berat Badan</label>
                                 <input type="number" class="form-control" placeholder="Isi Berat badan tanpa kg" id="berat_badan"
-                                    name="berat_badan" value="{{ old('berat_badan') }}">
+                                    name="berat_badan" value="{{ $biodata->berat_badan }}">
                             </div>
                         </div>
 
                         <div class="col-md-6 mb-3">
                             <select class="single-select w-100" name="status_menikah">
                                 <option selected disabled>Status Menikah</option>
-                                <option value="Belum Menikah" {{ old('status_menikah') == 'Belum Menikah' ? 'selected' : '' }}>Belum Menikah</option>
-                                <option value="Menikah" {{ old('status_menikah') == 'Menikah' ? 'selected' : '' }}>Menikah</option>
-                                <option value="Cerai Hidup" {{ old('status_menikah') == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
-                                <option value="Cerai Mati" {{ old('status_menikah') == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
+                                <option value="Belum Menikah" {{ $biodata->status_menikah == 'Belum Menikah' ? 'selected' : '' }}>Belum Menikah</option>
+                                <option value="Menikah" {{ $biodata->status_menikah == 'Menikah' ? 'selected' : '' }}>Menikah</option>
+                                <option value="Cerai Hidup" {{ $biodata->status_menikah == 'Cerai Hidup' ? 'selected' : '' }}>Cerai Hidup</option>
+                                <option value="Cerai Mati" {{ $biodata->status_menikah == 'Cerai Mati' ? 'selected' : '' }}>Cerai Mati</option>
                             </select>
                         </div>
 
@@ -146,14 +130,14 @@
                             <div class="single-input-wrap">
                                 <label for="hobi">Hobi</label>
                                 <input type="text" class="form-control" placeholder="Isi Hobi"
-                                    id="hobi" name="hobi" value="{{ old('hobi') }}">
+                                    id="hobi" name="hobi" value="{{ $biodata->hobi }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="kota_id">Kota Domisili</label>
-                                <input type="text" class="form-control" list="datakota" id="kota_id" placeholder="Isi Kota Domisili" name="kota_id" value="{{ old('kota_id') }}">
+                                <input type="text" class="form-control" list="datakota" id="kota_id" placeholder="Isi Kota Domisili" name="kota_id" value="{{ $biodata->kota_id }}">
                                 <datalist id="datakota">
                                     @foreach ($kota as $k)
                                         <option value="{{ $k->id }}">{{ $k->nama_kota }}</option>
@@ -162,42 +146,42 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="alamat_jalan">Alamat (Jalan)</label>
                                 <input type="text" class="form-control" placeholder="Isi Nama Jalan" id="alamat_jalan"
-                                    name="alamat_jalan" value="{{ old('alamat_jalan') }}">
+                                    name="alamat_jalan" value="{{ $biodata->alamat_jalan }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="alamat_rt" class="form-label">RT</label>
                                 <input type="text" class="form-control" placeholder="Isi RT" id="alamat_rt"
-                                    name="alamat_rt" value="{{ old('alamat_rt') }}">
+                                    name="alamat_rt" value="{{ $biodata->alamat_rt }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="alamat_rw" class="form-label">RW</label>
                                 <input type="text" class="form-control" placeholder="Isi RW" id="alamat_rw"
-                                    name="alamat_rw" value="{{ old('alamat_rw') }}">
+                                    name="alamat_rw" value="{{ $biodata->alamat_rw }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="kecamatan">Kecamatan</label>
                                 <input type="text" class="form-control" placeholder="Isi Kecamatan" id="kecamatan"
-                                    name="kecamatan" value="{{ old('kecamatan') }}">
+                                    name="kecamatan" value="{{ $biodata->kecamatan }}">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="kelurahan">Kelurahan</label>
                                 <input type="text" class="form-control" placeholder="Isi Kelurahan" id="kelurahan"
-                                    name="kelurahan" value="{{ old('kelurahan') }}">
+                                    name="kelurahan" value="{{ $biodata->kelurahan }}">
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="foto_diri" class="form-label">Foto Diri</label>
@@ -219,7 +203,7 @@
                                     value="{{ old('foto_npwp') }}">
                             </div>
                         </div>
-                        <div class="col-md-6"> <!-- Ensure this div has the appropriate column size -->
+                        <div class="col-md-6">
                             <button class="btn-c btn-primary mb-2" type="submit">Simpan</button>
                         </div>
                     </div>
@@ -263,8 +247,6 @@
         </div>
 
     </div>
-
-
 
     <!-- back-to-top end -->
     <div class="back-to-top">

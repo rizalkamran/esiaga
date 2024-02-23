@@ -24,7 +24,7 @@ class RegistrasiController extends Controller
         // Retrieve the selected acara (if any) from the request
         $selectedAcara = $request->input('acara');
 
-        if (Gate::allows('logged-in')) {
+        if (Gate::allows('is-non-publik')) {
             // Check if the request is coming from a mobile device
             if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
                 // If it's a mobile device, return the mobile view
@@ -63,7 +63,7 @@ class RegistrasiController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('logged-in')) {
+        if (Gate::allows('is-non-publik')) {
             $acara = Acara::where('status_acara', 1)->get(); // Retrieve only active Acara records
             return view('mobile.registrasi.create', ['acara' => $acara]);
         }

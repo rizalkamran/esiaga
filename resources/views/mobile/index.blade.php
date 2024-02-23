@@ -58,10 +58,10 @@
                         </a>
                         <div class="media-body">
                             <span class="profile-name">{{ Auth::user()->nama_lengkap }}</span>
+                            <span>{{ Auth::user()->roles()->pluck('name')->implode(', ') }}</span>
                         </div>
                     </div>
                     <div class="btn-wrap">
-                        <a class="icon-btn" href="#"><i class="ri-search-line"></i></a>
                         <a class="icon-btn" href="#"><i class="ri-notification-3-line"></i> <span
                                 class="badge">2</span></a>
                     </div>
@@ -84,11 +84,13 @@
                 </div>
 
                 <ul class="profile-list-inner">
-                    <li>
-                        <a class="single-profile-wrap" href="{{ Auth::user()->biodata ? route('mobile.biodata.index') : route('mobile.biodata.create') }}">
-                            <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
-                        </a>
-                    </li>
+                    @can('is-non-publik')
+                        <li>
+                            <a class="single-profile-wrap" href="{{ Auth::user()->biodata ? route('mobile.biodata.index') : route('mobile.biodata.create') }}">
+                                <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
+                            </a>
+                        </li>
+                    @endcan
                     <li>
                         <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-book"></i> Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
                     </li>
@@ -114,12 +116,14 @@
                                 Olahraga
                             </a>
                         </li>
-                        <li>
-                            <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
-                                <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
-                                Acara
-                            </a>
-                        </li>
+                        @can('is-non-publik')
+                            <li>
+                                <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
+                                    <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
+                                    Acara
+                                </a>
+                            </li>
+                        @endcan
                         <li>
                             <a href="#">
                                 <img src="{{ asset('image/mobile/icon/svg/document.svg') }}" alt="img">

@@ -26,7 +26,7 @@ class AcaraController extends Controller
     public function index()
     {
         // Check if the user is authorized to view the page
-        if (Gate::allows('logged-in')) {
+        if (Gate::allows('is-non-publik')) {
             // Check if the request is coming from a mobile device
             if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
 

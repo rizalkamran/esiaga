@@ -114,11 +114,13 @@ Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middlewar
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register.store');
 
-//Biodata
+// Biodata
 Route::resource('/biodata', BiodataController::class);
 Route::get('/mobile/biodata', [BiodataController::class, 'index'])->name('mobile.biodata.index');
 Route::get('/mobile/biodata/create', [BiodataController::class, 'create'])->name('mobile.biodata.create');
 Route::post('/mobile/biodata', [BiodataController::class, 'store'])->name('mobile.biodata.store');
+Route::get('/mobile/biodata/{id}/edit', [BiodataController::class, 'edit'])->name('mobile.biodata.edit');
+Route::put('/mobile/biodata/{id}', [BiodataController::class, 'update'])->name('mobile.biodata.update');
 //Route::get('/mobile/biodata/get-kota/{provinsi_id}', [BiodataController::class, 'getKota']);
 //Route::get('/download/image/{imageName}', 'BiodataController@downloadImage')->name('download.image');
 
