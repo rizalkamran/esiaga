@@ -90,7 +90,6 @@
                                 <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
                             </a>
                         </li>
-                    @endcan
                     <li>
                         <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-book"></i> Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
                     </li>
@@ -100,6 +99,7 @@
                     <li>
                         <a class="single-profile-wrap" href="#"><i class="fa fa-tag"></i> Diklat <i class="ri-arrow-right-s-line"></i></a>
                     </li>
+                    @endcan
                 </ul>
 
                 <div class="main-footer-bottom d-block text-center">

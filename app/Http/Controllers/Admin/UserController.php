@@ -130,16 +130,27 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        $user = User::find($id);
+
+        if (!$user) {
+            abort(404); // User not found
+        }
+
         if (Gate::allows('is-admin')) {
-            return view('admin.users.edit',
-            [
+            return view('admin.users.edit', [
                 'roles' => Role::all(),
-                'user' => User::find($id)
+                'user' => $user
+            ]);
+        } elseif (Gate::allows('is-non-publik') || Gate::allows('is-publik')) {
+            return view('mobile.auth.edit', [
+                'user' => $user
             ]);
         }
 
         abort(403, 'Unauthorized action.');
     }
+
+
 
     /**
      * Update the specified resource in storage.
@@ -164,6 +175,26 @@ class UserController extends Controller
 
         return redirect(route('admin.users.index'));
     }
+
+    public function updateMobile(Request $request, $id)
+    {
+        $user = User::find($id);
+
+        if (!$user) {
+            $request->session()->flash('warning', 'Aksi tidak bisa dilakukan');
+            return redirect(route('mobile-profil'));
+        }
+
+        // Exclude password field from update
+        $userData = $request->except('_token', 'password');
+
+        // Update user's profile for non-admin users
+        $user->update($userData);
+
+        $request->session()->flash('success', 'Data User diupdate');
+        return redirect(route('mobile-profil'));
+    }
+
 
     /**
      * Remove the specified resource from storage.

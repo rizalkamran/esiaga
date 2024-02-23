@@ -82,6 +82,9 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function(){
     Route::resource('/users', UserController::class);
 });
 
+Route::get('mobile/auth/edit/{id}', [UserController::class, 'edit'])->name('mobile.edit.profile')->middleware('auth');
+Route::patch('mobile/update/profile/{id}', [UserController::class, 'updateMobile'])->name('mobile.update.profile')->middleware('auth');
+
 // Route for displaying the registration form for mobile users
 Route::get('/mobile/new-user/register', [UserController::class, 'createMobile'])->name('mobile.new-user.register');
 

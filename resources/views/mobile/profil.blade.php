@@ -47,10 +47,15 @@
                             <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
                         </a>
                     </li>
-                @endcan
                 <li>
                     <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i>
                         Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
+                </li>
+                @endcan
+                <li>
+                    <a class="single-profile-wrap" href="{{ route('mobile.edit.profile', Auth::id()) }}">
+                        <i class="fa fa-user"></i> Profil User <i class="ri-arrow-right-s-line"></i>
+                    </a>
                 </li>
                 <li>
                     <a class="single-profile-wrap" href="{{ route('mobile-setting') }}"><i class="fa fa-wrench"></i>
