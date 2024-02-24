@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi Data</title>
+    <title>Kehadiran Data</title>
     <!--fivicon icon-->
     <link href="{{ asset('image/mobile/favicon-esiaga.png') }}" rel="icon" type="image/png">
 
@@ -24,10 +24,10 @@
     </style>
 </head>
 <body>
-    @if ($anggota->isNotEmpty())
+    @if ($kehadiran->isNotEmpty())
         <ul>
-            @foreach ($anggota->unique('acara_id') as $ag)
-                <li>{{ $ag->acara->nama_acara }}</li>
+            @foreach ($kehadiran->unique('acara_id') as $k)
+                <li>{{ $k->acara->nama_acara }}</li>
             @endforeach
         </ul>
 
@@ -38,17 +38,17 @@
                     <th>Nama Lengkap</th>
                     <th>Jenis Kelamin</th>
                     <th>NIK</th>
-                    <th>Waktu Daftar</th>
+                    <th>Waktu Absen</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($anggota as $index => $ag)
+                @foreach ($kehadiran as $index => $k)
                     <tr>
                         <td>{{ $index + 1 }}</td>
-                        <td>{{ $ag->user->nama_lengkap }}</td>
-                        <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
-                        <td>{{ $ag->user->nomor_ktp }}</td>
-                        <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
+                        <td>{{ $k->user->nama_lengkap }}</td>
+                        <td>{{ $k->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
+                        <td>{{ $k->user->nomor_ktp }}</td>
+                        <td>{{ $k->created_at->format('d-m-Y H:i:s') }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -165,13 +165,23 @@ class AcaraController extends Controller
 
         // Check if the security passphrase matches the event's security_pass
         if ($validatedData['security_pass'] !== $event->security_pass) {
-            return redirect()->back()->with('error', 'Passphrase keamanan tidak valid.');
+            return redirect()->back()->with('error', 'Security tidak valid.');
         }
 
         // Check if the current date is within the event's date range
         $currentDate = now();
         if ($currentDate->isBefore($event->tanggal_awal_acara) || $currentDate->isAfter($event->tanggal_akhir_acara)) {
-            return redirect()->back()->with('error', 'Anda hanya dapat melakukan kehadiran pada tanggal acara.');
+            return redirect()->back()->with('error', 'Anda hanya bisa absen pada tanggal acara.');
+        }
+
+        // Check if the user has already recorded attendance for the current day within the event's date range
+        $alreadyAttended = AnggotaKehadiranRegistrasi::where('user_id', $user_id)
+            ->where('acara_id', $validatedData['acara_id'])
+            ->whereDate('created_at', $currentDate->toDateString())
+            ->exists();
+
+        if ($alreadyAttended) {
+            return redirect()->back()->with('error', 'Anda sudah absen hari ini.');
         }
 
         // Create a new instance of AnggotaKehadiranRegistrasi and fill in the fields

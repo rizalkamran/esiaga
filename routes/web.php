@@ -10,6 +10,7 @@ use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\KodeAcaraController;
 use Illuminate\Support\Facades\Route;
 
@@ -114,9 +115,13 @@ Route::get('/mobile/anggota/create', [AnggotaPeranController::class, 'create'])-
 Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('mobile.anggota.store');
 
 // Registrasi
-Route::resource('/registrasi', RegistrasiController::class);
-Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('export-pdf');
+Route::resource('/registrasi', RegistrasiController::class)->middleware('can:is-admin');
+Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
+
+// Kehadiran
+Route::resource('/kehadiran', KehadiranController::class)->middleware('can:is-admin');
+Route::get('/export-pdf', [KehadiranController::class, 'exportPDF'])->middleware('can:is-admin')->name('absen.export-pdf');
 
 // Biodata
 Route::resource('/biodata', BiodataController::class);

@@ -241,7 +241,7 @@
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="#">
+                        <a href="{{ route('kehadiran.index') }}">
                             <img src="{{ asset('icon/absent.png') }}" style="width:20%;border:none;"
                                 class="img-thumbnail">
                             <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
