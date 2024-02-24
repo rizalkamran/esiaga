@@ -65,11 +65,10 @@ class KodeAcaraController extends Controller
             'acara_id' => 'required|exists:acara,id',
             'code' => [
                 'required',
-                'unique:kode_acara,code',
-                'regex:/^(?=.*\d)(?=.*[A-Z])(?=.*[!@#$%^&*()\-_=+{};:,<.>]).{10,}$/'
+                'unique:kode_acara,code'
             ]
         ], [
-            'code.regex' => 'Kode dibuat setidaknya satu angka, satu huruf besar, satu simbol, dan minimal 10 karakter.'
+            /* 'code.regex' => 'Kode dibuat setidaknya satu angka, satu huruf besar, satu simbol, dan minimal 10 karakter.' */
         ]);
 
         // Create a new event code

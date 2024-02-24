@@ -6,6 +6,7 @@ use App\Models\Acara;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\AnggotaAcaraRegistrasi;
+use App\Models\AnggotaKehadiranRegistrasi;
 use App\Models\Biodata;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -42,6 +43,14 @@ class AcaraController extends Controller
                     return redirect()->route('mobile.biodata.create')->with('error', 'Agar dapat melanjutkan proses, silahkan lengkapi profil biodata Anda terlebih dahulu, terima kasih.');
                 }
             }
+        } elseif (Gate::allows('is-publik')) {
+           if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
+                $user = auth()->user();
+
+                $acaras = $this->getActiveAcara();
+
+                return view('mobile.acara.index', ['acaras' => $acaras]);
+           }
         }
 
         // If the user is not authorized, return a 403 Forbidden error
@@ -88,6 +97,7 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date',
             'deskripsi_acara' => 'required',
             'tingkat_wilayah_acara' => 'required',
+            'security_pass' => 'required',
         ]);
 
        // Set status_acara to true (1) explicitly
@@ -127,9 +137,53 @@ class AcaraController extends Controller
         $anggotaAcaraRegistrasi->save();
 
         // Redirect the user back to the index page
-        return redirect()->route('mobile.acara.index');
+        return redirect()->route('mobile.acara.index')->with('success', 'Berhasil daftar acara ini');
     }
 
+    public function kehadiran(Request $request)
+    {
+        // Validate the incoming request data
+        $validatedData = $request->validate([
+            'acara_id' => ['required', 'exists:acara,id'], // Validate that acara_id exists in the acara table
+            'security_pass' => ['required'], // Validate that security_pass is provided
+        ]);
+
+        // Retrieve the currently logged-in user's ID
+        $user_id = Auth::id();
+
+        // Check if the event exists
+        $event = Acara::find($validatedData['acara_id']);
+        if (!$event) {
+            return redirect()->back()->with('error', 'Acara tidak ditemukan.');
+        }
+
+        // Check if the user is registered for the event
+        $isRegistered = $event->anggotaAcaraRegistrasi()->where('user_id', $user_id)->exists();
+        if (!$isRegistered) {
+            return redirect()->back()->with('error', 'Anda harus mendaftar untuk acara ini terlebih dahulu.');
+        }
+
+        // Check if the security passphrase matches the event's security_pass
+        if ($validatedData['security_pass'] !== $event->security_pass) {
+            return redirect()->back()->with('error', 'Passphrase keamanan tidak valid.');
+        }
+
+        // Check if the current date is within the event's date range
+        $currentDate = now();
+        if ($currentDate->isBefore($event->tanggal_awal_acara) || $currentDate->isAfter($event->tanggal_akhir_acara)) {
+            return redirect()->back()->with('error', 'Anda hanya dapat melakukan kehadiran pada tanggal acara.');
+        }
+
+        // Create a new instance of AnggotaKehadiranRegistrasi and fill in the fields
+        AnggotaKehadiranRegistrasi::create([
+            'user_id' => $user_id,
+            'acara_id' => $validatedData['acara_id'],
+            // Add other fields as needed...
+        ]);
+
+        // Redirect the user back to the index page
+        return redirect()->route('mobile.acara.index')->with('success', 'Kehadiran berhasil direkam');
+    }
 
 
     /**
@@ -175,6 +229,7 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date|after_or_equal:tanggal_awal_acara',
             'deskripsi_acara' => 'required|string',
             'tingkat_wilayah_acara' => 'required',
+            'security_pass' => 'required',
             // Add other validation rules for additional fields...
         ]);
 
@@ -186,6 +241,7 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => $validatedData['tanggal_akhir_acara'],
             'deskripsi_acara' => $validatedData['deskripsi_acara'],
             'tingkat_wilayah_acara' => $validatedData['tingkat_wilayah_acara'],
+            'security_pass' => $validatedData['security_pass'],
             // Add other fields as needed...
         ];
 
@@ -213,4 +269,5 @@ class AcaraController extends Controller
 
         return redirect()->route('acara.index')->with('danger', 'Data Acara berhasil dihapus');;
     }
+
 }

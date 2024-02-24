@@ -92,7 +92,7 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('acara.index') }}">Daftar Acara</a></li>
-                                {{-- <li><a class="dropdown-item" href="{{ route('kode-acara.index') }}">Data Kode Acara</a></li> --}}
+                                <li><a class="dropdown-item" href="{{ route('kode-acara.index') }}">Data Kode Acara</a></li>
                                 <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Peserta</a></li>
                                 <li><a class="dropdown-item" href="#">Data Kehadiran Peserta</a></li>
                             </ul>

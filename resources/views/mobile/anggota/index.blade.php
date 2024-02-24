@@ -8,7 +8,7 @@
 
     <div class="single-page-area">
         <div class="title-area">
-            <a class="btn back-page-btn" href="{{ route('mobile-profil') }}"><i class="ri-arrow-left-s-line"></i></a>
+            <a class="btn back-page-btn" href="{{ route('mobile-landing') }}"><i class="ri-arrow-left-s-line"></i></a>
             <h3 class="ms-5 ps-5">Menu Peran Anggota</h3>
         </div>
 

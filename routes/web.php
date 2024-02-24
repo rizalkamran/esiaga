@@ -99,24 +99,24 @@ Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){
     Route::resource('/anggota_peran', AnggotaPeranController::class);
 });
 
-//Acara
+// Acara
 Route::resource('/acara', AcaraController::class);
 Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.acara.index');
-Route::get('/acara', [AcaraController::class, 'admin'])->name('acara.index');
+Route::get('/acara', [AcaraController::class, 'admin'])->name('acara.index')->middleware('auth');
+Route::post('/mobile/acara/kehadiran', [AcaraController::class, 'kehadiran'])->name('mobile.acara.kehadiran'); // New route for recording attendance
 
-//Kode Acara
+// Kode Acara
 Route::resource('/kode-acara', KodeAcaraController::class);
 
-//Anggota
+// Anggota
 Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');
 Route::get('/mobile/anggota/create', [AnggotaPeranController::class, 'create'])->name('mobile.anggota.create');
 Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('mobile.anggota.store');
 
-//Registrasi
+// Registrasi
 Route::resource('/registrasi', RegistrasiController::class);
 Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('export-pdf');
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
-Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register.store');
 
 // Biodata
 Route::resource('/biodata', BiodataController::class);

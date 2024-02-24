@@ -26,7 +26,7 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="tanggal_awal_acara" class="form-label">Tanggal Awal Acara</label>
                         <input type="date" class="form-control @error('tanggal_awal_acara') is-invalid @enderror" id="tanggal_awal_acara" name="tanggal_awal_acara" value="{{ old('tanggal_awal_acara') }}">
                         <span id="formatted_start_date" class="badge bg-primary"></span>
@@ -34,11 +34,18 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label for="tanggal_akhir_acara" class="form-label">Tanggal Akhir Acara</label>
                         <input type="date" class="form-control @error('tanggal_akhir_acara') is-invalid @enderror" id="tanggal_akhir_acara" name="tanggal_akhir_acara" value="{{ old('tanggal_akhir_acara') }}">
                         <span id="formatted_end_date" class="badge bg-primary"></span>
                         @error('tanggal_akhir_acara')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="col-md-4">
+                        <label for="security_pass" class="form-label">Security Pass</label>
+                        <input type="text" class="form-control @error('security_pass') is-invalid @enderror" id="security_pass" name="security_pass" value="{{ old('security_pass') }}">
+                        @error('security_pass')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

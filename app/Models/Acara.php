@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AnggotaAcaraRegistrasi;
+use App\Models\AnggotaKehadiranRegistrasi;
 use Illuminate\Support\Facades\Auth;
 use App\Models\KodeAcara;
 
@@ -22,6 +23,7 @@ class Acara extends Model
         'deskripsi_acara',
         'status_acara',
         'tingkat_wilayah_acara',
+        'security_pass',
     ];
 
     public function anggotaAcaraRegistrasi()
@@ -40,6 +42,11 @@ class Acara extends Model
         return $this->anggotaAcaraRegistrasi()
             ->where('user_id', $userId)
             ->exists();
+    }
+
+    public function anggotaKehadiranRegistrasi()
+    {
+        return $this->hasMany(AnggotaKehadiranRegistrasi::class);
     }
 
     // Add a cast for the 'status_acara' attribute to ensure it is treated as an integer

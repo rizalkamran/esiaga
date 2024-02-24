@@ -74,14 +74,12 @@
                         Olahraga
                     </a>
                 </li>
-                @can('is-non-publik')
-                    <li>
-                        <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
-                            <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
-                            Acara
-                        </a>
-                    </li>
-                @endcan
+                <li>
+                    <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
+                        <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
+                        Acara
+                    </a>
+                </li>
                 <li>
                     <a href="#">
                         <img src="{{ asset('image/mobile/icon/svg/document.svg') }}" alt="img">

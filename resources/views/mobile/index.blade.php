@@ -50,16 +50,17 @@
                 <div class="profile-area">
                     <div class="media">
                         <a href="{{ route('mobile-profil') }}" class="thumb">
-                            @if(Auth::user()->jenis_kelamin == 'L')
+                            @if (Auth::user()->jenis_kelamin == 'L')
                                 <img src="{{ asset('avatar/man.png') }}" alt="img" style="width: 50px; height: 50px;">
                             @elseif(Auth::user()->jenis_kelamin == 'P')
-                                <img src="{{ asset('avatar/woman.png') }}" alt="img" style="width: 50px; height: 50px;">
+                                <img src="{{ asset('avatar/woman.png') }}" alt="img"
+                                    style="width: 50px; height: 50px;">
                             @endif
                         </a>
                         <div class="media-body">
                             <span class="profile-name">{{ Auth::user()->nama_lengkap }}</span>
                             <span>
-                                @foreach(Auth::user()->roles as $role)
+                                @foreach (Auth::user()->roles as $role)
                                     @if ($role->name === 'publik')
                                         Umum
                                     @elseif ($role->name === 'non-publik')
@@ -98,15 +99,18 @@
 
                 <ul class="profile-list-inner">
                     @can('is-non-publik')
-                    <li>
-                        <a class="single-profile-wrap" href="#"><i class="fa fa-book"></i> Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
-                    </li>
-                    <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
-                    </li>
-                    <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.diklat.index') }}"><i class="fa fa-tag"></i> Diklat <i class="ri-arrow-right-s-line"></i></a>
-                    </li>
+                        <li>
+                            <a class="single-profile-wrap" href="#"><i class="fa fa-book"></i> Pendidikan Formal <i
+                                    class="ri-arrow-right-s-line"></i></a>
+                        </li>
+                        <li>
+                            <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i>
+                                Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
+                        <li>
+                            <a class="single-profile-wrap" href="{{ route('mobile.diklat.index') }}"><i class="fa fa-tag"></i>
+                                Diklat <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
                     @endcan
                 </ul>
 
@@ -124,14 +128,12 @@
                                 Olahraga
                             </a>
                         </li>
-                        @can('is-non-publik')
-                            <li>
-                                <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
-                                    <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
-                                    Acara
-                                </a>
-                            </li>
-                        @endcan
+                        <li>
+                            <a class="menu-bar" href="{{ route('mobile.acara.index') }}">
+                                <img src="{{ asset('image/mobile/icon/svg/ticket.svg') }}" alt="img">
+                                Acara
+                            </a>
+                        </li>
                         <li>
                             <a href="#">
                                 <img src="{{ asset('image/mobile/icon/svg/document.svg') }}" alt="img">
