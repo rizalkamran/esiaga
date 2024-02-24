@@ -58,7 +58,20 @@
                         </a>
                         <div class="media-body">
                             <span class="profile-name">{{ Auth::user()->nama_lengkap }}</span>
-                            <span>{{ Auth::user()->roles()->pluck('name')->implode(', ') }}</span>
+                            <span>
+                                @foreach(Auth::user()->roles as $role)
+                                    @if ($role->name === 'publik')
+                                        Umum
+                                    @elseif ($role->name === 'non-publik')
+                                        Atlit/Pelatih/Guru
+                                    @else
+                                        {{ $role->name }}
+                                    @endif
+                                    @if (!$loop->last)
+                                        , <!-- Add comma if it's not the last role -->
+                                    @endif
+                                @endforeach
+                            </span>
                         </div>
                     </div>
                     <div class="btn-wrap">
@@ -85,19 +98,14 @@
 
                 <ul class="profile-list-inner">
                     @can('is-non-publik')
-                        <li>
-                            <a class="single-profile-wrap" href="{{ Auth::user()->biodata ? route('mobile.biodata.index') : route('mobile.biodata.create') }}">
-                                <i class="fa fa-user"></i> Biodata <i class="ri-arrow-right-s-line"></i>
-                            </a>
-                        </li>
                     <li>
-                        <a class="single-profile-wrap" href="{{ route('mobile.biodata.index') }}"><i class="fa fa-book"></i> Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
+                        <a class="single-profile-wrap" href="#"><i class="fa fa-book"></i> Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
                     </li>
                     <li>
                         <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i> Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
                     </li>
                     <li>
-                        <a class="single-profile-wrap" href="#"><i class="fa fa-tag"></i> Diklat <i class="ri-arrow-right-s-line"></i></a>
+                        <a class="single-profile-wrap" href="{{ route('mobile.diklat.index') }}"><i class="fa fa-tag"></i> Diklat <i class="ri-arrow-right-s-line"></i></a>
                     </li>
                     @endcan
                 </ul>

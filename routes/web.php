@@ -6,6 +6,7 @@ use App\Http\Controllers\ReffCaborController;
 use App\Http\Controllers\ReffPeranController;
 use App\Http\Controllers\AnggotaPeranController;
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\RegistrasiController;
@@ -126,6 +127,12 @@ Route::get('/mobile/biodata/{id}/edit', [BiodataController::class, 'edit'])->nam
 Route::put('/mobile/biodata/{id}', [BiodataController::class, 'update'])->name('mobile.biodata.update');
 //Route::get('/mobile/biodata/get-kota/{provinsi_id}', [BiodataController::class, 'getKota']);
 //Route::get('/download/image/{imageName}', 'BiodataController@downloadImage')->name('download.image');
+
+// Diklat
+Route::resource('/diklat', DiklatController::class);
+Route::get('/mobile/diklat', [DiklatController::class, 'index'])->name('mobile.diklat.index');
+Route::get('/mobile/diklat/create', [DiklatController::class, 'create'])->name('mobile.diklat.create');
+Route::post('/mobile/diklat', [DiklatController::class, 'store'])->name('mobile.diklat.store');
 
 
 //Referensi

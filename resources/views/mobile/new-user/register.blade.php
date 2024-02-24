@@ -102,10 +102,16 @@
                             <h6>Pilih role</h6>
                             @foreach ($roles as $role)
                                 <span class="form-radio d-inline-block ms-2 mx-2">
-                                        <input class="form-check-input" type="radio" name="roles[]" id="role_{{ $role->id }}" value="{{ $role->id }}"
-                                               @isset($user) @if(in_array($role->id, $user->roles->pluck('id')->toArray())) checked @endif @endisset>
-                                        <label class="form-check-label" for="role_{{ $role->id }}"></label>
+                                    <input class="form-check-input" type="radio" name="roles[]" id="role_{{ $role->id }}" value="{{ $role->id }}"
+                                           @isset($user) @if(in_array($role->id, $user->roles->pluck('id')->toArray())) checked @endif @endisset>
+                                    <label class="form-check-label" for="role_{{ $role->id }}"></label>
+                                    @if ($role->name === 'publik')
+                                        Umum
+                                    @elseif ($role->name === 'non-publik')
+                                        Atlit/Pelatih/Guru
+                                    @else
                                         {{ $role->name }}
+                                    @endif
                                 </span>
                             @endforeach
                         </div>

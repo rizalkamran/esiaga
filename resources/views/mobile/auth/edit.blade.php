@@ -32,7 +32,8 @@
 
     <div class="align-items-center d-flex justify-content-center vh-100">
         <div class="register-page">
-            <div class="mb-2">
+            <a class="btn back-page-btn mb-2" href="{{ route('mobile-profil') }}"><i class="ri-arrow-left-s-line"></i></a>
+            <div class="mb-3">
                 <h5>Update Profile</h5>
             </div>
 

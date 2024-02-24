@@ -11,6 +11,8 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Models\AnggotaPeran;
 use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\Biodata;
+use App\Models\Diklat;
+
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -96,5 +98,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function biodata()
     {
         return $this->hasOne(Biodata::class);
+    }
+
+    public function diklat()
+    {
+        return $this->hasMany(Diklat::class);
     }
 }

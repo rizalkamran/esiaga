@@ -6,11 +6,6 @@
             Data Profil Anggota
         </div>
         <div class="card-body">
-            @can('logged-in')
-                @if ($biodata->isEmpty())
-                    <a class="btn btn-sm btn-primary mb-3" href="{{ route('biodata.create') }}" role="button">Create</a>
-                @endif
-            @endcan
 
             @if (!$biodata->isEmpty())
             <div class="table-responsive-md">

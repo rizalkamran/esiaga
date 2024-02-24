@@ -211,11 +211,11 @@
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="#">
+                        <a href="{{ route('diklat.index') }}">
                             <img src="{{ asset('icon/group.png') }}" style="width:20%;border:none;"
                                 class="img-thumbnail">
                             <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Daftar Role
+                                Daftar Diklat
                             </p>
                         </a>
                     </div>
@@ -284,7 +284,7 @@
                             <img src="{{ asset('icon/city.png') }}" style="width:20%;border:none;"
                                 class="img-thumbnail">
                             <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Data Provinsi
+                                Data Kota
                             </p>
                         </a>
                     </div>

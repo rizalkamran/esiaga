@@ -20,8 +20,8 @@ class CreateBiodataTable extends Migration
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
             $table->string('agama');
-            $table->string('nip_asn');
-            $table->string('npwp');
+            $table->string('nip_asn')->nullable();
+            $table->string('npwp')->nullable();
             $table->string('alamat_jalan');
             $table->string('alamat_rt');
             $table->string('alamat_rw');

@@ -30,23 +30,23 @@ class RegistrasiController extends Controller
                 // If it's a mobile device, return the mobile view
                 $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->get();
                 return view('mobile.registrasi.index', ['anggota' => $anggota]);
-            } else {
-                // If it's not a mobile device, check if the user is an admin
-                if (Gate::allows('is-admin')) {
-                    // Filter by acara if selected
-                    $query = AnggotaAcaraRegistrasi::query();
-                    if ($selectedAcara) {
-                        $query->whereHas('acara', function ($q) use ($selectedAcara) {
-                            $q->where('id', $selectedAcara);
-                        });
-                    }
-                    $anggota = $query->paginate(10); // Paginate with * records per page
-                    return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
-                } else {
-                    // If the user is not an admin, return regular view for non-admin users
-                    $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->paginate(10);
-                    return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
+            }
+        }  else {
+            // If it's not a mobile device, check if the user is an admin
+            if (Gate::allows('is-admin')) {
+                // Filter by acara if selected
+                $query = AnggotaAcaraRegistrasi::query();
+                if ($selectedAcara) {
+                    $query->whereHas('acara', function ($q) use ($selectedAcara) {
+                        $q->where('id', $selectedAcara);
+                    });
                 }
+                $anggota = $query->paginate(10); // Paginate with * records per page
+                return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
+            } else {
+                // If the user is not an admin, return regular view for non-admin users
+                $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->paginate(10);
+                return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
             }
         }
 
