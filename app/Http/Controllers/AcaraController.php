@@ -10,6 +10,7 @@ use App\Models\AnggotaKehadiranRegistrasi;
 use App\Models\Biodata;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Events\AbsenceSubmitted;
 
 
 class AcaraController extends Controller
@@ -169,7 +170,7 @@ class AcaraController extends Controller
         }
 
         // Check if the current date is within the event's date range
-        $currentDate = now();
+        $currentDate = today();
         if ($currentDate->isBefore($event->tanggal_awal_acara) || $currentDate->isAfter($event->tanggal_akhir_acara)) {
             return redirect()->back()->with('error', 'Anda hanya bisa absen pada tanggal acara.');
         }
@@ -190,6 +191,9 @@ class AcaraController extends Controller
             'acara_id' => $validatedData['acara_id'],
             // Add other fields as needed...
         ]);
+
+        // Fire event
+        event(new AbsenceSubmitted($validatedData)); // Pass validatedData or any other relevant data you want to send
 
         // Redirect the user back to the index page
         return redirect()->route('mobile.acara.index')->with('success', 'Kehadiran berhasil direkam');

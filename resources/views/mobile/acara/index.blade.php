@@ -71,15 +71,16 @@
                                 <span class="btn-c btn-sm btn-danger">Tidak Terdaftar</span>
                             @endif
 
-                            {{-- Check if the current date is within the event's date range --}}
-                            @if (\Carbon\Carbon::now()->between($acara->tanggal_awal_acara, $acara->tanggal_akhir_acara))
-
-                                {{-- Check if the user has not already recorded attendance for today --}}
-                                @if ($acara->anggotaKehadiranRegistrasi()->where('user_id', auth()->id())->whereDate('created_at', \Carbon\Carbon::today())->exists())
-                                    <a href="{{ route('mobile.acara.kehadiran', ['acara_id' => $acara->id, 'security_pass' => $acara->security_pass]) }}" class="btn-c btn-sm btn-info">Absen</a>
-                                @endif
-
+                        @if ($acara->isRegisteredByUser(auth()->id()))
+                            <!-- Displaying the absence status -->
+                            @if (!$acara->anggotaKehadiranRegistrasi()->where('user_id', auth()->id())->whereDate('created_at', \Carbon\Carbon::today())->exists())
+                                <span class="btn-c btn-sm btn-danger">Belum absen</span>
+                            @else
+                                <span class="btn-c btn-sm btn-success">Sudah absen</span>
                             @endif
+                        @endif
+
+
                         @endcan
                     </div>
                 @endforeach
