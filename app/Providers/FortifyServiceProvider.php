@@ -58,7 +58,7 @@ class FortifyServiceProvider extends ServiceProvider
             if ($this->isMobileDevice()) {
                 return view('mobile.auth.login');
             } else {
-                return view('auth.login');
+                return view('desktop.register');
             }
         });
 

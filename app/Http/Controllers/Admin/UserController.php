@@ -63,6 +63,17 @@ class UserController extends Controller
         ]);
     }
 
+    public function createWeb()
+    {
+        // Fetch roles based on your predefined rules (e.g., roles with IDs 3 and 4)
+        $allowedRoles = [3, 4];
+        $roles = Role::whereIn('id', $allowedRoles)->get();
+
+        return view('desktop.register', [
+            'roles' => $roles,
+        ]);
+    }
+
 
 
     /**
@@ -92,6 +103,26 @@ class UserController extends Controller
     }
 
     public function storeMobile(StoreUserRequest $request)
+    {
+        //dd($request);
+
+        //$user = User::create($request->except(['_token', 'roles']));
+        //$validate = $request->validated();
+        //$user = User::create($validate);
+
+        $newUser = new CreateNewUser();
+        $user = $newUser->create($request->all());
+
+        $user->roles()->sync($request->roles);
+
+        //Password::sendResetLink($request->only(['email']));
+
+        $request->session()->flash('success', 'User berhasil dibuat');
+
+        return redirect(route('mobile-login'));
+    }
+
+    public function storeWeb(StoreUserRequest $request)
     {
         //dd($request);
 

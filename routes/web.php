@@ -13,6 +13,7 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\KodeAcaraController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +34,11 @@ Route::get('/', function () {
         return Redirect::to('/mobile-landing');
     } else {
         // If not using a mobile device, or User-Agent is not available, serve desktop landing page
-        return view('index');
+        return view('/index2');
     }
 });
+
+Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login');
 
 Route::get('/mobile-landing', function () {
     return view('mobile.index');
@@ -72,6 +75,10 @@ Route::get('/mobile-register', function () {
 Route::get('/mobile-forget', function () {
     return view('mobile.auth.forget');
 })->name('mobile-forget');
+
+Route::get('/web-landing', function () {
+    return view('index');
+})->name('web-landing');
 /**
  * Add 'verified'
  * to create soft lock
@@ -89,9 +96,11 @@ Route::patch('mobile/update/profile/{id}', [UserController::class, 'updateMobile
 
 // Route for displaying the registration form for mobile users
 Route::get('/mobile/new-user/register', [UserController::class, 'createMobile'])->name('mobile.new-user.register');
+Route::get('/desktop/register', [UserController::class, 'createWeb'])->name('desktop.register');
 
 // Route for handling the form submission for mobile user registration
 Route::post('/mobile/new-user/register', [UserController::class, 'storeMobile'])->name('mobile.new-user.store');
+Route::post('/desktop/register', [UserController::class, 'storeWeb'])->name('desktop.user.store');
 
 
 //staf
