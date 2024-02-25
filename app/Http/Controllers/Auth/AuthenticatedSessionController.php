@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Jenssegers\Agent\Agent;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 
 class AuthenticatedSessionController extends Controller
@@ -22,7 +23,17 @@ class AuthenticatedSessionController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            return redirect()->route('web-landing'); // Replace 'index' with your desired route
+            // Initialize the Agent class
+            $agent = new Agent();
+
+            // Check if the request is coming from a mobile device
+            if ($agent->isMobile()) {
+                // Redirect to the mobile landing page
+                return redirect()->route('mobile-landing');
+            } else {
+                // Redirect to the web landing page for PC users
+                return redirect()->route('web-landing');
+            }
         }
 
         throw ValidationException::withMessages([
