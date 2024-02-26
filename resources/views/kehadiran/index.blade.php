@@ -13,57 +13,50 @@
                     <div class="col-md-4">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-success">Excel</button>
-                            <a class="btn btn-primary" href="{{ route('kehadiran.index') }}">Reset</a>
+                            <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
+                            <a class="btn btn-secondary" href="{{ route('kehadiran.index') }}">Reset</a>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="float-end">
-                            <form action="{{ route('absen.export-pdf') }}" method="get" target="_blank"
-                                style="display: inline-flex; align-items: center;">
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">All/Semua</option>
-                                        @foreach ($acaraOptions as $acara)
-                                            <option value="{{ $acara->id }}"
-                                                {{ $selectedAcara == $acara->id ? 'selected' : '' }}>
-                                                {{ Illuminate\Support\Str::limit($acara->nama_acara, 35) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <input type="date" class="form-control form-control-sm" id="date" name="date"
-                                        value="{{ $selectedDate }}" />
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+                </div>
 
-                    <div class="col-md-4">
-                        <div class="float-end">
-                            <form action="{{ route('kehadiran.index') }}" method="GET"
-                                style="display: inline-flex; align-items: center;">
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">All/Semua</option>
-                                        @foreach ($acaraOptions as $acara)
-                                            <option value="{{ $acara->id }}"
-                                                {{ $selectedAcara == $acara->id ? 'selected' : '' }}>
-                                                {{ Illuminate\Support\Str::limit($acara->nama_acara, 35) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <input type="date" class="form-control form-control-sm" id="date" name="date"
-                                        value="{{ $selectedDate }}" />
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 5px;">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                            <select name="sesi" id="sesi" class="form-control form-control-sm">
+                                <option selected>Filter per sesi</option>
+                                <option value="">Semua Sesi</option>
+                                @foreach ($sesiOptions as $sesi)
+                                    <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
+                                        {{ $sesi->sesi }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="col-md-6 ms-3">
+                                <button type="submit" class="btn btn-sm btn-primary me-2">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <form method="GET" action="{{ route('absen.export-pdf') }}" target="_blank" class="d-flex">
+                            <select name="sesi" id="sesi" class="form-control form-control-sm">
+                                <option value="">Semua Sesi</option>
+                                @foreach ($sesiOptions as $sesi)
+                                    <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
+                                        {{ $sesi->sesi }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <div class="col-md-6 ms-3">
+                                <button type="submit" class="btn btn-sm btn-danger me-2">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             @endcan
@@ -76,9 +69,7 @@
                             <tr>
                                 <th scope="col">Nomor</th>
                                 <th scope="col">Nama Lengkap</th>
-                                <th scope="col">Jenis Kelamin</th>
                                 <th scope="col">NIK</th>
-                                <th scope="col">Acara</th>
                                 <th scope="col">Waktu Absen</th>
                             </tr>
                         </thead>
@@ -87,10 +78,8 @@
                                 <tr>
                                     <td>{{ $index + $kehadiran->firstItem() }}</td>
                                     <td>{{ $k->user->nama_lengkap }}</td>
-                                    <td>{{ $k->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
                                     <td>{{ $k->user->nomor_ktp }}</td>
-                                    <td>{{ Illuminate\Support\Str::limit($k->acara->nama_acara, 30) }}</td>
-                                    <td>{{ $k->created_at->format('d-m-Y H:i:s') }}</td>
+                                    <td>{{ $k->sesiAcara->sesi }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -110,6 +99,17 @@
     </div>
 
     <script>
+        // Get reference to the session select element
+         const sessionSelect = document.getElementById('sesi');
+
+         // Event listener for when the session selection changes
+         sessionSelect.addEventListener('change', (event) => {
+             // Submit the form when a session is selected
+             event.target.form.submit();
+         });
+    </script>
+
+    {{-- <script>
         // Initialize Laravel Echo
         const echo = new Echo({
             broadcaster: 'pusher',
@@ -137,7 +137,7 @@
                 `;
                 tableBody.appendChild(newRow);
             });
-    </script>
+    </script> --}}
 
     @include('templates.footer')
 @endsection

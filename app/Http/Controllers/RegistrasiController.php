@@ -171,6 +171,9 @@ class RegistrasiController extends Controller
         // Load the view and pass data to it
         $pdf = PDF::loadView('registrasi.export-pdf', compact('anggota'));
 
+        // Set paper orientation to landscape
+        $pdf->setPaper('a4', 'landscape');
+
         // Stream the PDF to the browser
         return $pdf->stream('registrasi.pdf');
     }

@@ -45,8 +45,8 @@
                 @can('is-non-publik')
                     <button type="button" class="btn-c btn-sm btn-gradient-03 mb-2" data-bs-toggle="modal"
                         data-bs-target="#modalregis">Registrasi</button>
-                    <button type="button" class="btn-c btn-sm btn-gradient-03 mb-2" data-bs-toggle="modal"
-                        data-bs-target="#modalabsen">Kehadiran</button>
+                    {{-- <button type="button" class="btn-c btn-sm btn-gradient-03 mb-2" data-bs-toggle="modal"
+                        data-bs-target="#modalabsen">Kehadiran</button> --}}
                 @endcan
 
                 @foreach ($acaras as $acara)
@@ -71,14 +71,14 @@
                                 <span class="btn-c btn-sm btn-danger">Tidak Terdaftar</span>
                             @endif
 
-                        @if ($acara->isRegisteredByUser(auth()->id()))
+                       {{--  @if ($acara->isRegisteredByUser(auth()->id()))
                             <!-- Displaying the absence status -->
                             @if (!$acara->anggotaKehadiranRegistrasi()->where('user_id', auth()->id())->whereDate('created_at', \Carbon\Carbon::today())->exists())
                                 <span class="btn-c btn-sm btn-danger">Belum absen</span>
                             @else
                                 <span class="btn-c btn-sm btn-success">Sudah absen</span>
                             @endif
-                        @endif
+                        @endif --}}
 
 
                         @endcan
@@ -121,7 +121,7 @@
                 <!-- Modal End-->
 
                 <!-- Modal absen -->
-                <div class="modal fade" id="modalabsen" tabindex="-1" aria-labelledby="exampleModalLabel"
+               {{--  <div class="modal fade" id="modalabsen" tabindex="-1" aria-labelledby="exampleModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -155,7 +155,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <!-- Modal End-->
 
             </div>

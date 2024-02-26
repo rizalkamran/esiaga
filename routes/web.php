@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AcaraController;
+use App\Http\Controllers\SesiAcaraController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ReffCaborController;
 use App\Http\Controllers\ReffPeranController;
@@ -113,7 +114,11 @@ Route::prefix('publik')->middleware('auth')->name('publik.')->group(function(){
 Route::resource('/acara', AcaraController::class);
 Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.acara.index');
 Route::get('/acara', [AcaraController::class, 'admin'])->name('acara.index')->middleware('auth');
-Route::post('/mobile/acara/kehadiran', [AcaraController::class, 'kehadiran'])->name('mobile.acara.kehadiran'); // New route for recording attendance
+//Route::post('/mobile/acara/kehadiran', [AcaraController::class, 'kehadiran'])->name('mobile.acara.kehadiran'); // New route for recording attendance
+
+//Sesi Acara
+Route::resource('/sesi_acara', SesiAcaraController::class);
+
 
 // Kode Acara
 Route::resource('/kode-acara', KodeAcaraController::class);

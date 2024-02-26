@@ -27,9 +27,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($acaras as $acara)
+                        @foreach ($acaras as $index => $acara)
                             <tr>
-                                <td>{{ $acara->id }}</td>
+                                <td>{{ $index + $acaras->firstItem() }}</td>
                                 <td>{{ Illuminate\Support\Str::limit($acara->nama_acara, 30) }}</td>
                                 <td>{{ $acara->lokasi_acara }}</td>
                                 <td>{{ $acara->tingkat_wilayah_acara }}</td>

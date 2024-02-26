@@ -63,7 +63,6 @@
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">Jenis Kelamin</th>
                             <th scope="col">NIK</th>
-                            <th scope="col">Acara</th>
                             <th scope="col">Waktu Daftar</th>
                         </tr>
                     </thead>
@@ -74,7 +73,6 @@
                                 <td>{{ $ag->user->nama_lengkap }}</td>
                                 <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
                                 <td>{{ $ag->user->nomor_ktp }}</td>
-                                <td>{{ Illuminate\Support\Str::limit($ag->acara->nama_acara, 30) }}</td>
                                 <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
                             </tr>
                         @endforeach

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateKodeAcaraTable extends Migration
+class CreateSesiAcaraTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateKodeAcaraTable extends Migration
      */
     public function up()
     {
-        Schema::create('kode_acara', function (Blueprint $table) {
+        Schema::create('sesi_acara', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('acara_id');
-            $table->string('code')->unique();
+            $table->string('sesi');
             $table->timestamps();
 
-            // Foreign key constraint
+
             $table->foreign('acara_id')->references('id')->on('acara')->onDelete('cascade');
         });
     }
@@ -31,6 +31,6 @@ class CreateKodeAcaraTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kode_acara');
+        Schema::dropIfExists('sesi_acara');
     }
 }

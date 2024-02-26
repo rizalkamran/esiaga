@@ -76,6 +76,19 @@
                             value="{{ old('telepon') }}@isset($user){{ $user->telepon }}@endisset">
                         </div>
                     </div>
+                    <<div class="col-md-6">
+                        <div class="single-input-wrap">
+                            <label for="password"><img src="{{ asset('image/mobile/icon/password.svg') }}" alt="img"></label>
+                            <input name="password" type="password" class="form-control" placeholder="Password" id="password" value="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="single-input-wrap">
+                            <label for="password_confirmation"><img src="{{ asset('image/mobile/icon/password.svg') }}" alt="img"></label>
+                            <input name="password_confirmation" type="password" class="form-control" placeholder="Confirm Password" id="password_confirmation" value="">
+                        </div>
+                    </div>
+
 
                     <div class="col-md-6">
                         <div>

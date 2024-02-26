@@ -35,14 +35,17 @@ class AcaraController extends Controller
                 $user = auth()->user();
                 $biodata = $user->biodata;
 
-                if ($biodata) {
+                $acaras = $this->getActiveAcara();
+                return view('mobile.acara.index', ['acaras' => $acaras]);
+
+                /* if ($biodata) {
                     // If it's a mobile device and biodata exists, return the mobile view
                     $acaras = $this->getActiveAcara();
                     return view('mobile.acara.index', ['acaras' => $acaras]);
                 } else {
                     // If biodata doesn't exist, redirect to biodata create route
                     return redirect()->route('mobile.biodata.create')->with('error', 'Agar dapat melanjutkan proses, silahkan lengkapi profil biodata Anda terlebih dahulu, terima kasih.');
-                }
+                } */
             }
         } elseif (Gate::allows('is-publik')) {
            if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
@@ -79,7 +82,7 @@ class AcaraController extends Controller
             return view('acara.create');
         }
 
-        abort(403, 'Unauthorized action.');
+        abort(403, 'Unauthorized action');
     }
 
     /**
@@ -141,7 +144,7 @@ class AcaraController extends Controller
         return redirect()->route('mobile.acara.index')->with('success', 'Berhasil daftar acara ini');
     }
 
-    public function kehadiran(Request $request)
+    /* public function kehadiran(Request $request)
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
@@ -198,7 +201,7 @@ class AcaraController extends Controller
         // Redirect the user back to the index page
         return redirect()->route('mobile.acara.index')->with('success', 'Kehadiran berhasil direkam');
     }
-
+ */
 
     /**
      * Display the specified resource.

@@ -223,7 +223,7 @@
                     </div>
                     <div class="row mt-4 text-center">
                         <h5 class="text-secondary">Pengaturan Acara</h5>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <a href="{{ route('acara.index') }}">
                                 <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
                                     class="img-thumbnail">
@@ -232,7 +232,16 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <a href="{{ route('sesi_acara.index') }}">
+                                <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                    Data Sesi Acara
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
                             <a href="{{ route('registrasi.index') }}">
                                 <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
                                     class="img-thumbnail">
@@ -241,7 +250,7 @@
                                 </p>
                             </a>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <a href="{{ route('kehadiran.index') }}">
                                 <img src="{{ asset('icon/absent.png') }}" style="width:20%;border:none;"
                                     class="img-thumbnail">

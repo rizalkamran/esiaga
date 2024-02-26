@@ -12,8 +12,8 @@
                             <img class="logo-dark" srcset="demos/football-club/images/logo-dark.png, demos/football-club/images/logo-dark@2x.png 2x" src="demos/football-club/images/logo-dark@2x.png" alt="Canvas Logo">
                         -->
 
-                        <img class="logo-default" srcset="{{ asset('image/web/logo_esiaga_6.png') }}, {{ asset('image/web/logo_esiaga_6@2x.png') }} 2x" src="{{ asset('image/web/logo_esiaga_6@2x.png') }}" alt="e-Siaga Logo">
-                        <img class="logo-dark" srcset="{{ asset('image/web/logo_esiaga_7-dark.png') }}, {{ asset('logo_esiaga_7-dark@2x.png') }} 2x" style="width:325px" alt="e-Siaga Logo">
+                        <img class="logo-default" srcset="{{ asset('image/web/logo_esiaga_6.png') }}, {{ asset('image/web/logo_esiaga_6@2x.png') }}" src="{{ asset('image/web/logo_esiaga_6@2x.png') }}" alt="e-Siaga Logo">
+                        <img class="logo-dark" srcset="{{ asset('image/web/logo_esiaga_7-dark.png') }}, {{ asset('logo_esiaga_7@2x.png') }}" style="width:325px" alt="e-Siaga Logo">
 
                     </a>
                 </div><!-- #logo end -->

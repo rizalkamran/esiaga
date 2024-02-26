@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Biodata;
+use App\Models\ReffCabor;
 use App\Models\User;
 use App\Models\ReffProvinsi;
 use App\Models\ReffKota;
@@ -49,11 +50,13 @@ class BiodataController extends Controller
 
             //$provinsi = ReffProvinsi::all();
             $kota = ReffKota::all();
+            $cabor = ReffCabor::all();
 
             return view('mobile.biodata.create', [
                 'user_id' => $user_id,
                 //'provinsi' => $provinsi,
-                'kota' => $kota
+                'kota' => $kota,
+                'cabor' => $cabor,
             ]);
         }
 
@@ -82,24 +85,26 @@ class BiodataController extends Controller
             'user_id' => 'required',
             //'provinsi_id' => 'required',
             'kota_id' => 'required',
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
-            'agama' => 'required|string',
-            'nip_asn' => 'required|string|size:18',
-            'npwp' => 'required|string|size:16',
-            'alamat_jalan' => 'required|string',
-            'alamat_rt' => 'required|string',
-            'alamat_rw' => 'required|string',
-            'kecamatan' => 'required|string',
-            'kelurahan' => 'required|string',
-            'gol_darah' => 'required|string',
-            'tinggi_badan' => 'required|integer',
-            'berat_badan' => 'required|integer',
-            'status_menikah' => 'required|string',
-            'hobi' => 'required|string',
+            'cabor_id' => 'required',
+            'tempat_lahir' => 'nullable|string',
+            'tanggal_lahir' => 'nullable|date',
+            'agama' => 'nullable|string',
+            'nip_asn' => 'nullable|numeric',
+            'npwp' => 'required|numeric',
+            'alamat_jalan' => 'nullable|string',
+            'alamat_rt' => 'nullable|string',
+            'alamat_rw' => 'nullable|string',
+            'kecamatan' => 'nullable|string',
+            'kelurahan' => 'nullable|string',
+            'gol_darah' => 'nullable|string',
+            'tinggi_badan' => 'nullable|integer',
+            'berat_badan' => 'nullable|integer',
+            'status_menikah' => 'nullable|string',
+            'hobi' => 'nullable|string',
             'foto_diri' => 'nullable|file|image|max:1024',
             'foto_ktp' => 'nullable|file|image|max:1024',
             'foto_npwp' => 'nullable|file|image|max:1024',
+            'upload_mandat' => 'nullable|file|image|max:1024',
             'status_anggota' => 'nullable|integer',
             'request_role' => 'nullable|integer',
         ]);
@@ -134,11 +139,22 @@ class BiodataController extends Controller
             $nama_file3 = null; // or whatever default value you want to set
         }
 
+        // Process and store the fourth file if uploaded
+        if ($request->hasFile('upload_mandat')) {
+            $file4 = $request->file('upload_mandat');
+            $nama_file4 = $username . '_' . $file4->getClientOriginalName();
+            $tujuan_upload4 = 'upload_mandat';
+            $file4->storeAs($tujuan_upload4, $nama_file4);
+        } else {
+            $nama_file3 = null; // or whatever default value you want to set
+        }
+
         // Create Biodata instance with the validated data and file paths
         Biodata::create([
             'user_id' => $request->user_id,
             //'provinsi_id' => $request->provinsi_id,
             'kota_id' => $request->kota_id,
+            'cabor_id' => $request->cabor_id,
             'tempat_lahir' => $request->tempat_lahir,
             'tanggal_lahir' => $request->tanggal_lahir,
             'agama' => $request->agama,
@@ -202,10 +218,12 @@ class BiodataController extends Controller
         if (Gate::allows('is-non-publik')) {
             $biodata = Biodata::findOrFail($id);
             $kota = ReffKota::all();
+            $cabor = ReffCabor::all();
 
             return view('mobile.biodata.edit', [
                 'biodata' => $biodata,
-                'kota' => $kota
+                'kota' => $kota,
+                'cabor' => $cabor,
             ]);
         }
 
@@ -228,21 +246,22 @@ class BiodataController extends Controller
             //'user_id' => 'required',
             //'provinsi_id' => 'required',
             'kota_id' => 'required',
-            'tempat_lahir' => 'required|string',
-            'tanggal_lahir' => 'required|date',
-            'agama' => 'required|string',
-            'nip_asn' => 'required|string|size:18',
-            'npwp' => 'required|string|size:16',
-            'alamat_jalan' => 'required|string',
-            'alamat_rt' => 'required|string',
-            'alamat_rw' => 'required|string',
-            'kecamatan' => 'required|string',
-            'kelurahan' => 'required|string',
-            'gol_darah' => 'required|string',
-            'tinggi_badan' => 'required|integer',
-            'berat_badan' => 'required|integer',
-            'status_menikah' => 'required|string',
-            'hobi' => 'required|string',
+            'cabor_id' => 'required',
+            'tempat_lahir' => 'nullable|string',
+            'tanggal_lahir' => 'nullable|date',
+            'agama' => 'nullable|string',
+            'nip_asn' => 'nullable|numeric',
+            'npwp' => 'nullable|numeric',
+            'alamat_jalan' => 'nullable|string',
+            'alamat_rt' => 'nullable|string',
+            'alamat_rw' => 'nullable|string',
+            'kecamatan' => 'nullable|string',
+            'kelurahan' => 'nullable|string',
+            'gol_darah' => 'nullable|string',
+            'tinggi_badan' => 'nullable|integer',
+            'berat_badan' => 'nullable|integer',
+            'status_menikah' => 'nullable|string',
+            'hobi' => 'nullable|string',
             'foto_diri' => 'nullable|file|image|max:1024',
             'foto_ktp' => 'nullable|file|image|max:1024',
             'foto_npwp' => 'nullable|file|image|max:1024',
@@ -281,6 +300,14 @@ class BiodataController extends Controller
             $tujuan_upload3 = 'foto_npwp';
             $file3->storeAs($tujuan_upload3, $nama_file3);
             $biodata->foto_npwp = $nama_file3;
+        }
+
+        // Process and store the fourth file if uploaded
+        if ($request->hasFile('upload_mandat')) {
+            $file4 = $request->file('upload_mandat');
+            $nama_file4 = auth()->user()->name . '_' . $file4->getClientOriginalName();
+            $tujuan_upload4 = 'upload_mandat';
+            $file4->storeAs($tujuan_upload4, $nama_file4);
         }
 
         // Save the updated biodata entry with file paths

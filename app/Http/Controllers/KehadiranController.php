@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\AnggotaKehadiranRegistrasi;
 use App\Models\Acara;
+use App\Models\SesiAcara;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
@@ -17,37 +19,31 @@ class KehadiranController extends Controller
      */
     public function index(Request $request)
     {
-        // Retrieve all acara options for the dropdown
-        $acaraOptions = Acara::all();
+        // Retrieve all session options for the dropdown
+        $sesiOptions = SesiAcara::all();
 
-        // Retrieve the selected acara (if any) from the request
-        $selectedAcara = $request->input('acara');
-
-        // Retrieve the selected date (if any) from the request
-        $selectedDate = $request->input('date');
+        // Retrieve the selected session from the request
+        $selectedSesi = $request->input('sesi');
 
         // Check if the user is an admin
         if (Gate::allows('is-admin')) {
-            // Filter by acara if selected
+            // Filter by session if selected
             $query = AnggotaKehadiranRegistrasi::query();
-            if ($selectedAcara) {
-                $query->whereHas('acara', function ($q) use ($selectedAcara) {
-                    $q->where('id', $selectedAcara);
-                });
+            if ($selectedSesi) {
+                $query->where('sesi_acara_id', $selectedSesi);
             }
 
-            // Filter by date if selected
-            if ($selectedDate) {
-                $query->whereDate('created_at', $selectedDate);
-            }
+            // Paginate the results
+            $kehadiran = $query->paginate(10);
 
-            $kehadiran = $query->paginate(10); // Paginate with * records per page
-            return view('kehadiran.index', ['kehadiran' => $kehadiran, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara, 'selectedDate' => $selectedDate]);
+            // Pass the attendance data and other necessary data to the view
+            return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi'));
         }
 
         // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action');
     }
+
 
 
     /**
@@ -57,8 +53,19 @@ class KehadiranController extends Controller
      */
     public function create()
     {
-        //
+        if (Gate::allows('is-admin')) {
+            // Retrieve all users to populate dropdown/select
+            $users = User::all();
+
+            // Retrieve all sessions to populate dropdown/select
+            $sesiAcara = SesiAcara::all();
+            $acara = Acara::all();
+
+            // Pass the users and sessions data to the view
+            return view('kehadiran.create', compact('users', 'sesiAcara', 'acara'));
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -68,7 +75,17 @@ class KehadiranController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validate the request data
+        $request->validate([
+            'user_id' => 'required',
+            'sesi_acara_id' => 'required',
+        ]);
+
+        // Create a new attendance record
+        AnggotaKehadiranRegistrasi::create($request->all());
+
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Absensi Berhasil');
     }
 
     /**
@@ -118,30 +135,25 @@ class KehadiranController extends Controller
 
     public function exportPDF(Request $request)
     {
-        // Retrieve the 'acara' and 'date' parameters from the request
-        $selectedAcara = $request->input('acara');
-        $selectedDate = $request->input('date');
+        // Retrieve the selected session from the request
+        $selectedSesi = $request->input('sesi');
 
-        // Build your query based on conditions
-        $query = AnggotaKehadiranRegistrasi::query();
-
-        // Apply the condition for 'acara_id'
-        if ($selectedAcara) {
-            $query->where('acara_id', $selectedAcara);
+        // Filter by session if selected
+        $query = AnggotaKehadiranRegistrasi::query()->with('sesiAcara'); // Eager load the 'sesiAcara' relationship
+        if ($selectedSesi) {
+            $query->where('sesi_acara_id', $selectedSesi);
         }
 
-        // Apply the condition for 'created_at' date
-        if ($selectedDate) {
-            $query->whereDate('created_at', $selectedDate);
-        }
-
-        // Fetch data from the database based on the query
+        // Get the filtered data
         $kehadiran = $query->get();
 
-        // Load the view and pass data to it
+        // Generate PDF
         $pdf = PDF::loadView('kehadiran.export-pdf', compact('kehadiran'));
 
-        // Stream the PDF to the browser
+        // Set paper orientation to landscape
+        $pdf->setPaper('a4', 'landscape');
+
+        // You can customize the filename if needed
         return $pdf->stream('kehadiran.pdf');
     }
 

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User; // Import the User model
 use App\Models\ReffProvinsi; // Import the ReffProvinsi model
 use App\Models\ReffKota; // Import the ReffKota model
+use App\Models\ReffCabor; // Import the ReffKota model
 
 class Biodata extends Model
 {
@@ -17,6 +18,7 @@ class Biodata extends Model
     protected $fillable = [
         'user_id',
         'kota_id',
+        'cabor_id',
         'tempat_lahir',
         'tanggal_lahir',
         'agama',
@@ -35,6 +37,8 @@ class Biodata extends Model
         'foto_diri',
         'foto_ktp',
         'foto_npwp',
+        'foto_npwp',
+        'upload_mandat',
         'status_anggota',
         'request_role',
     ];
@@ -52,5 +56,10 @@ class Biodata extends Model
     public function kota()
     {
         return $this->belongsTo(ReffKota::class, 'kota_id');
+    }
+
+    public function cabor()
+    {
+        return $this->belongsTo(ReffCabor::class, 'cabor_id');
     }
 }

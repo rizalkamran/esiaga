@@ -16,12 +16,12 @@ class CreateAnggotaKehadiranRegistrasiTable extends Migration
         Schema::create('anggota_kehadiran_registrasi', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('acara_id');
+            $table->unsignedBigInteger('sesi_acara_id'); // Add column to reference session
+            $table->timestamps();
 
             // Foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('acara_id')->references('id')->on('acara')->onDelete('cascade');
-            $table->timestamps();
+            $table->foreign('sesi_acara_id')->references('id')->on('sesi_acara')->onDelete('cascade');
         });
     }
 

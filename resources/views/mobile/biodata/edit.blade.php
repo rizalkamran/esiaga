@@ -36,6 +36,31 @@
                     @csrf
                     @method('PUT')
                     <div class="row">
+
+                        <div class="col-md-6">
+                            <div class="single-input-wrap">
+                                <label for="cabor_id">Cabang Olahraga</label>
+                                <input type="text" class="form-control" list="cabor" id="cabor_id" placeholder="Isi Cabang Olahraga" name="cabor_id" value="{{ $biodata->cabor_id }}">
+                                <datalist id="cabor">
+                                    @foreach ($cabor as $c)
+                                        <option value="{{ $c->id }}">{{ $c->nama_cabor }}</option>
+                                    @endforeach
+                                </datalist>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="single-input-wrap">
+                                <label for="kota_id">Kota Domisili</label>
+                                <input type="text" class="form-control" list="datakota" id="kota_id" placeholder="Isi Kota Domisili" name="kota_id" value="{{ $biodata->kota_id }}">
+                                <datalist id="datakota">
+                                    @foreach ($kota as $k)
+                                        <option value="{{ $k->id }}">{{ $k->nama_kota }}</option>
+                                    @endforeach
+                                </datalist>
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="tempat_lahir">Tempat Lahir</label>
@@ -136,18 +161,6 @@
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
-                                <label for="kota_id">Kota Domisili</label>
-                                <input type="text" class="form-control" list="datakota" id="kota_id" placeholder="Isi Kota Domisili" name="kota_id" value="{{ $biodata->kota_id }}">
-                                <datalist id="datakota">
-                                    @foreach ($kota as $k)
-                                        <option value="{{ $k->id }}">{{ $k->nama_kota }}</option>
-                                    @endforeach
-                                </datalist>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="single-input-wrap">
                                 <label for="alamat_jalan">Alamat (Jalan)</label>
                                 <input type="text" class="form-control" placeholder="Isi Nama Jalan" id="alamat_jalan"
                                     name="alamat_jalan" value="{{ $biodata->alamat_jalan }}">
@@ -201,6 +214,13 @@
                                 <label for="foto_npwp">Foto NPWP</label>
                                 <input type="file" class="form-control" id="foto_npwp" name="foto_npwp"
                                     value="{{ old('foto_npwp') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="single-input-wrap">
+                                <label for="upload_mandat">Mandat</label>
+                                <input type="file" class="form-control" id="upload_mandat" name="upload_mandat"
+                                    value="{{ old('upload_mandat') }}">
                             </div>
                         </div>
                         <div class="col-md-6">

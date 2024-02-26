@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
+use App\Models\SesiAcara;
 
 class AnggotaKehadiranRegistrasi extends Model
 {
@@ -13,7 +15,7 @@ class AnggotaKehadiranRegistrasi extends Model
 
     protected $fillable = [
         'user_id',
-        'acara_id',
+        'sesi_acara_id',
     ];
 
     // Define the relationships
@@ -22,8 +24,8 @@ class AnggotaKehadiranRegistrasi extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function acara()
+    public function sesiAcara()
     {
-        return $this->belongsTo(Acara::class);
+        return $this->belongsTo(SesiAcara::class, 'sesi_acara_id');
     }
 }

@@ -216,15 +216,29 @@ class UserController extends Controller
             return redirect(route('mobile-profil'));
         }
 
-        // Exclude password field from update
-        $userData = $request->except('_token', 'password');
+        // Validate the request data
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'nama_lengkap' => 'required|string',
+            'nomor_ktp' => 'required|string',
+            'email' => 'required|email',
+            'telepon' => 'required|string',
+            'password' => 'nullable|string|min:8|confirmed', // New password validation rules
+        ]);
 
-        // Update user's profile for non-admin users
-        $user->update($userData);
+        // Update user's profile data
+        $user->update($validatedData);
+
+        // Update password if provided
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+            $user->save();
+        }
 
         $request->session()->flash('success', 'Data User diupdate');
         return redirect(route('mobile-profil'));
     }
+
 
 
     /**

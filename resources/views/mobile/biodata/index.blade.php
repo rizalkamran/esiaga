@@ -35,6 +35,7 @@
                             <li><span>Telepon:</span><span>{{ $bio->user->telepon }}</span></li>
                             <li><span>Tempat Lahir:</span><span>{{ $bio->tempat_lahir }}</span></li>
                             <li><span>Tanggal Lahir:</span><span>{{ \Carbon\Carbon::parse($bio->tanggal_lahir)->format('d-m-Y') }}</span></li>
+                            <li><span>Cabor:</span><span>{{ $bio->cabor->nama_cabor }}</span></li>
                             <li><span>Agama:</span><span>{{ $bio->agama }}</span></li>
                             <li><span>Golongan Darah:</span><span>{{ $bio->gol_darah }}</span></li>
                             <li><span>Tinggi Badan:</span><span>{{ $bio->tinggi_badan }} cm</span></li>

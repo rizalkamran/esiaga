@@ -17,24 +17,26 @@ class CreateBiodataTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('kota_id');
-            $table->string('tempat_lahir');
-            $table->date('tanggal_lahir');
-            $table->string('agama');
+            $table->unsignedBigInteger('cabor_id');
+            $table->string('tempat_lahir')->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('agama')->nullable();
             $table->string('nip_asn')->nullable();
             $table->string('npwp')->nullable();
-            $table->string('alamat_jalan');
-            $table->string('alamat_rt');
-            $table->string('alamat_rw');
-            $table->string('kecamatan');
-            $table->string('kelurahan');
-            $table->string('gol_darah');
-            $table->integer('tinggi_badan');
-            $table->integer('berat_badan');
-            $table->string('status_menikah');
-            $table->string('hobi');
+            $table->string('alamat_jalan')->nullable();
+            $table->string('alamat_rt')->nullable();
+            $table->string('alamat_rw')->nullable();
+            $table->string('kecamatan')->nullable();
+            $table->string('kelurahan')->nullable();
+            $table->string('gol_darah')->nullable();
+            $table->integer('tinggi_badan')->nullable();
+            $table->integer('berat_badan')->nullable();
+            $table->string('status_menikah')->nullable();
+            $table->string('hobi')->nullable();
             $table->string('foto_diri')->nullable();
             $table->string('foto_ktp')->nullable();
             $table->string('foto_npwp')->nullable();
+            $table->string('upload_mandat')->nullable();
             $table->integer('status_anggota')->nullable();
             $table->integer('request_role')->nullable();
             $table->timestamps();
@@ -42,6 +44,7 @@ class CreateBiodataTable extends Migration
             // Foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('kota_id')->references('id')->on('reff_kota')->onDelete('cascade');
+            $table->foreign('cabor_id')->references('id')->on('reff_cabor')->onDelete('cascade');
         });
     }
 
