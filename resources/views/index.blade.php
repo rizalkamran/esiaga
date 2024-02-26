@@ -295,7 +295,22 @@
         @endif
     @endcan
 
-    @can('logged-in')
+    @can('is-non-publik')
+        @if (Auth::check())
+            <div class="card shadow mt-3">
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading">Peringatan !!!</h5>
+                        <strong>Halaman ini khusus untuk level admin saja, sihlakan klik logout disebelah kanan atas</strong>
+                        <hr>
+                        Sihlakan pakai smartphone anda dan akses link <a href="https://e-siaga.com/aprizal/public/mobile-landing" class="alert-link" target="_blank">E-SIAGA</a>
+                      </div>
+                </div>
+            </div>
+        @endif
+    @endcan
+
+    @can('is-publik')
         @if (Auth::check())
             <div class="card shadow mt-3">
                 <div class="card-body">
