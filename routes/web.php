@@ -125,12 +125,12 @@ Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('
 
 // Registrasi
 Route::resource('/registrasi', RegistrasiController::class)->middleware('can:is-admin');
-Route::get('/export-pdf', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
+Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
 
 // Kehadiran
 Route::resource('/kehadiran', KehadiranController::class)->middleware('can:is-admin');
-Route::get('/export-pdf', [KehadiranController::class, 'exportPDF'])->middleware('can:is-admin')->name('absen.export-pdf');
+Route::get('/export-pdf-absen', [KehadiranController::class, 'exportPDF'])->middleware('can:is-admin')->name('absen.export-pdf');
 
 // Biodata
 Route::resource('/biodata', BiodataController::class);

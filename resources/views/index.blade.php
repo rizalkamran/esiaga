@@ -187,111 +187,129 @@
         </div>
     @endif
 
-    @if (Auth::check())
-        <div class="card shadow mt-3">
-            <div class="card-body">
-                <div class="row mt-1 text-center">
-                    <h5 class="text-secondary">Pengaturan User</h5>
-                    <div class="col-md-4">
-                        <a href="{{ route('admin.users.index') }}">
-                            <img src="{{ asset('icon/man.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                Data user
-                            </p>
-                        </a>
+    @can('is-admin')
+        @if (Auth::check())
+            <div class="card shadow mt-3">
+                <div class="card-body">
+                    <div class="row mt-1 text-center">
+                        <h5 class="text-secondary">Pengaturan User</h5>
+                        <div class="col-md-4">
+                            <a href="{{ route('admin.users.index') }}">
+                                <img src="{{ asset('icon/man.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                    Data user
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ route('biodata.index') }}">
+                                <img src="{{ asset('icon/team.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Biodata User
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ route('diklat.index') }}">
+                                <img src="{{ asset('icon/group.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Daftar Diklat
+                                </p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <a href="{{ route('biodata.index') }}">
-                            <img src="{{ asset('icon/team.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Biodata User
-                            </p>
-                        </a>
+                    <div class="row mt-4 text-center">
+                        <h5 class="text-secondary">Pengaturan Acara</h5>
+                        <div class="col-md-4">
+                            <a href="{{ route('acara.index') }}">
+                                <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                    Daftar Acara
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ route('registrasi.index') }}">
+                                <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Data Registrasi Peserta
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="{{ route('kehadiran.index') }}">
+                                <img src="{{ asset('icon/absent.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Data Kehadiran Peserta
+                                </p>
+                            </a>
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <a href="{{ route('diklat.index') }}">
-                            <img src="{{ asset('icon/group.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Daftar Diklat
-                            </p>
-                        </a>
-                    </div>
-                </div>
-                <div class="row mt-4 text-center">
-                    <h5 class="text-secondary">Pengaturan Acara</h5>
-                    <div class="col-md-4">
-                        <a href="{{ route('acara.index') }}">
-                            <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                Daftar Acara
-                            </p>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="{{ route('registrasi.index') }}">
-                            <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Data Registrasi Peserta
-                            </p>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <a href="{{ route('kehadiran.index') }}">
-                            <img src="{{ asset('icon/absent.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Data Kehadiran Peserta
-                            </p>
-                        </a>
-                    </div>
-                </div>
-                <div class="row mt-4 text-center">
-                    <h5 class="text-secondary">Data Referensi</h5>
-                    <div class="col-md-3">
-                        <a href="{{ route('cabor.index') }}">
-                            <img src="{{ asset('icon/sports.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                Cabang Olahraga
-                            </p>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{ route('peran.index') }}">
-                            <img src="{{ asset('icon/teacher.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Data Peran
-                            </p>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{ route('data-provinsi.index') }}">
-                            <img src="{{ asset('icon/geo.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Data Provinsi
-                            </p>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a href="{{ route('data-kota.index') }}">
-                            <img src="{{ asset('icon/city.png') }}" style="width:20%;border:none;"
-                                class="img-thumbnail">
-                            <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                Data Kota
-                            </p>
-                        </a>
+                    <div class="row mt-4 text-center">
+                        <h5 class="text-secondary">Data Referensi</h5>
+                        <div class="col-md-3">
+                            <a href="{{ route('cabor.index') }}">
+                                <img src="{{ asset('icon/sports.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                    Cabang Olahraga
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ route('peran.index') }}">
+                                <img src="{{ asset('icon/teacher.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Data Peran
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ route('data-provinsi.index') }}">
+                                <img src="{{ asset('icon/geo.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Data Provinsi
+                                </p>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a href="{{ route('data-kota.index') }}">
+                                <img src="{{ asset('icon/city.png') }}" style="width:20%;border:none;"
+                                    class="img-thumbnail">
+                                <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                    Data Kota
+                                </p>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    @endif
+        @endif
+    @endcan
+
+    @can('logged-in')
+        @if (Auth::check())
+            <div class="card shadow mt-3">
+                <div class="card-body">
+                    <div class="alert alert-danger" role="alert">
+                        <h5 class="alert-heading">Peringatan !!!</h5>
+                        <strong>Halaman ini khusus untuk level admin saja, sihlakan klik logout disebelah kanan atas</strong>
+                        <hr>
+                        Sihlakan pakai smartphone anda dan akses link <a href="https://e-siaga.com/aprizal/public/mobile-landing" class="alert-link" target="_blank">E-SIAGA</a>
+                      </div>
+                </div>
+            </div>
+        @endif
+    @endcan
+
 
     @include('templates.footer')
 

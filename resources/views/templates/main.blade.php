@@ -36,7 +36,7 @@
 
         <nav class="navbar navbar-expand-lg">
             <div class="container-md">
-                <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name', 'E-Siaga 0.1') }}</a>
+                <a class="navbar-brand" href="{{ route('web-landing') }}">{{ config('app.name', 'E-Siaga 0.1') }}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
