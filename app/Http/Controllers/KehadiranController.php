@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\AnggotaKehadiranRegistrasi;
 use App\Models\Acara;
+use App\Models\ReffCabor;
 use App\Models\SesiAcara;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,11 +20,13 @@ class KehadiranController extends Controller
      */
     public function index(Request $request)
     {
+        $caborOptions = ReffCabor::all();
         // Retrieve all session options for the dropdown
         $sesiOptions = SesiAcara::all();
 
         // Retrieve the selected session from the request
         $selectedSesi = $request->input('sesi');
+        $selectedCabor = $request->input('cabor');
 
         // Check if the user is an admin
         if (Gate::allows('is-admin')) {
@@ -33,16 +36,24 @@ class KehadiranController extends Controller
                 $query->where('sesi_acara_id', $selectedSesi);
             }
 
+            // Filter by nama_cabor if selected
+            if ($selectedCabor) {
+                $query->whereHas('user.biodata.cabor', function ($q) use ($selectedCabor) {
+                    $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
+                });
+            }
+
             // Paginate the results
             $kehadiran = $query->paginate(10);
 
             // Pass the attendance data and other necessary data to the view
-            return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi'));
+            return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi', 'selectedCabor', 'caborOptions'));
         }
 
         // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action');
     }
+
 
 
 
@@ -80,6 +91,16 @@ class KehadiranController extends Controller
             'user_id' => 'required',
             'sesi_acara_id' => 'required',
         ]);
+
+        // Check if there is already an attendance record for the selected user and session
+        $existingAttendance = AnggotaKehadiranRegistrasi::where('user_id', $request->user_id)
+            ->where('sesi_acara_id', $request->sesi_acara_id)
+            ->exists();
+
+        // If there is an existing attendance record, return with an error message
+        if ($existingAttendance) {
+            return redirect()->back()->withErrors(['user_id' => 'Sudah melakukan absensi untuk sesi ini.']);
+        }
 
         // Create a new attendance record
         AnggotaKehadiranRegistrasi::create($request->all());

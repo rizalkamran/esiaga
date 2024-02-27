@@ -127,11 +127,19 @@ Route::resource('/kode-acara', KodeAcaraController::class);
 Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');
 Route::get('/mobile/anggota/create', [AnggotaPeranController::class, 'create'])->name('mobile.anggota.create');
 Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('mobile.anggota.store');
+Route::get('/mobile/anggota/{anggotaPeran}/edit', [AnggotaPeranController::class, 'edit'])->name('mobile.anggota.edit');
+Route::put('/mobile/anggota/{anggotaPeran}', [AnggotaPeranController::class, 'update'])->name('mobile.anggota.update');
+
 
 // Registrasi
 Route::resource('/registrasi', RegistrasiController::class)->middleware('can:is-admin');
 Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
+// Edit Registrasi
+Route::get('/registrasi/{id}/edit', [RegistrasiController::class, 'edit'])->middleware('can:is-admin')->name('registrasi.edit');
+// Update Registrasi
+Route::put('/registrasi/{id}', [RegistrasiController::class, 'update'])->middleware('can:is-admin')->name('registrasi.update');
+
 
 // Kehadiran
 Route::resource('/kehadiran', KehadiranController::class)->middleware('can:is-admin');

@@ -23,7 +23,7 @@ class AnggotaPeranController extends Controller
         // Retrieve records related to the authenticated user's ID with pagination
 
 
-        if (Gate::allows('logged-in')) {
+        if (Gate::allows('is-non-publik')) {
 
             if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
                 $anggotaperan = AnggotaPeran::where('user_id', auth()->user()->id)->get(); // Change 10 to your desired number of items per page
@@ -42,7 +42,7 @@ class AnggotaPeranController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('logged-in')) {
+        if (Gate::allows('is-non-publik')) {
             // Get the authenticated user's ID
             $user_id = auth()->user()->id;
 
@@ -110,10 +110,31 @@ class AnggotaPeranController extends Controller
      * @param  \App\Models\AnggotaPeran  $anggotaPeran
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnggotaPeran $anggotaPeran)
+    public function edit($id)
     {
-        //
+        // Ensure that the user is authorized to edit
+        if (Gate::allows('is-non-publik')) {
+            // Retrieve the AnggotaPeran instance by its ID
+            $anggota = AnggotaPeran::findOrFail($id);
+
+            // Retrieve any necessary data for the view
+            $reffPerans = ReffPeran::all();
+            $reffCabors = ReffCabor::all();
+            $kota = ReffKota::all();
+
+            // Pass the retrieved data to the view
+            return view('mobile.anggota.edit', [
+                'anggota' => $anggota,
+                'reffPerans' => $reffPerans,
+                'reffCabors' => $reffCabors,
+                // Add any other data you need in the view
+            ]);
+        }
+
+        // If the user is not authorized, return a 403 Forbidden error
+        abort(403, 'Unauthorized action');
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -122,9 +143,31 @@ class AnggotaPeranController extends Controller
      * @param  \App\Models\AnggotaPeran  $anggotaPeran
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnggotaPeran $anggotaPeran)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the incoming request data
+        $request->validate([
+            //'user_id' => 'required',
+            'peran_id' => 'required',
+            'cabor_id' => 'required',
+            'jabatan' => 'nullable|string',
+            'nama_lembaga' => 'nullable|string',
+            'provinsi_lembaga' => 'nullable|string',
+            'kota_lembaga' => 'nullable|string',
+            'kecamatan_lembaga' => 'nullable|string',
+        ]);
+
+        // Find the biodata entry by its ID
+        $anggota = AnggotaPeran::findOrFail($id);
+
+        // Update the biodata entry with the validated data from the request
+        $anggota->update($request->all());
+
+        // Save the updated biodata entry with file paths
+        $anggota->save();
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('mobile.anggota.index');
     }
 
     /**

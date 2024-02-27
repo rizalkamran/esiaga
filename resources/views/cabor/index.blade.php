@@ -7,7 +7,22 @@
         </div>
         <div class="card-body">
             @can('is-admin')
-                <a class="btn btn-sm btn-primary mb-3" href="{{ route('cabor.create') }}" role="button">Create</a>
+                <div class="row">
+                    <div class="col">
+                        <a class="btn btn-sm btn-primary mb-3" href="{{ route('cabor.create') }}" role="button">Create</a>
+                        <a class="btn btn-sm btn-secondary mb-3" href="{{ route('cabor.index') }}">Reset</a>
+                    </div>
+                    <div class="col">
+                        <form action="{{ route('cabor.index') }}" method="GET">
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control form-control-sm" placeholder="Search..." name="search" value="{{ request('search') }}">
+                                <button class="btn btn-sm btn-primary" type="submit">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             @endcan
             <div class="table-responsive-md">
                 <table class="table table-sm table-hover">

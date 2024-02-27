@@ -29,7 +29,7 @@
         <ul>
             @foreach ($kehadiran->unique('sesi_acara_id') as $k)
                 <li>
-                   <h3>{{ $k->sesiAcara->acara->nama_acara }} - {{ $k->sesiAcara->sesi }}</h3>
+                   <h3>Kehadiran {{ $k->sesiAcara->acara->nama_acara }} - {{ $k->sesiAcara->sesi }}</h3>
                 </li>
             @endforeach
         </ul>
@@ -37,14 +37,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nomor</th>
+                    <th>No</th>
                     <th>Nama Lengkap</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Cabor</th>
-                    <th>NIK</th>
-                    <th>NPWP</th>
-                    <th>Kota Domisili</th>
+                    <th>L/P</th>
+                    <th>Afiliasi</th>
                     <th>Telepon</th>
+                    <th>Waktu Hadir</th>
+                    {{-- <th>NIK</th>
+                    <th>NPWP</th>
+                    <th>Kota Domisili</th> --}}
+
                 </tr>
             </thead>
             <tbody>
@@ -54,10 +56,11 @@
                         <td>{{ $k->user->nama_lengkap }}</td>
                         <td>{{ $k->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
                         <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
-                        <td>{{ $k->user->nomor_ktp }}</td>
-                        <td>{{ $k->user->biodata->npwp }}</td>
-                        <td>{{ $k->user->biodata->kota->nama_kota }}</td>
                         <td>{{ $k->user->telepon }}</td>
+                        <td>{{ $k->created_at }}</td>{{--
+                        <td>{{ $k->user->biodata->npwp }}</td>
+                        <td>{{ $k->user->biodata->kota->nama_kota }}</td> --}}
+
                     </tr>
                 @endforeach
             </tbody>

@@ -45,6 +45,9 @@
                                     <span class="btn-c btn-sm {{ $ap->status_verifikasi_peran ? 'btn-success' : 'btn-danger' }}">
                                         {{ $ap->status_verifikasi_peran ? 'Verified' : 'Not Verified' }}
                                     </span>
+                                    <span class="btn-c btn-sm btn-primary">
+                                        <a href="{{ route('mobile.anggota.edit', $ap->id) }}">Edit</a>
+                                    </span>
                                 </li>
                             </ul>
                         </div>
@@ -57,7 +60,7 @@
         <div class="main-footer-bottom d-block text-center">
             <ul>
                 <li>
-                    <a href="{{ route('mobile-landing') }}">
+                    <a class="active" href="{{ route('mobile-landing') }}">
                         <img src="{{ asset('image/mobile/icon/svg/home.svg') }}" alt="icon">
                         Home
                     </a>
@@ -81,7 +84,7 @@
                     </a>
                 </li>
                 <li>
-                    <a class="active" href="{{ route('mobile-profil') }}">
+                    <a href="{{ route('mobile-profil') }}">
                         <img src="{{ asset('image/mobile/icon/svg/profile.svg') }}" alt="img">
                         Profil
                     </a>

@@ -18,6 +18,7 @@ class AnggotaAcaraRegistrasi extends Model
         'user_id',
         'acara_id',
         'qrcode_registrasi',
+        'mandat',
     ];
 
     public function user()

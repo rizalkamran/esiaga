@@ -37,10 +37,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nomor</th>
+                    <th>No</th>
                     <th>Nama Lengkap</th>
-                    <th>Jenis Kelamin</th>
-                    <th>Cabor</th>
+                    <th>L/P</th>
+                    <th>Afiliasi</th>
                     <th>NIK</th>
                     <th>NPWP</th>
                     <th>Kota Domisili</th>
@@ -54,10 +54,10 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $ag->user->nama_lengkap }}</td>
                         <td>{{ $ag->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
+                        <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
                         <td>{{ $ag->user->nomor_ktp }}</td>
                         <td>{{ $ag->user->biodata->npwp }}</td>
                         <td>{{ $ag->user->biodata->kota->nama_kota }}</td>
-                        <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
                         <td>{{ $ag->user->telepon }}</td>
                         {{-- <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td> --}}
                     </tr>

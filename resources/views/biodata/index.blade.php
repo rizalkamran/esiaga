@@ -13,7 +13,7 @@
                     <thead>
                         <tr>
                             <th>Nama Lengkap</th>
-                            <th>Email</th>
+                            <th>Cabor</th>
                             <th>Kontak/Telepon</th>
                             <th>Jenis Kelamin</th>
                             <th>Agama</th>
@@ -24,8 +24,8 @@
                         @foreach ($biodata as $bio)
                             <tr>
                                 <td>{{ $bio->user->nama_lengkap }}</td>
-                                <td>{{ $bio->user->email }}</td>
-                                <td>{{ $bio->telepon }}</td>
+                                <td>{{ $bio->cabor->nama_cabor }}</td>
+                                <td>{{ $bio->user->telepon }}</td>
                                 <td>
                                     @if ($bio->user->jenis_kelamin == 'L')
                                         Laki-laki
@@ -37,11 +37,11 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $bio->id }}">
-                                        Images
+                                        Lampiran
                                     </button>
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                         data-bs-target="#dataModal{{ $bio->id }}">
-                                        Data
+                                        Detail
                                     </button>
                                 </td>
                             </tr>
@@ -74,14 +74,21 @@
                     </div>
                     <div class="modal-body">
                         <div class="row text-center">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <p>Foto Diri</p>
                                 <img src="{{ asset('storage/foto_diri/' . $bio->foto_diri) }}" alt="Foto Diri" class="img-fluid mb-3">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <p>Foto KTP</p>
                                 <img src="{{ asset('storage/foto_ktp/' . $bio->foto_ktp) }}" alt="Foto KTP" class="img-fluid mb-3">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                                <p>Foto NPWP</p>
                                 <img src="{{ asset('storage/foto_npwp/' . $bio->foto_npwp) }}" alt="Foto NPWP" class="img-fluid mb-3">
+                            </div>
+                            <div class="col-md-3">
+                                <p>Mandat</p>
+                                <img src="{{ asset('storage/upload_mandat/' . $bio->upload_mandat) }}" alt="Foto NPWP" class="img-fluid mb-3">
                             </div>
                         </div>
                     </div>
@@ -128,17 +135,31 @@
                         <div class="row mb-3">
                             <div class="col">
                                 <p class="fw-bold">Alamat:</p>
-                                <p>{{ $bio->alamat_jalan }}, RT: {{ $bio->alamat_rt }}, RW: {{ $bio->alamat_rw }}, {{ $bio->kelurahan }}, {{ $bio->kecamatan }}, {{ $bio->kota->nama_kota }}, {{ $bio->kota->provinsi->nama_provinsi }}</p>
+                                <p>{{ $bio->alamat_jalan }}, RT: {{ $bio->alamat_rt }}, RW: {{ $bio->alamat_rw }}, {{ $bio->kelurahan }}, {{ $bio->kecamatan }}</p>
                             </div>
                             <div class="col">
-                                <p class="fw-bold">Status:</p>
-                                <p>{{ $bio->status_anggota }}</p>
+                                <p class="fw-bold">Kota Domisili:</p>
+                                <p>{{ $bio->kota->nama_kota }} , {{ $bio->kota->provinsi->nama_provinsi }}</p>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
-                                <p class="fw-bold">Request role:</p>
-                                <p>{{ $bio->request_role }}</p>
+                                <p class="fw-bold">Golongan Darah:</p>
+                                <p>{{ $bio->gol_darah }}</p>
+                            </div>
+                            <div class="col">
+                                <p class="fw-bold">Status Menikah:</p>
+                                <p>{{ $bio->status_menikah }}</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <p class="fw-bold">Tinggi Badan:</p>
+                                <p>{{ $bio->tinggi_badan }} cm</p>
+                            </div>
+                            <div class="col">
+                                <p class="fw-bold">Berat Badan:</p>
+                                <p>{{ $bio->berat_badan }} kg</p>
                             </div>
                         </div>
                     </div>

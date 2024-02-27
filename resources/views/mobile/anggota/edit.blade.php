@@ -9,7 +9,7 @@
     <div class="single-page-area">
         <div class="title-area">
             <a class="btn back-page-btn" href="{{ route('mobile.anggota.index') }}"><i class="ri-arrow-left-s-line"></i></a>
-            <h3 class="ms-5 ps-5">Buat Data Baru</h3>
+            <h3 class="ms-5 ps-5">Edit Data</h3>
         </div>
 
         <div class="my-profile-detail">
@@ -24,43 +24,18 @@
                     </div>
                 @endif
 
-                <form class="edit-form-wrap" method="POST" action="{{ route('mobile.anggota.store') }}">
+                <form class="edit-form-wrap" method="POST" action="{{ route('mobile.anggota.update', $anggota->id) }}">
                     @csrf
+                    @method('PUT') <!-- Use PUT method for update -->
                     <div class="row">
-                        <div class="col-md-6" style="display: none;">
-                            <div class="single-input-wrap">
-                                <label for="user_id">User ID</label>
-                                <input type="text" class="form-control" placeholder="User ID" name="user_id"
-                                    id="user_id" value="{{ $user_id }}" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="ba-all-page-inner mb-4">
-                                <ul class="uikit-badge-inner">
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="status_verifikasi_peran" id="status_verifikasi_peran" disabled>
-                                            <label class="form-check-label ms-2" for="status_verifikasi_peran">
-                                                Status Verifikasi Peran
-                                            </label>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="status_aktif_peran" id="status_aktif_peran" checked disabled>
-                                            <label class="form-check-label ms-2" for="status_aktif_peran">
-                                                Status Aktif Peran
-                                            </label>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
                         <div class="col-md-6 mb-3">
                             <select class="single-select w-100" name="peran_id">
                                 <option selected disabled>Pilih Peran</option>
                                 @foreach ($reffPerans as $peran)
-                                <option value="{{ $peran->id }}">{{ $peran->nama_peran }}</option>
+                                    <option value="{{ $peran->id }}"
+                                        {{ $anggota->peran_id == $peran->id ? 'selected' : '' }}>
+                                        {{ $peran->nama_peran }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -68,59 +43,67 @@
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="cabor_id">Pilih Cabor</label>
-                                <input type="text" class="form-control" list="data1" id="cabor_id" placeholder="Isi Cabor" name="cabor_id">
+                                <input type="text" class="form-control" list="data1" id="cabor_id"
+                                    placeholder="Isi Cabor" name="cabor_id" value="{{ $anggota->cabor_id }}">
                                 <datalist id="data1">
                                     @foreach ($reffCabors as $cabor)
-                                    <option value="{{ $cabor->id }}">{{ $cabor->nama_cabor }}</option>
+                                        <option value="{{ $cabor->id }}">{{ $cabor->nama_cabor }}</option>
                                     @endforeach
                                 </datalist>
                             </div>
                         </div>
 
+                        <!-- Add remaining fields here and pre-fill them with existing data -->
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="jabatan" class="form-label">Jabatan:</label>
-                                <input type="text" class="form-control" name="jabatan" id="jabatan" placeholder="Isi data jabatan" value="{{ old('jabatan') }}">
+                                <input type="text" class="form-control" name="jabatan" id="jabatan"
+                                    placeholder="Isi data jabatan" value="{{ $anggota->jabatan }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="nama_lembaga" class="form-label">Nama Lembaga:</label>
-                            <input type="text" class="form-control" name="nama_lembaga" id="nama_lembaga" placeholder="Isi nama lembaga" value="{{ old('nama_lembaga') }}">
+                                <input type="text" class="form-control" name="nama_lembaga" id="nama_lembaga"
+                                    placeholder="Isi nama lembaga" value="{{ $anggota->nama_lembaga }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="provinsi_lembaga" class="form-label">Provinsi Lembaga:</label>
-                                <input type="text" class="form-control" name="provinsi_lembaga" id="provinsi_lembaga" placeholder="Isi provinsi" value="{{ old('provinsi_lembaga') }}">
+                                <input type="text" class="form-control" name="provinsi_lembaga" id="provinsi_lembaga"
+                                    placeholder="Isi provinsi" value="{{ $anggota->provinsi_lembaga }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="kota_lembaga" class="form-label">Kota Lembaga:</label>
-                                <input type="text" class="form-control" name="kota_lembaga" id="kota_lembaga" placeholder="Isi Kota" value="{{ old('kota_lembaga') }}">
+                                <input type="text" class="form-control" name="kota_lembaga" id="kota_lembaga"
+                                    placeholder="Isi Kota" value="{{ $anggota->kota_lembaga }}">
                             </div>
                         </div>
 
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="kecamatan_lembaga" class="form-label">Kecamatan Lembaga:</label>
-                                <input type="text" class="form-control" name="kecamatan_lembaga" id="kecamatan_lembaga" placeholder="Isi Kecamatan" value="{{ old('kecamatan_lembaga') }}">
+                                <input type="text" class="form-control" name="kecamatan_lembaga" id="kecamatan_lembaga"
+                                    placeholder="Isi Kecamatan" value="{{ $anggota->kecamatan_lembaga }}">
                             </div>
                         </div>
 
 
-                        <div class="col-md-6"> <!-- Ensure this div has the appropriate column size -->
-                            <button class="btn-c btn-primary mb-2" type="submit">Daftar</button>
+                        <div class="col-md-6">
+                            <button class="btn-c btn-primary mb-2" type="submit">Simpan Perubahan</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
 
+        <!-- Footer -->
         <div class="main-footer-bottom d-block text-center">
             <ul>
                 <li>
@@ -155,10 +138,7 @@
                 </li>
             </ul>
         </div>
-
     </div>
-
-
 
     <!-- back-to-top end -->
     <div class="back-to-top">

@@ -42,6 +42,47 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
+                        <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                            <div class="form-group"> <!-- Wrap the select element inside a form-group -->
+                                <select name="cabor" id="cabor" class="form-control form-control-sm">
+                                    <option selected>Filter per cabor</option>
+                                    <option value="">Semua Cabor</option>
+                                    @foreach ($caborOptions as $cabor)
+                                        <option value="{{ $cabor->nama_cabor }}" {{ $cabor->nama_cabor == $selectedCabor ? 'selected' : '' }}>
+                                            {{ $cabor->nama_cabor }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-6 ms-3">
+                                <button type="submit" class="btn btn-sm btn-primary me-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+               {{--  <div class="row mb-3">
+                    <div class="col-md-6">
+                        <select name="cabor" id="cabor" class="form-control form-control-sm">
+                            <option selected>Filter per cabor</option>
+                            <option value="">Semua Cabor</option>
+                            @foreach ($caborOptions as $cabor)
+                                <option value="{{ $cabor->nama_cabor }}" {{ $cabor->nama_cabor == $selectedCabor ? 'selected' : '' }}>
+                                    {{ $cabor->nama_cabor }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        <button type="submit" class="btn btn-sm btn-primary me-2">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div> --}}
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
                         <form method="GET" action="{{ route('absen.export-pdf') }}" target="_blank" class="d-flex">
                             <select name="sesi" id="sesi" class="form-control form-control-sm">
                                 <option value="">Semua Sesi</option>
@@ -69,7 +110,8 @@
                             <tr>
                                 <th scope="col">Nomor</th>
                                 <th scope="col">Nama Lengkap</th>
-                                <th scope="col">NIK</th>
+                                <th scope="col">Cabor / Afiliasi</th>
+                                <th scope="col">Waktu Hadir</th>
                                 <th scope="col">Waktu Absen</th>
                             </tr>
                         </thead>
@@ -78,7 +120,8 @@
                                 <tr>
                                     <td>{{ $index + $kehadiran->firstItem() }}</td>
                                     <td>{{ $k->user->nama_lengkap }}</td>
-                                    <td>{{ $k->user->nomor_ktp }}</td>
+                                    <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
+                                    <td>{{ $k->created_at }}</td>
                                     <td>{{ $k->sesiAcara->sesi }}</td>
                                 </tr>
                             @endforeach

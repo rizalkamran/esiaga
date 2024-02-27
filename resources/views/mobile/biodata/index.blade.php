@@ -77,6 +77,11 @@
                                         Foto NPWP
                                     </button>
                                 </div>
+                                <div class="col">
+                                    <button type="button" class="btn-c btn-gradient-02 btn-sm mb-2 mt-1" data-bs-toggle="modal" data-bs-target="#modal4">
+                                        Mandat
+                                    </button>
+                                </div>
                             </div>
                         </ul>
                     </div>
@@ -102,7 +107,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Foto Diri</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Foto KTP</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -119,11 +124,28 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Foto Diri</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Foto NPWP</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <img src="{{ asset('storage/foto_npwp/' . $bio->foto_npwp) }}" alt="Foto Diri">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-c btn-sm bg-red text-white" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Mandat</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ asset('storage/upload_mandat/' . $bio->upload_mandat) }}" alt="Foto Diri">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn-c btn-sm bg-red text-white" data-bs-dismiss="modal">Close</button>

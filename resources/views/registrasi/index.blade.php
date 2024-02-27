@@ -14,6 +14,8 @@
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-success">Excel</button>
                             <a class="btn btn-primary" href="{{ route('registrasi.index') }}">Reset</a>
+                            <button id="togglePagination" class="btn btn-sm btn-primary">Toggle All data</button>
+
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -38,6 +40,9 @@
                         <div class="float-end">
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <input type="text" class="form-control form-control-sm" name="search" placeholder="Search by user">
+                                </div>
+                                <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <select class="form-control form-control-sm" id="acara" name="acara">
                                         <option value="">All/Semua</option>
                                         @foreach($acaraOptions as $acaraOption)
@@ -55,6 +60,7 @@
             @endcan
 
             @if (!$anggota->isEmpty())
+
             <div class="table-responsive-md">
                 <table class="table table-sm table-hover">
                     <thead>
@@ -62,20 +68,66 @@
                             <th scope="col">Nomor</th>
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">Jenis Kelamin</th>
-                            <th scope="col">NIK</th>
+                            <th scope="col">Cabor / Afliliasi</th>
                             <th scope="col">Waktu Daftar</th>
+                            <th scope="col">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($anggota as $index => $ag)
-                            <tr>
-                                <td>{{ $index + $anggota->firstItem() }}</td>
-                                <td>{{ $ag->user->nama_lengkap }}</td>
-                                <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
-                                <td>{{ $ag->user->nomor_ktp }}</td>
-                                <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
-                            </tr>
-                        @endforeach
+                        @foreach ($anggota as $ag)
+                        <tr>
+                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ $ag->user->nama_lengkap }}</td>
+                            <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
+                            <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
+                            <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
+                            <td>
+                                <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Edit</a>
+
+                                <!-- Modal Button -->
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
+                                    Details
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="exampleModal{{$ag->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Registration Details</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display Registration Details Here -->
+                                                <!-- You can customize this part to display the details you want -->
+                                                <p><strong>Nama Lengkap:</strong> {{ $ag->user->nama_lengkap }}</p>
+                                                @if ($ag->mandat)
+                                                @if (Str::endsWith($ag->mandat, ['.jpg', '.jpeg', '.png', '.gif']))
+                                                    <!-- Display image -->
+                                                    <img src="{{ asset('storage/mandat/' . $ag->mandat) }}" alt="Mandat" class="img-fluid mb-3">
+                                                @elseif (Str::endsWith($ag->mandat, '.pdf'))
+                                                    <!-- Display PDF -->
+                                                    <div class="embed-responsive embed-responsive-16by9">
+                                                        <iframe class="embed-responsive-item" src="{{ asset('storage/mandat/' . $ag->mandat) }}"></iframe>
+                                                    </div>
+                                                @else
+                                                    <!-- Unsupported file type -->
+                                                    <p>Unsupported file type</p>
+                                                @endif
+                                                @else
+                                                    <!-- No file uploaded -->
+                                                    <p>No file uploaded</p>
+                                                @endif
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -86,10 +138,27 @@
             </div>
             @endif
 
-            {{ $anggota->links() }} <!-- Pagination Links -->
+            <div id="paginationLinks"> <!-- Add this container around the pagination links -->
+                @if ($anggota instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                    {!! $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara])->links() !!}
+                @endif
+            </div>
+
+            <p class="btn bt-sm btn-primary">Total Data: {{ $anggota instanceof \Illuminate\Pagination\LengthAwarePaginator ? $anggota->total() : $anggota->count() }}</p>
+
 
         </div>
     </div>
+
+    <script>
+        // Event listener for toggle button click
+        document.getElementById('togglePagination').addEventListener('click', function() {
+            const url = new URL(window.location.href);
+            const showAll = url.searchParams.get('showAll') ? 0 : 1; // Toggle showAll parameter
+            url.searchParams.set('showAll', showAll); // Set the showAll parameter in the URL
+            window.location.href = url.toString(); // Redirect to the new URL
+        });
+    </script>
 
     @include('templates.footer')
 @endsection

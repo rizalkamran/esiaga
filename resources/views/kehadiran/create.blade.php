@@ -6,10 +6,22 @@
         Data Baru
     </div>
     <div class="card-body">
+
+        <!-- Display validation errors -->
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form method="POST" action="{{ route('kehadiran.store') }}">
             @csrf
 
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-md-6">
                     <label for="user_id" class="form-label">Data User</label>
                     <input class="form-control" list="listuser" id="user_id" placeholder="Daftar user" name="user_id">
@@ -18,6 +30,18 @@
                                 <option value="{{ $user->id }}">{{ $user->nama_lengkap }}</option>
                             @endforeach
                         </datalist>
+                </div>
+            </div> --}}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="user_id" class="form-label">Data User</label>
+                    <select class="form-select" aria-label="Small select example" name="user_id">
+                        <option selected>Pilih User</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->nama_lengkap }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

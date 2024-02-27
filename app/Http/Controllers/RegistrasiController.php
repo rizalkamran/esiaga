@@ -6,6 +6,8 @@ use App\Models\AnggotaAcaraRegistrasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Acara;
+use App\Models\ReffCabor;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use PDF;
 
@@ -21,37 +23,62 @@ class RegistrasiController extends Controller
         // Retrieve all acara options for the dropdown
         $acaraOptions = Acara::all();
 
-        // Retrieve the selected acara (if any) from the request
-        $selectedAcara = $request->input('acara');
+        // Retrieve all cabor options for the dropdown
+        $caborOptions = ReffCabor::all();
 
-        if (Gate::allows('is-non-publik')) {
-            // Check if the request is coming from a mobile device
-            if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
-                // If it's a mobile device, return the mobile view
-                $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->get();
-                return view('mobile.registrasi.index', ['anggota' => $anggota]);
-            }
-        }  else {
-            // If it's not a mobile device, check if the user is an admin
-            if (Gate::allows('is-admin')) {
-                // Filter by acara if selected
-                $query = AnggotaAcaraRegistrasi::query();
-                if ($selectedAcara) {
-                    $query->whereHas('acara', function ($q) use ($selectedAcara) {
-                        $q->where('id', $selectedAcara);
-                    });
-                }
-                $anggota = $query->paginate(10); // Paginate with * records per page
-                return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
-            } else {
-                // If the user is not an admin, return regular view for non-admin users
-                $anggota = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->paginate(10);
-                return view('registrasi.index', ['anggota' => $anggota, 'acaraOptions' => $acaraOptions, 'selectedAcara' => $selectedAcara]);
-            }
+        // Retrieve the selected acara and cabor (if any) from the request
+        $selectedAcara = $request->input('acara');
+        $selectedCabor = $request->input('cabor');
+        $searchQuery = $request->input('search');
+        $showAll = $request->input('showAll'); // Check if the toggle button is clicked
+
+        // Start with the base query
+        $query = AnggotaAcaraRegistrasi::query();
+
+        // Filter by acara if selected
+        if ($selectedAcara) {
+            $query->whereHas('acara', function ($q) use ($selectedAcara) {
+                $q->where('id', $selectedAcara);
+            });
         }
 
-        // If the user is not authorized, return a 403 Forbidden error
-        abort(403, 'Unauthorized action');
+        // Filter by cabor if selected
+        if ($selectedCabor) {
+            $query->whereHas('user.biodata.cabor', function ($q) use ($selectedCabor) {
+                $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
+            });
+        }
+
+        // Filter by search query
+        if ($searchQuery) {
+            $query->whereHas('user', function ($q) use ($searchQuery) {
+                $q->where('nama_lengkap', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('nomor_ktp', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('name', 'like', '%' . $searchQuery . '%')
+                    ->orWhereHas('biodata.cabor', function ($q) use ($searchQuery) {
+                        $q->where('nama_cabor', 'like', '%' . $searchQuery . '%');
+                    });
+            });
+        }
+
+        // Check if the toggle button is clicked
+        if ($showAll) {
+            // Retrieve all data without pagination
+            $anggota = $query->get();
+        } else {
+            // Paginate the data (default behavior)
+            $anggota = $query->paginate(10);
+        }
+
+        // Return the view with data and options
+        return view('registrasi.index', [
+            'anggota' => $anggota,
+            'acaraOptions' => $acaraOptions,
+            'caborOptions' => $caborOptions,
+            'selectedAcara' => $selectedAcara,
+            'selectedCabor' => $selectedCabor,
+            'searchQuery' => $searchQuery
+        ]);
     }
 
 
@@ -124,10 +151,12 @@ class RegistrasiController extends Controller
      * @param  \App\Models\AnggotaAcaraRegistrasi  $anggotaAcaraRegistrasi
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnggotaAcaraRegistrasi $anggotaAcaraRegistrasi)
+    public function edit($id)
     {
-        //
+        $anggotaAcaraRegistrasi = AnggotaAcaraRegistrasi::findOrFail($id);
+        return view('registrasi.edit', compact('anggotaAcaraRegistrasi'));
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -136,10 +165,41 @@ class RegistrasiController extends Controller
      * @param  \App\Models\AnggotaAcaraRegistrasi  $anggotaAcaraRegistrasi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnggotaAcaraRegistrasi $anggotaAcaraRegistrasi)
+    /**
+ * Update the specified resource in storage.
+ *
+ * @param  \Illuminate\Http\Request  $request
+ * @param  \App\Models\AnggotaAcaraRegistrasi  $anggotaAcaraRegistrasi
+ * @return \Illuminate\Http\Response
+ */
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'mandat' => 'nullable|file|max:2048',
+            // Add other validation rules as needed
+        ]);
+
+        $anggotaAcaraRegistrasi = AnggotaAcaraRegistrasi::findOrFail($id);
+
+        $anggotaAcaraRegistrasi->update($request->all());
+
+        // Process and store the first file if uploaded
+        if ($request->hasFile('mandat')) {
+            $file1 = $request->file('mandat');
+            $nama_file1 = auth()->user()->name . '_' . $file1->getClientOriginalName();
+            $tujuan_upload = 'mandat';
+            $file1->storeAs($tujuan_upload, $nama_file1);
+            $anggotaAcaraRegistrasi->mandat = $nama_file1;
+        }
+
+        // Save the updated data
+        $anggotaAcaraRegistrasi->save();
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('registrasi.index')->with('success', 'Mandat updated successfully.');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

@@ -12,11 +12,23 @@ class ReffCaborController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $reffCabors = ReffCabor::simplePaginate(10);
+        $searchQuery = $request->input('search');
+
+        // Query to retrieve ReffCabors
+        $query = ReffCabor::query();
+
+        // If search query is provided, apply search filter
+        if ($searchQuery) {
+            $query->where('nama_cabor', 'like', '%' . $searchQuery . '%')
+                  ->orWhere('deskripsi_cabor', 'like', '%' . $searchQuery . '%');
+        }
+
+        // Paginate the results
+        $reffCabors = $query->simplePaginate(10);
+
         return view('cabor.index', ['reffCabors' => $reffCabors]);
-        //return view('cabor.index', compact('reffCabors'));
     }
 
     /**

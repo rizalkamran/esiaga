@@ -101,10 +101,10 @@ class BiodataController extends Controller
             'berat_badan' => 'nullable|integer',
             'status_menikah' => 'nullable|string',
             'hobi' => 'nullable|string',
-            'foto_diri' => 'nullable|file|image|max:1024',
-            'foto_ktp' => 'nullable|file|image|max:1024',
-            'foto_npwp' => 'nullable|file|image|max:1024',
-            'upload_mandat' => 'nullable|file|image|max:1024',
+            'foto_diri' => 'nullable|file|image|max:2048',
+            'foto_ktp' => 'nullable|file|image|max:2048',
+            'foto_npwp' => 'nullable|file|image|max:2048',
+            'upload_mandat' => 'nullable|file|image|max:2048',
             'status_anggota' => 'nullable|integer',
             'request_role' => 'nullable|integer',
         ]);
@@ -262,9 +262,10 @@ class BiodataController extends Controller
             'berat_badan' => 'nullable|integer',
             'status_menikah' => 'nullable|string',
             'hobi' => 'nullable|string',
-            'foto_diri' => 'nullable|file|image|max:1024',
-            'foto_ktp' => 'nullable|file|image|max:1024',
-            'foto_npwp' => 'nullable|file|image|max:1024',
+            'foto_diri' => 'nullable|file|image|max:2048',
+            'foto_ktp' => 'nullable|file|image|max:2048',
+            'foto_npwp' => 'nullable|file|image|max:2048',
+            'upload_mandat' => 'nullable|file|image|max:2048',
             'status_anggota' => 'nullable|integer',
             'request_role' => 'nullable|integer',
         ]);
@@ -308,6 +309,7 @@ class BiodataController extends Controller
             $nama_file4 = auth()->user()->name . '_' . $file4->getClientOriginalName();
             $tujuan_upload4 = 'upload_mandat';
             $file4->storeAs($tujuan_upload4, $nama_file4);
+            $biodata->upload_mandat = $nama_file4;
         }
 
         // Save the updated biodata entry with file paths
