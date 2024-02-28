@@ -30,8 +30,13 @@ class KehadiranController extends Controller
 
         // Check if the user is an admin
         if (Gate::allows('is-admin')) {
-            // Filter by session if selected
+            // Create base query
             $query = AnggotaKehadiranRegistrasi::query();
+
+            // Order by the newest date (created_at) first
+            $query->orderBy('created_at', 'desc');
+
+            // Filter by session if selected
             if ($selectedSesi) {
                 $query->where('sesi_acara_id', $selectedSesi);
             }
@@ -53,6 +58,7 @@ class KehadiranController extends Controller
         // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action');
     }
+
 
 
 

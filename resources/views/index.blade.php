@@ -203,7 +203,7 @@
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a href="{{ route('biodata.index') }}">
+                            <a href="{{ route('biodata_admin.index') }}">
                                 <img src="{{ asset('icon/team.png') }}" style="width:20%;border:none;"
                                     class="img-thumbnail">
                                 <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">

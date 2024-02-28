@@ -7,6 +7,7 @@ use App\Http\Controllers\ReffCaborController;
 use App\Http\Controllers\ReffPeranController;
 use App\Http\Controllers\AnggotaPeranController;
 use App\Http\Controllers\BiodataController;
+use App\Http\Controllers\BiodataAdminController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
@@ -144,6 +145,11 @@ Route::put('/registrasi/{id}', [RegistrasiController::class, 'update'])->middlew
 // Kehadiran
 Route::resource('/kehadiran', KehadiranController::class)->middleware('can:is-admin');
 Route::get('/export-pdf-absen', [KehadiranController::class, 'exportPDF'])->middleware('can:is-admin')->name('absen.export-pdf');
+
+// Biodata Admin
+Route::resource('/biodata_admin', BiodataAdminController::class);
+Route::get('/biodata_admin/{id}/edit', [BiodataAdminController::class, 'edit'])->name('biodata_admin.edit');
+Route::get('/biodata_admin/{id}', [BiodataAdminController::class, 'update'])->name('biodata_admin.update');
 
 // Biodata
 Route::resource('/biodata', BiodataController::class);

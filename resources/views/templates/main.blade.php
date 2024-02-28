@@ -79,7 +79,7 @@
                                 Anggota
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('biodata.index') }}">Biodata</a></li>
+                                <li><a class="dropdown-item" href="{{ route('biodata_admin.index') }}">Biodata</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
                             </ul>
                         </li>
