@@ -134,6 +134,9 @@ Route::put('/mobile/anggota/{anggotaPeran}', [AnggotaPeranController::class, 'up
 
 // Registrasi
 Route::resource('/registrasi', RegistrasiController::class)->middleware('can:is-admin');
+Route::get('/registrasi/create', [RegistrasiController::class, 'createAdmin'])->middleware('can:is-admin')->name('registrasi.create');
+// Store Registrasi by Admin
+Route::post('/registrasi', [RegistrasiController::class, 'storeAdmin'])->middleware('can:is-admin')->name('registrasi.store.admin');
 Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
 // Edit Registrasi

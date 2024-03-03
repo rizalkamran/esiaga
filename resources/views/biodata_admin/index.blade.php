@@ -79,15 +79,15 @@
                         <div class="row text-center">
                             <div class="col-md-4">
                                 <p>Foto Diri</p>
-                                <img src="{{ asset('storage/foto_diri/' . $bio->foto_diri) }}" alt="Foto Diri" class="img-fluid mb-3">
+                                <img src="{{ asset('biodata/foto_diri/' . $bio->foto_diri) }}" alt="Foto Diri" class="img-fluid mb-3">
                             </div>
                             <div class="col-md-4">
                                 <p>Foto KTP</p>
-                                <img src="{{ asset('storage/foto_ktp/' . $bio->foto_ktp) }}" alt="Foto KTP" class="img-fluid mb-3">
+                                <img src="{{ asset('biodata/foto_ktp/' . $bio->foto_ktp) }}" alt="Foto KTP" class="img-fluid mb-3">
                             </div>
                             <div class="col-md-4">
                                 <p>Foto NPWP</p>
-                                <img src="{{ asset('storage/foto_npwp/' . $bio->foto_npwp) }}" alt="Foto NPWP" class="img-fluid mb-3">
+                                <img src="{{ asset('biodata/foto_npwp/' . $bio->foto_npwp) }}" alt="Foto NPWP" class="img-fluid mb-3">
                             </div>
                         </div>
                     </div>

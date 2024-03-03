@@ -98,6 +98,17 @@ class RegistrasiController extends Controller
         abort(403, 'Unauthorized action.');
     }
 
+    public function createAdmin()
+    {
+        if (Gate::allows('is-admin')) {
+            $user = User::all();
+            $acara = Acara::where('status_acara', 1)->get(); // Retrieve only active Acara records
+            return view('registrasi.create', ['acara' => $acara, 'user' => $user]);
+        }
+
+        abort(403, 'Unauthorized action.');
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -133,6 +144,38 @@ class RegistrasiController extends Controller
         // Optionally, you can redirect the user to a different page after successful submission
         return redirect()->route('mobile.registrasi.index');
     }
+
+    public function storeAdmin(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required',
+            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Ensure the user is not already registered for the event
+            'qrcode_registrasi' => 'nullable'
+        ]);
+
+        // Check if the user is already registered for the event
+        $existingRegistration = AnggotaAcaraRegistrasi::where('user_id', $request->input('user_id'))
+            ->where('acara_id', $request->input('acara_id'))
+            ->exists();
+
+        if ($existingRegistration) {
+            return redirect()->back()->with('error', 'User sudah terdaftar event ini');
+        }
+
+        // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
+        $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
+            'user_id' => $request->input('user_id'),
+            'acara_id' => $request->input('acara_id'),
+            'qrcode_registrasi' => $request->input('qrcode_registrasi'),
+        ]);
+
+        // Save the instance to the database
+        $anggotaAcaraRegistrasi->save();
+
+        // Optionally, you can redirect the user to a different page after successful submission
+        return redirect()->route('registrasi.index')->with('success', 'Registration successful.');
+    }
+
 
     /**
      * Display the specified resource.

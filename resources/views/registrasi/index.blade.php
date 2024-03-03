@@ -13,9 +13,9 @@
                     <div class="col-md-3">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-success">Excel</button>
-                            <a class="btn btn-primary" href="{{ route('registrasi.index') }}">Reset</a>
-                            <button id="togglePagination" class="btn btn-sm btn-primary">Toggle All data</button>
-
+                            <a class="btn btn-secondary" href="{{ route('registrasi.index') }}">Reset</a>
+                            <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
+                            <button id="togglePagination" class="btn btn-sm btn-warning">Toggle All data</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -40,11 +40,11 @@
                         <div class="float-end">
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <input type="text" class="form-control form-control-sm" name="search" placeholder="Search by user">
+                                    <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
                                 </div>
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">All/Semua</option>
+                                        <option value="">Semua Acara</option>
                                         @foreach($acaraOptions as $acaraOption)
                                             <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
                                         @endforeach
@@ -76,11 +76,11 @@
                     <tbody>
                         @foreach ($anggota as $ag)
                         <tr>
-                            <td>{{ $loop->index + 1 }}</td>
+                            <td>{{ ($anggota->currentPage() - 1) * $anggota->perPage() + $loop->iteration }}</td>
                             <td>{{ $ag->user->nama_lengkap }}</td>
                             <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
                             <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
-                            <td>{{ $ag->created_at->format('d-m-Y H:i:s') }}</td>
+                            <td>{{ $ag->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>
                             <td>
                                 <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Edit</a>
 
@@ -104,11 +104,11 @@
                                                 @if ($ag->mandat)
                                                 @if (Str::endsWith($ag->mandat, ['.jpg', '.jpeg', '.png', '.gif']))
                                                     <!-- Display image -->
-                                                    <img src="{{ asset('storage/mandat/' . $ag->mandat) }}" alt="Mandat" class="img-fluid mb-3">
+                                                    <img src="{{ asset('mandat/' . $ag->mandat) }}" alt="Mandat" class="img-fluid mb-3">
                                                 @elseif (Str::endsWith($ag->mandat, '.pdf'))
                                                     <!-- Display PDF -->
                                                     <div class="embed-responsive embed-responsive-16by9">
-                                                        <iframe class="embed-responsive-item" src="{{ asset('storage/mandat/' . $ag->mandat) }}"></iframe>
+                                                        <iframe class="embed-responsive-item" src="{{ asset('mandat/' . $ag->mandat) }}"></iframe>
                                                     </div>
                                                 @else
                                                     <!-- Unsupported file type -->

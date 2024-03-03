@@ -57,7 +57,7 @@
                         <td>{{ $k->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
                         <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
                         <td>{{ $k->user->telepon }}</td>
-                        <td>{{ $k->created_at }}</td>{{--
+                        <td>{{ $k->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>{{--
                         <td>{{ $k->user->biodata->npwp }}</td>
                         <td>{{ $k->user->biodata->kota->nama_kota }}</td> --}}
 

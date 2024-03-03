@@ -21,8 +21,11 @@ class KehadiranController extends Controller
     public function index(Request $request)
     {
         $caborOptions = ReffCabor::all();
-        // Retrieve all session options for the dropdown
+        $acara = Acara::all();
         $sesiOptions = SesiAcara::all();
+
+        // Query SesiAcara
+        $sesiAcara = SesiAcara::all();
 
         // Retrieve the selected session from the request
         $selectedSesi = $request->input('sesi');
@@ -52,7 +55,7 @@ class KehadiranController extends Controller
             $kehadiran = $query->paginate(10);
 
             // Pass the attendance data and other necessary data to the view
-            return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi', 'selectedCabor', 'caborOptions'));
+            return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi', 'selectedCabor', 'caborOptions', 'acara', 'sesiAcara'));
         }
 
         // If the user is not authorized, return a 403 Forbidden error

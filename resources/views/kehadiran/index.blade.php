@@ -22,8 +22,14 @@
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
-                            <select name="sesi" id="sesi" class="form-control form-control-sm">
-                                <option selected>Filter per sesi</option>
+                            <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
+                                <option selected disabled>Pilih Acara</option>
+                                @foreach($acara as $ac)
+                                    <option value="{{ $ac->id }}">{{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
+                                @endforeach
+                            </select>
+                            <select name="sesi" id="sesi_filter" class="form-control form-control-sm">
+                                <option selected disabled>Filter per sesi</option>
                                 <option value="">Semua Sesi</option>
                                 @foreach ($sesiOptions as $sesi)
                                     <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
@@ -63,29 +69,19 @@
                     </div>
                 </div>
 
-               {{--  <div class="row mb-3">
-                    <div class="col-md-6">
-                        <select name="cabor" id="cabor" class="form-control form-control-sm">
-                            <option selected>Filter per cabor</option>
-                            <option value="">Semua Cabor</option>
-                            @foreach ($caborOptions as $cabor)
-                                <option value="{{ $cabor->nama_cabor }}" {{ $cabor->nama_cabor == $selectedCabor ? 'selected' : '' }}>
-                                    {{ $cabor->nama_cabor }}
-                                </option>
-                            @endforeach
-                        </select>
-
-                        <button type="submit" class="btn btn-sm btn-primary me-2">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </div>
-                </div> --}}
-
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <form method="GET" action="{{ route('absen.export-pdf') }}" target="_blank" class="d-flex">
-                            <select name="sesi" id="sesi" class="form-control form-control-sm">
+                            <select name="acara_id" class="form-control form-control-sm" id="acara_id_export">
+                                <option selected disabled>Pilih Acara</option>
+                                @foreach($acara as $ac)
+                                    <option value="{{ $ac->id }}">{{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
+                                @endforeach
+                            </select>
+                            <select name="sesi" id="sesi_export" class="form-control form-control-sm">
+                                <option selected disabled>Filter per sesi</option>
                                 <option value="">Semua Sesi</option>
+                                <!-- Populate session options -->
                                 @foreach ($sesiOptions as $sesi)
                                     <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
                                         {{ $sesi->sesi }}
@@ -121,7 +117,7 @@
                                     <td>{{ $index + $kehadiran->firstItem() }}</td>
                                     <td>{{ $k->user->nama_lengkap }}</td>
                                     <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
-                                    <td>{{ $k->created_at }}</td>
+                                    <td>{{ $k->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>
                                     <td>{{ $k->sesiAcara->sesi }}</td>
                                 </tr>
                             @endforeach
@@ -136,21 +132,59 @@
             @endif
 
             <!-- Pagination Links -->
-            {{ $kehadiran->links() }}
+            {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor])->links() }}
 
         </div>
     </div>
 
     <script>
-        // Get reference to the session select element
-         const sessionSelect = document.getElementById('sesi');
+        // Get references to the event and session select elements in the second form
+        const eventSelectFilter = document.getElementById('acara_id_filter');
+        const sessionSelectFilter = document.getElementById('sesi_filter');
 
-         // Event listener for when the session selection changes
-         sessionSelect.addEventListener('change', (event) => {
-             // Submit the form when a session is selected
-             event.target.form.submit();
-         });
+        // Add change event listener to the event select in the second form
+        eventSelectFilter.addEventListener('change', (event) => {
+            const selectedEventId = event.target.value;
+
+            // Reset session options
+            sessionSelectFilter.innerHTML = '<option selected>Filter per sesi</option>';
+
+            // Populate session options associated with the selected event
+            @foreach($sesiAcara as $session)
+                if ({{ $session->acara_id }} == selectedEventId) {
+                    const option = document.createElement('option');
+                    option.value = {{ $session->id }};
+                    option.textContent = "{{ $session->sesi }}";
+                    sessionSelectFilter.appendChild(option);
+                }
+            @endforeach
+        });
     </script>
+
+    <script>
+        // Get references to the event and session select elements in the export form
+        const eventSelectExport = document.getElementById('acara_id_export');
+        const sessionSelectExport = document.getElementById('sesi_export');
+
+        // Add change event listener to the event select in the export form
+        eventSelectExport.addEventListener('change', (event) => {
+            const selectedEventId = event.target.value;
+
+            // Reset session options
+            sessionSelectExport.innerHTML = '<option selected disabled>Filter per sesi</option>';
+
+            // Populate session options associated with the selected event
+            @foreach($sesiAcara as $session)
+                if ({{ $session->acara_id }} == selectedEventId) {
+                    const option = document.createElement('option');
+                    option.value = {{ $session->id }};
+                    option.textContent = "{{ $session->sesi }}";
+                    sessionSelectExport.appendChild(option);
+                }
+            @endforeach
+        });
+    </script>
+
 
     {{-- <script>
         // Initialize Laravel Echo

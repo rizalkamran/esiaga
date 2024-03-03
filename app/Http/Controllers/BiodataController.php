@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class BiodataController extends Controller
 {
@@ -104,17 +105,17 @@ class BiodataController extends Controller
             'foto_diri' => 'nullable|file|image|max:2048',
             'foto_ktp' => 'nullable|file|image|max:2048',
             'foto_npwp' => 'nullable|file|image|max:2048',
-            'upload_mandat' => 'nullable|file|image|max:2048',
             'status_anggota' => 'nullable|integer',
             'request_role' => 'nullable|integer',
         ]);
 
+        // Using move priority, storeAs recommended for continue development
         // Process and store the first file if uploaded
         if ($request->hasFile('foto_diri')) {
             $file1 = $request->file('foto_diri');
             $nama_file1 = $username . '_' . $file1->getClientOriginalName();
-            $tujuan_upload = 'foto_diri';
-            $file1->storeAs($tujuan_upload, $nama_file1);
+            $tujuan_upload = 'biodata/foto_diri';
+            $file1->move($tujuan_upload, $nama_file1);
         } else {
             $nama_file1 = null; // or whatever default value you want to set
         }
@@ -123,8 +124,8 @@ class BiodataController extends Controller
         if ($request->hasFile('foto_ktp')) {
             $file2 = $request->file('foto_ktp');
             $nama_file2 = $username . '_' . $file2->getClientOriginalName();
-            $tujuan_upload2 = 'foto_ktp';
-            $file2->storeAs($tujuan_upload2, $nama_file2);
+            $tujuan_upload2 = 'biodata/foto_ktp';
+            $file2->move($tujuan_upload2, $nama_file2);
         } else {
             $nama_file2 = null; // or whatever default value you want to set
         }
@@ -133,18 +134,8 @@ class BiodataController extends Controller
         if ($request->hasFile('foto_npwp')) {
             $file3 = $request->file('foto_npwp');
             $nama_file3 = $username . '_' . $file3->getClientOriginalName();
-            $tujuan_upload3 = 'foto_npwp';
-            $file3->storeAs($tujuan_upload3, $nama_file3);
-        } else {
-            $nama_file3 = null; // or whatever default value you want to set
-        }
-
-        // Process and store the fourth file if uploaded
-        if ($request->hasFile('upload_mandat')) {
-            $file4 = $request->file('upload_mandat');
-            $nama_file4 = $username . '_' . $file4->getClientOriginalName();
-            $tujuan_upload4 = 'upload_mandat';
-            $file4->storeAs($tujuan_upload4, $nama_file4);
+            $tujuan_upload3 = 'biodata/foto_npwp';
+            $file3->move($tujuan_upload3, $nama_file3);
         } else {
             $nama_file3 = null; // or whatever default value you want to set
         }
@@ -265,7 +256,6 @@ class BiodataController extends Controller
             'foto_diri' => 'nullable|file|image|max:2048',
             'foto_ktp' => 'nullable|file|image|max:2048',
             'foto_npwp' => 'nullable|file|image|max:2048',
-            'upload_mandat' => 'nullable|file|image|max:2048',
             'status_anggota' => 'nullable|integer',
             'request_role' => 'nullable|integer',
         ]);
@@ -276,12 +266,26 @@ class BiodataController extends Controller
         // Update the biodata entry with the validated data from the request
         $biodata->update($request->all());
 
+        // Using move priority, storeAs recommended for continue development
         // Process and store the first file if uploaded
         if ($request->hasFile('foto_diri')) {
             $file1 = $request->file('foto_diri');
             $nama_file1 = auth()->user()->name . '_' . $file1->getClientOriginalName();
-            $tujuan_upload = 'foto_diri';
-            $file1->storeAs($tujuan_upload, $nama_file1);
+            $tujuan_upload = 'biodata/foto_diri';
+
+            // Delete the old file if it exists
+            if ($biodata->foto_diri) {
+                $oldFilePath = public_path($tujuan_upload . '/' . $biodata->foto_diri);
+                if (File::exists($oldFilePath)) {
+                    File::delete($oldFilePath);
+                    // Also remove the old file name from the database
+                    $biodata->foto_diri = null;
+                    $biodata->save();
+                }
+            }
+
+            // Move the new file to the destination folder
+            $file1->move($tujuan_upload, $nama_file1);
             $biodata->foto_diri = $nama_file1;
         }
 
@@ -289,8 +293,21 @@ class BiodataController extends Controller
         if ($request->hasFile('foto_ktp')) {
             $file2 = $request->file('foto_ktp');
             $nama_file2 = auth()->user()->name . '_' . $file2->getClientOriginalName();
-            $tujuan_upload2 = 'foto_ktp';
-            $file2->storeAs($tujuan_upload2, $nama_file2);
+            $tujuan_upload2 = 'biodata/foto_ktp';
+
+            // Delete the old file if it exists
+            if ($biodata->foto_ktp) {
+                $oldFilePath = public_path($tujuan_upload2 . '/' . $biodata->foto_ktp);
+                if (File::exists($oldFilePath)) {
+                    File::delete($oldFilePath);
+                    // Also remove the old file name from the database
+                    $biodata->foto_ktp = null;
+                    $biodata->save();
+                }
+            }
+
+            // Move the new file to the destination folder
+            $file2->move($tujuan_upload2, $nama_file2);
             $biodata->foto_ktp = $nama_file2;
         }
 
@@ -298,18 +315,22 @@ class BiodataController extends Controller
         if ($request->hasFile('foto_npwp')) {
             $file3 = $request->file('foto_npwp');
             $nama_file3 = auth()->user()->name . '_' . $file3->getClientOriginalName();
-            $tujuan_upload3 = 'foto_npwp';
-            $file3->storeAs($tujuan_upload3, $nama_file3);
-            $biodata->foto_npwp = $nama_file3;
-        }
+            $tujuan_upload3 = 'biodata/foto_npwp';
 
-        // Process and store the fourth file if uploaded
-        if ($request->hasFile('upload_mandat')) {
-            $file4 = $request->file('upload_mandat');
-            $nama_file4 = auth()->user()->name . '_' . $file4->getClientOriginalName();
-            $tujuan_upload4 = 'upload_mandat';
-            $file4->storeAs($tujuan_upload4, $nama_file4);
-            $biodata->upload_mandat = $nama_file4;
+            // Delete the old file if it exists
+            if ($biodata->foto_npwp) {
+                $oldFilePath = public_path($tujuan_upload3 . '/' . $biodata->foto_npwp);
+                if (File::exists($oldFilePath)) {
+                    File::delete($oldFilePath);
+                    // Also remove the old file name from the database
+                    $biodata->foto_npwp = null;
+                    $biodata->save();
+                }
+            }
+
+            // Move the new file to the destination folder
+            $file3->move($tujuan_upload3, $nama_file3);
+            $biodata->foto_npwp = $nama_file3;
         }
 
         // Save the updated biodata entry with file paths

@@ -167,8 +167,8 @@
                     <input type="file" class="form-control form-control-sm" id="foto_diri" name="foto_diri">
                 </div>
                 <div class="col-md-4">
-                    <label for="foto_npwp" class="form-label">Foto KTP</label>
-                    <input type="file" class="form-control form-control-sm" id="foto_npwp" name="foto_npwp">
+                    <label for="foto_ktp" class="form-label">Foto KTP</label>
+                    <input type="file" class="form-control form-control-sm" id="foto_ktp" name="foto_ktp">
                 </div>
                 <div class="col-md-4">
                     <label for="foto_npwp" class="form-label">Foto NPWP</label>
