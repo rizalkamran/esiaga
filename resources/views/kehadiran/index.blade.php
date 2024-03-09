@@ -10,90 +10,80 @@
 
             @can('is-admin')
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <button type="button" class="btn btn-success">Excel</button>
                             <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
                             <a class="btn btn-secondary" href="{{ route('kehadiran.index') }}">Reset</a>
                         </div>
                     </div>
-                </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
-                            <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
-                                <option selected disabled>Pilih Acara</option>
-                                @foreach($acara as $ac)
-                                    <option value="{{ $ac->id }}">{{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
-                                @endforeach
-                            </select>
-                            <select name="sesi" id="sesi_filter" class="form-control form-control-sm">
-                                <option selected disabled>Filter per sesi</option>
-                                <option value="">Semua Sesi</option>
-                                @foreach ($sesiOptions as $sesi)
-                                    <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
-                                        {{ $sesi->sesi }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="col-md-6 ms-3">
-                                <button type="submit" class="btn btn-sm btn-primary me-2">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
-                            <div class="form-group"> <!-- Wrap the select element inside a form-group -->
-                                <select name="cabor" id="cabor" class="form-control form-control-sm">
-                                    <option selected>Filter per cabor</option>
-                                    <option value="">Semua Cabor</option>
-                                    @foreach ($caborOptions as $cabor)
-                                        <option value="{{ $cabor->nama_cabor }}" {{ $cabor->nama_cabor == $selectedCabor ? 'selected' : '' }}>
-                                            {{ $cabor->nama_cabor }}
+                    <div class="col-md-9">
+                        <div class="float-end">
+                            <form action="{{ route('absen.export-pdf') }}" method="get" target="_blank"
+                                style="display: inline-flex; align-items: center;">
+                                <select name="acara_id" class="form-control form-control-sm" id="acara_id_export">
+                                    <option selected disabled>Pilih Acara</option>
+                                    @foreach ($acara as $ac)
+                                        <option value="{{ $ac->id }}">
+                                            {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
+                                    @endforeach
+                                </select>
+                                <select name="sesi" id="sesi_export" class="form-control form-control-sm">
+                                    <option selected disabled>Filter per sesi</option>
+                                    <option value="">Semua Sesi</option>
+                                    <!-- Populate session options -->
+                                    @foreach ($sesiOptions as $sesi)
+                                        <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
+                                            {{ $sesi->sesi }}
                                         </option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div class="col-md-6 ms-3">
-                                <button type="submit" class="btn btn-sm btn-primary me-2">
-                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                <button type="submit" class="btn btn-sm btn-danger ms-2">
+                                    <i class="fa-solid fa-file-pdf"></i>
                                 </button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-md-6">
-                        <form method="GET" action="{{ route('absen.export-pdf') }}" target="_blank" class="d-flex">
-                            <select name="acara_id" class="form-control form-control-sm" id="acara_id_export">
-                                <option selected disabled>Pilih Acara</option>
-                                @foreach($acara as $ac)
-                                    <option value="{{ $ac->id }}">{{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
-                                @endforeach
-                            </select>
-                            <select name="sesi" id="sesi_export" class="form-control form-control-sm">
-                                <option selected disabled>Filter per sesi</option>
-                                <option value="">Semua Sesi</option>
-                                <!-- Populate session options -->
-                                @foreach ($sesiOptions as $sesi)
-                                    <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
-                                        {{ $sesi->sesi }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="col-md-6 ms-3">
-                                <button type="submit" class="btn btn-sm btn-danger me-2">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </button>
+                    <div class="col-md-4">
+                        <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                            <div class="form-group">
+                                <input type="text" name="cabor" id="cabor" class="form-control form-control-sm" placeholder="Cari ..." value="{{ $selectedCabor ?? '' }}">
                             </div>
+                            <button type="submit" class="btn btn-sm btn-primary ms-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
                         </form>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="float-end">
+                            <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                                <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
+                                    <option selected disabled>Pilih Acara</option>
+                                    @foreach ($acara as $ac)
+                                        <option value="{{ $ac->id }}">
+                                            {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
+                                    @endforeach
+                                </select>
+                                <select name="sesi" id="sesi_filter" class="form-control form-control-sm">
+                                    <option selected disabled>Filter per sesi</option>
+                                    <option value="">Semua Sesi</option>
+                                    @foreach ($sesiOptions as $sesi)
+                                        <option value="{{ $sesi->id }}"
+                                            {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
+                                            {{ $sesi->sesi }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary ms-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             @endcan
@@ -107,8 +97,9 @@
                                 <th scope="col">Nomor</th>
                                 <th scope="col">Nama Lengkap</th>
                                 <th scope="col">Cabor / Afiliasi</th>
+                                <th scope="col">Acara/Sesi</th>
                                 <th scope="col">Waktu Hadir</th>
-                                <th scope="col">Waktu Absen</th>
+                                <th scope="col">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,8 +108,13 @@
                                     <td>{{ $index + $kehadiran->firstItem() }}</td>
                                     <td>{{ $k->user->nama_lengkap }}</td>
                                     <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
-                                    <td>{{ $k->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>
-                                    <td>{{ $k->sesiAcara->sesi }}</td>
+                                    <td>{{  Illuminate\Support\Str::limit($k->sesiAcara->acara->nama_acara, 30) }} - {{ $k->sesiAcara->sesi }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($k->created_at)->locale('id_ID')->format('H:i:s') }}</td>
+                                    <td>
+                                        <a href="{{ route('kehadiran.edit', ['kehadiran' => $k->id]) }}" class="btn btn-sm btn-primary">
+                                            Edit
+                                        </a>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -150,7 +146,7 @@
             sessionSelectFilter.innerHTML = '<option selected>Filter per sesi</option>';
 
             // Populate session options associated with the selected event
-            @foreach($sesiAcara as $session)
+            @foreach ($sesiAcara as $session)
                 if ({{ $session->acara_id }} == selectedEventId) {
                     const option = document.createElement('option');
                     option.value = {{ $session->id }};
@@ -174,7 +170,7 @@
             sessionSelectExport.innerHTML = '<option selected disabled>Filter per sesi</option>';
 
             // Populate session options associated with the selected event
-            @foreach($sesiAcara as $session)
+            @foreach ($sesiAcara as $session)
                 if ({{ $session->acara_id }} == selectedEventId) {
                     const option = document.createElement('option');
                     option.value = {{ $session->id }};

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use PDF;
+use Carbon\Carbon;
 
 class KehadiranController extends Controller
 {
@@ -46,13 +47,16 @@ class KehadiranController extends Controller
 
             // Filter by nama_cabor if selected
             if ($selectedCabor) {
-                $query->whereHas('user.biodata.cabor', function ($q) use ($selectedCabor) {
-                    $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
+                $query->whereHas('user.biodata', function ($q) use ($selectedCabor) {
+                    $q->where('nama_lengkap', 'like', '%' . $selectedCabor . '%')
+                        ->orWhereHas('cabor', function ($q) use ($selectedCabor) {
+                            $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
+                        });
                 });
             }
 
             // Paginate the results
-            $kehadiran = $query->paginate(10);
+            $kehadiran = $query->simplePaginate(10);
 
             // Pass the attendance data and other necessary data to the view
             return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi', 'selectedCabor', 'caborOptions', 'acara', 'sesiAcara'));
@@ -126,7 +130,7 @@ class KehadiranController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -137,7 +141,12 @@ class KehadiranController extends Controller
      */
     public function edit($id)
     {
-        //
+        $kehadiran = AnggotaKehadiranRegistrasi::findOrFail($id);
+
+        // Convert the created_at timestamp to the desired timezone
+        $localizedDateTime = Carbon::parse($kehadiran->created_at)->timezone('Asia/Makassar');
+
+        return view('kehadiran.edit', compact('kehadiran', 'localizedDateTime'));
     }
 
     /**
@@ -149,7 +158,21 @@ class KehadiranController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $kehadiran = AnggotaKehadiranRegistrasi::findOrFail($id);
+
+        // Validate your request data here if needed
+
+        // Convert input datetime string to Carbon instance
+        $newCreatedAt = Carbon::parse($request->input('created_at'));
+
+        // Update the created_at field with the new datetime
+        $kehadiran->created_at = $newCreatedAt;
+
+        // Save the changes
+        $kehadiran->save();
+
+        // Redirect or respond as needed
+        return redirect()->route('kehadiran.index')->with('success', 'Kehadiran updated successfully');
     }
 
     /**

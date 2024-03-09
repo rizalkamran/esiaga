@@ -32,11 +32,12 @@
             <!-- Mandat File Upload -->
             <div class="mb-3">
                 <label for="mandat" class="form-label">Mandat File (PDF)</label>
-                <input type="file" class="form-control" id="mandat" name="mandat">
+                <input type="file" class="form-control form-control-sm" id="mandat" name="mandat">
             </div>
 
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-sm btn-primary">Update</button>
+            <a href="{{ route('registrasi.index') }}" class="btn btn-sm btn-secondary">Cancel</a>
         </form>
     </div>
 </div>

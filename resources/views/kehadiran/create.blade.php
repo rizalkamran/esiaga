@@ -34,35 +34,29 @@
             </div> --}}
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="user_id" class="form-label">Data User</label>
-                    <select class="form-select" aria-label="Small select example" name="user_id">
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
                         <option selected>Pilih User</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}">{{ $user->nama_lengkap }}</option>
                         @endforeach
                     </select>
                 </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <!-- Event dropdown/select -->
                     <label for="acara_id" class="form-label">Pilih Acara</label>
-                    <select name="acara_id" class="form-control" id="acara_id">
+                    <select name="acara_id" class="form-control form-control-sm" id="acara_id">
                         <option value="">Pilih Acara</option>
                         @foreach($acara as $ac)
                             <option value="{{ $ac->id }}">{{ $ac->nama_acara }}</option>
                         @endforeach
                     </select>
                 </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <!-- Session dropdown/select -->
                     <label for="sesi_acara_id" class="form-label">Pilih Sesi Acara</label>
-                    <select name="sesi_acara_id" class="form-control" id="sesi_acara_id">
+                    <select name="sesi_acara_id" class="form-control form-control-sm" id="sesi_acara_id">
                         <option value="">Pilih Sesi Acara</option>
                         <!-- Populate all session options -->
                         @foreach($sesiAcara as $session)
@@ -71,8 +65,6 @@
                     </select>
                 </div>
             </div>
-
-
 
             <button type="submit" class="btn btn-primary btn-sm mt-3">Create</button>
             <a href="{{ route('kehadiran.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>

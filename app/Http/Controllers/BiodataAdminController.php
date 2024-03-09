@@ -20,11 +20,27 @@ class BiodataAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Gate::allows('is-admin')) {
-            $biodata = Biodata::paginate(10);
-            return view('biodata_admin.index', ['biodata' => $biodata]);
+            $searchQuery = $request->input('search');
+
+            // Start with the base query
+            $query = Biodata::query();
+
+            // Filter by search query
+            if ($searchQuery) {
+                $query->whereHas('user', function ($q) use ($searchQuery) {
+                    $q->where('nama_lengkap', 'like', '%' . $searchQuery . '%');
+                })->orWhereHas('cabor', function ($q) use ($searchQuery) {
+                    $q->where('nama_cabor', 'like', '%' . $searchQuery . '%');
+                });
+            }
+
+            // Paginate the results
+            $biodata = $query->paginate(10);
+
+            return view('biodata_admin.index', ['biodata' => $biodata, 'searchQuery' => $searchQuery]);
         }
 
         abort(403, 'Unauthorized action');

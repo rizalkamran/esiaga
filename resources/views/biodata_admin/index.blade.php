@@ -7,11 +7,34 @@
         </div>
         <div class="card-body">
 
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a class="btn btn-primary" href="#">Buat</a>
+                        <a class="btn btn-secondary" href="{{ route('biodata_admin.index') }}">Reset</a>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="float-end">
+                        <form action="{{ route('biodata_admin.index') }}" method="get" style="display: inline-flex; align-items: center;">
+                            <div class="form-group mr-2" style="margin-bottom: 0;">
+                                <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary ms-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
             @if (!$biodata->isEmpty())
             <div class="table-responsive-md">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Lengkap</th>
                             <th>Cabor</th>
                             <th>Kontak/Telepon</th>
@@ -23,6 +46,7 @@
                     <tbody>
                         @foreach ($biodata as $bio)
                             <tr>
+                                <td>{{ ($biodata->currentPage() - 1) * $biodata->perPage() + $loop->iteration }}</td>
                                 <td>{{ $bio->user->nama_lengkap }}</td>
                                 <td>{{ $bio->cabor->nama_cabor }}</td>
                                 <td>{{ $bio->user->telepon }}</td>
@@ -35,15 +59,15 @@
                                 </td>
                                 <td>{{ $bio->agama }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $bio->id }}">
                                         Lampiran
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                         data-bs-target="#dataModal{{ $bio->id }}">
                                         Detail
                                     </button>
-                                    <a href="{{ route('biodata_admin.edit', ['id' => $bio->id]) }}" class="btn btn-sm btn-outline-primary">
+                                    <a href="{{ route('biodata_admin.edit', ['id' => $bio->id]) }}" class="btn btn-sm btn-primary">
                                         Edit
                                     </a>
                                 </td>
@@ -61,7 +85,7 @@
             @endif
 
 
-            {{ $biodata->links() }}
+            {{ $biodata->appends(['search' => $searchQuery])->links() }}
         </div>
     </div>
 

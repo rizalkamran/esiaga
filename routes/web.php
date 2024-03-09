@@ -13,7 +13,7 @@ use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\KehadiranController;
-use App\Http\Controllers\KodeAcaraController;
+use App\Http\Controllers\TandaTerimaAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -120,9 +120,11 @@ Route::get('/acara', [AcaraController::class, 'admin'])->name('acara.index')->mi
 //Sesi Acara
 Route::resource('/sesi_acara', SesiAcaraController::class);
 
+//Tanda Terima
+Route::resource('/tanda_terima', TandaTerimaAdminController::class);
 
 // Kode Acara
-Route::resource('/kode-acara', KodeAcaraController::class);
+//Route::resource('/kode-acara', KodeAcaraController::class);
 
 // Anggota
 Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');

@@ -25,7 +25,7 @@ class UserController extends Controller
         }
 
         if (Gate::allows('is-admin')) {
-            $users = User::paginate(5);
+            $users = User::paginate(10);
 
             return view('admin.users.index')
                 ->with([

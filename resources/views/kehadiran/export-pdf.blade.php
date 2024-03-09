@@ -22,17 +22,30 @@
         th {
             background-color: #f2f2f2;
         }
+        /* Custom CSS to reduce margin between h5 headers */
+        h5 {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
+    <div style="text-align:center">
+        <h5>
+            ABSENSI PESERTA ONLINE
+        </h5>
+        <h5>
+            BERDASARKAN DATA PADA APLIKASI E-SIAGA
+        </h5>
+    </div>
+
     @if ($kehadiran->isNotEmpty())
-        <ul>
-            @foreach ($kehadiran->unique('sesi_acara_id') as $k)
-                <li>
-                   <h3>Kehadiran {{ $k->sesiAcara->acara->nama_acara }} - {{ $k->sesiAcara->sesi }}</h3>
-                </li>
-            @endforeach
-        </ul>
+        @foreach ($kehadiran->unique('sesi_acara_id') as $k)
+            <p style="font-size: 14px;"> <!-- Adjust font size as needed -->
+                <span style="display: inline-block; width: 100px;">Acara</span> : {{ $k->sesiAcara->acara->nama_acara }} <br>
+                <span style="display: inline-block; width: 100px;">Lokasi</span> : {{ $k->sesiAcara->acara->lokasi_acara }} <br>
+                <span style="display: inline-block; width: 100px;">Sesi</span> : {{ $k->sesiAcara->sesi }}
+            </p>
+        @endforeach
 
         <table>
             <thead>
@@ -57,7 +70,8 @@
                         <td>{{ $k->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
                         <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
                         <td>{{ $k->user->telepon }}</td>
-                        <td>{{ $k->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>{{--
+                        <td>{{ \Carbon\Carbon::parse($k->created_at)->locale('id_ID')->format('H:i:s') }}</td>
+                        {{--
                         <td>{{ $k->user->biodata->npwp }}</td>
                         <td>{{ $k->user->biodata->kota->nama_kota }}</td> --}}
 

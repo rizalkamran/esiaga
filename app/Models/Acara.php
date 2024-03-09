@@ -8,6 +8,7 @@ use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\AnggotaKehadiranRegistrasi;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SesiAcara;
+use App\Models\TandaTerima;
 
 class Acara extends Model
 {
@@ -47,6 +48,11 @@ class Acara extends Model
     public function sesiAcara()
     {
         return $this->hasMany(SesiAcara::class, 'acara_id');
+    }
+
+    public function tandaTerima()
+    {
+        return $this->hasMany(TandaTerima::class, 'acara_id');
     }
 
     // Add a cast for the 'status_acara' attribute to ensure it is treated as an integer
