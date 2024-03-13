@@ -140,7 +140,9 @@ Route::get('/registrasi/create', [RegistrasiController::class, 'createAdmin'])->
 // Store Registrasi by Admin
 Route::post('/registrasi', [RegistrasiController::class, 'storeAdmin'])->middleware('can:is-admin')->name('registrasi.store.admin');
 Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
+//mobile
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
+Route::get('/mobile/acara/detail', [RegistrasiController::class, 'showUserEvents'])->name('mobile.acara.detail');
 // Edit Registrasi
 Route::get('/registrasi/{id}/edit', [RegistrasiController::class, 'edit'])->middleware('can:is-admin')->name('registrasi.edit');
 // Update Registrasi
@@ -149,6 +151,10 @@ Route::put('/registrasi/{id}', [RegistrasiController::class, 'update'])->middlew
 
 // Kehadiran
 Route::resource('/kehadiran', KehadiranController::class)->middleware('can:is-admin');
+// Route for displaying the absen form
+Route::get('/absen', [KehadiranController::class, 'absen'])->name('absen.index');
+// Route for storing absen data
+Route::post('/absen', [KehadiranController::class, 'storeAbsen'])->name('absen.store');
 Route::get('/export-pdf-absen', [KehadiranController::class, 'exportPDF'])->middleware('can:is-admin')->name('absen.export-pdf');
 
 // Biodata Admin

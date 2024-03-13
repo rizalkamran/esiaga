@@ -10,6 +10,8 @@ use App\Models\ReffCabor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use PDF;
+use Illuminate\Support\Str;
+use LaravelQRCode\Facades\QRCode;
 
 class RegistrasiController extends Controller
 {
@@ -81,7 +83,19 @@ class RegistrasiController extends Controller
         ]);
     }
 
+    public function showUserEvents()
+    {
+        if (Gate::allows('is-non-publik')) {
+           // Retrieve all registration records associated with the currently authenticated user
+            $user_id = auth()->id();
+            $regis = AnggotaAcaraRegistrasi::where('user_id', $user_id)->get();
 
+            // Pass the registrations to the view to display
+            return view('mobile.acara.detail', ['regis' => $regis]);
+        }
+
+        abort(403, 'Unauthorized action.');
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -129,13 +143,12 @@ class RegistrasiController extends Controller
         $requestData = array_merge($request->all(), ['user_id' => $user_id]);
 
         // Dump and die to inspect the request data before proceeding
-        //dd($requestData);
+        //dd($requestData);d
 
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
             'user_id' => $user_id,
             'acara_id' => $request->input('acara_id'),
-            'qrcode_registrasi' => $request->input('qrcode_registrasi'),
         ]);
 
         // Save the instance to the database
@@ -149,7 +162,7 @@ class RegistrasiController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
-            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Ensure the user is not already registered for the event
+            'acara_id' => ['required', 'exists:acara,id'], // Ensure the user is not already registered for the event
             'qrcode_registrasi' => 'nullable'
         ]);
 
@@ -162,11 +175,34 @@ class RegistrasiController extends Controller
             return redirect()->back()->with('error', 'User sudah terdaftar event ini');
         }
 
+        /// Retrieve the currently logged-in user's data
+        $user = auth()->user();
+
+        // Construct the URL for any route with additional data as query parameters
+        //$baseUrl = 'http://192.168.1.10/esiaga2/public/absen';
+        $baseUrl = 'https://e-siaga.com/aprizal/public/absen';
+
+        // Construct the URL for the absen route with additional data as query parameters
+        $url = $baseUrl . '?user_id=' . $request->input('user_id') . '&acara_id=' . $request->input('acara_id');
+
+        // Generate a unique filename
+        $filename = Str::random(20) . '.svg';
+
+        // Define the path to the public directory where the QR code will be saved
+        $publicPath = public_path('qrcodes/registrasi');
+
+        // Generate the QR code SVG and save it to the public directory
+        QRCode::url($url)
+            ->setSize(5)
+            ->setMargin(2)
+            ->setOutfile($publicPath . '/' . $filename)
+            ->svg();
+
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
             'user_id' => $request->input('user_id'),
             'acara_id' => $request->input('acara_id'),
-            'qrcode_registrasi' => $request->input('qrcode_registrasi'),
+            'qrcode_registrasi' => $filename,
         ]);
 
         // Save the instance to the database

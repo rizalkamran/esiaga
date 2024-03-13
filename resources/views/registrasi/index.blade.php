@@ -101,27 +101,37 @@
                                                 <!-- Display Registration Details Here -->
                                                 <!-- You can customize this part to display the details you want -->
                                                 <p><strong>Nama Lengkap:</strong> {{ $ag->user->nama_lengkap }}</p>
-                                                @if ($ag->mandat)
-                                                @if (Str::endsWith($ag->mandat, ['.jpg', '.jpeg', '.png', '.gif']))
-                                                    <!-- Display image -->
-                                                    <img src="{{ asset('mandat/' . $ag->mandat) }}" alt="Mandat" class="img-fluid mb-3">
-                                                @elseif (Str::endsWith($ag->mandat, '.pdf'))
-                                                    <!-- Display PDF -->
-                                                    <div class="embed-responsive embed-responsive-16by9">
-                                                        <iframe class="embed-responsive-item" src="{{ asset('mandat/' . $ag->mandat) }}"></iframe>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        @if ($ag->mandat)
+                                                        @if (Str::endsWith($ag->mandat, ['.jpg', '.jpeg', '.png', '.gif']))
+                                                            <!-- Display image -->
+                                                            <img src="{{ asset('mandat/' . $ag->mandat) }}" alt="Mandat" class="img-fluid mb-3">
+                                                        @elseif (Str::endsWith($ag->mandat, '.pdf'))
+                                                            <!-- Display PDF -->
+                                                            <div class="embed-responsive embed-responsive-16by9">
+                                                                <iframe class="embed-responsive-item" src="{{ asset('mandat/' . $ag->mandat) }}"></iframe>
+                                                            </div>
+                                                        @else
+                                                            <!-- Unsupported file type -->
+                                                            <p>Unsupported file type</p>
+                                                        @endif
+                                                        @else
+                                                            <!-- No file uploaded -->
+                                                            <p>No file uploaded</p>
+                                                        @endif
                                                     </div>
-                                                @else
-                                                    <!-- Unsupported file type -->
-                                                    <p>Unsupported file type</p>
-                                                @endif
-                                                @else
-                                                    <!-- No file uploaded -->
-                                                    <p>No file uploaded</p>
-                                                @endif
+                                                    <div class="col-md-4">
+                                                        <p>QR Code</p>
+                                                        <img src="{{ asset('qrcodes/registrasi/' . $ag->qrcode_registrasi) }}" alt="QR Code" style="height:auto;width:30%;">
+                                                    </div>
+                                                </div>
+
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </td>

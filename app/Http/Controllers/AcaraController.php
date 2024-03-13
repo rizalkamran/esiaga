@@ -11,6 +11,8 @@ use App\Models\Biodata;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Events\AbsenceSubmitted;
+use Illuminate\Support\Str;
+use LaravelQRCode\Facades\QRCode;
 
 
 class AcaraController extends Controller
@@ -36,25 +38,22 @@ class AcaraController extends Controller
                 $biodata = $user->biodata;
 
                 $acaras = $this->getActiveAcara();
-                return view('mobile.acara.index', ['acaras' => $acaras]);
 
-                /* if ($biodata) {
-                    // If it's a mobile device and biodata exists, return the mobile view
-                    $acaras = $this->getActiveAcara();
-                    return view('mobile.acara.index', ['acaras' => $acaras]);
-                } else {
-                    // If biodata doesn't exist, redirect to biodata create route
-                    return redirect()->route('mobile.biodata.create')->with('error', 'Agar dapat melanjutkan proses, silahkan lengkapi profil biodata Anda terlebih dahulu, terima kasih.');
-                } */
+                // Fetch QR code links for each acara
+                foreach ($acaras as $acara) {
+                    $acara->qr_code_link = url('qrcodes/registrasi/' . $acara->qrcode_registrasi);
+                }
+
+                return view('mobile.acara.index', ['acaras' => $acaras]);
             }
         } elseif (Gate::allows('is-publik')) {
-           if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
-                $user = auth()->user();
+            if (request()->header('User-Agent') && strpos(request()->header('User-Agent'), 'Mobile') !== false) {
+                    $user = auth()->user();
 
-                $acaras = $this->getActiveAcara();
+                    $acaras = $this->getActiveAcara();
 
-                return view('mobile.acara.index', ['acaras' => $acaras]);
-           }
+                    return view('mobile.acara.index', ['acaras' => $acaras]);
+            }
         }
 
         // If the user is not authorized, return a 403 Forbidden error
@@ -121,20 +120,34 @@ class AcaraController extends Controller
 
     public function register(Request $request)
     {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Validate that acara_id exists in the acara table
-            'qrcode_registrasi' => 'nullable'
-        ]);
+        // Retrieve the currently logged-in user's data
+        $user = auth()->user();
 
-        // Retrieve the currently logged-in user's ID
-        $user_id = Auth::id();
+        // Construct the URL for any route with additional data as query parameters
+        //$baseUrl = 'http://192.168.1.10/esiaga2/public/absen';
+        $baseUrl = 'https://e-siaga.com/aprizal/public/absen';
+
+        // Construct the URL for the absen route with additional data as query parameters
+        $url = $baseUrl . '?user_id=' . $user->id . '&acara_id=' . $request->input('acara_id');
+
+        // Generate a unique filename
+        $filename = Str::random(20) . '.svg';
+
+        // Define the path to the public directory where the QR code will be saved
+        $publicPath = public_path('qrcodes/registrasi');
+
+        // Generate the QR code SVG and save it to the public directory
+        QRCode::url($url)
+            ->setSize(5)
+            ->setMargin(2)
+            ->setOutfile($publicPath . '/' . $filename)
+            ->svg();
 
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
-            'user_id' => $user_id,
+            'user_id' => $user->id,
             'acara_id' => $request->input('acara_id'),
-            'qrcode_registrasi' => $request->input('qrcode_registrasi'),
+            'qrcode_registrasi' => $filename,
         ]);
 
         // Save the instance to the database
@@ -144,64 +157,51 @@ class AcaraController extends Controller
         return redirect()->route('mobile.acara.index')->with('success', 'Berhasil daftar acara ini');
     }
 
-    /* public function kehadiran(Request $request)
+
+    /* public function register(Request $request)
     {
         // Validate the incoming request data
         $validatedData = $request->validate([
-            'acara_id' => ['required', 'exists:acara,id'], // Validate that acara_id exists in the acara table
-            'security_pass' => ['required'], // Validate that security_pass is provided
+            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Validate that acara_id exists in the acara table
+            'qrcode_registrasi' => 'nullable'
         ]);
 
         // Retrieve the currently logged-in user's ID
         $user_id = Auth::id();
 
-        // Check if the event exists
-        $event = Acara::find($validatedData['acara_id']);
-        if (!$event) {
-            return redirect()->back()->with('error', 'Acara tidak ditemukan.');
-        }
+        // Get the authenticated user's data
+        $user = auth()->user();
 
-        // Check if the user is registered for the event
-        $isRegistered = $event->anggotaAcaraRegistrasi()->where('user_id', $user_id)->exists();
-        if (!$isRegistered) {
-            return redirect()->back()->with('error', 'Anda harus mendaftar untuk acara ini terlebih dahulu.');
-        }
+        // Generate QR code data with customized field names and header
+        $qrCodeData = [
+            'Test' => 'QR Code Test Registration',
+            'Nama' => $user->nama_lengkap,
+        ];
 
-        // Check if the security passphrase matches the event's security_pass
-        if ($validatedData['security_pass'] !== $event->security_pass) {
-            return redirect()->back()->with('error', 'Security tidak valid.');
-        }
+        // Generate a unique filename
+        $filename = Str::random(20) . '.svg';
 
-        // Check if the current date is within the event's date range
-        $currentDate = today();
-        if ($currentDate->isBefore($event->tanggal_awal_acara) || $currentDate->isAfter($event->tanggal_akhir_acara)) {
-            return redirect()->back()->with('error', 'Anda hanya bisa absen pada tanggal acara.');
-        }
+        // Define the path to the public directory where the QR code will be saved
+        $publicPath = public_path('qrcodes/registrasi');
 
-        // Check if the user has already recorded attendance for the current day within the event's date range
-        $alreadyAttended = AnggotaKehadiranRegistrasi::where('user_id', $user_id)
-            ->where('acara_id', $validatedData['acara_id'])
-            ->whereDate('created_at', $currentDate->toDateString())
-            ->exists();
+        // Generate the QR code SVG and save it to the public directory
+        QRCode::text(json_encode($qrCodeData))
+        ->setOutfile($publicPath . '/' . $filename)
+        ->svg();
 
-        if ($alreadyAttended) {
-            return redirect()->back()->with('error', 'Anda sudah absen hari ini.');
-        }
-
-        // Create a new instance of AnggotaKehadiranRegistrasi and fill in the fields
-        AnggotaKehadiranRegistrasi::create([
+        // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
+        $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
             'user_id' => $user_id,
-            'acara_id' => $validatedData['acara_id'],
-            // Add other fields as needed...
+            'acara_id' => $request->input('acara_id'),
+            'qrcode_registrasi' => $filename,
         ]);
 
-        // Fire event
-        event(new AbsenceSubmitted($validatedData)); // Pass validatedData or any other relevant data you want to send
+        // Save the instance to the database
+        $anggotaAcaraRegistrasi->save();
 
         // Redirect the user back to the index page
-        return redirect()->route('mobile.acara.index')->with('success', 'Kehadiran berhasil direkam');
-    }
- */
+        return redirect()->route('mobile.acara.index')->with('success', 'Berhasil daftar acara ini');
+    } */
 
     /**
      * Display the specified resource.

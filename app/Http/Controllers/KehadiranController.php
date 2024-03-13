@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use PDF;
 use Carbon\Carbon;
 
@@ -90,6 +91,27 @@ class KehadiranController extends Controller
         }
     }
 
+    public function absen(Request $request)
+    {
+        // Retrieve user_id and acara_id from the request
+        $user_id = $request->query('user_id');
+        $acara_id = $request->query('acara_id');
+
+        // Retrieve all users to populate dropdown/select
+        $users = User::all();
+
+        // Retrieve all sessions to populate dropdown/select
+        $sesiAcara = SesiAcara::all();
+
+        // Retrieve the specific event based on the provided acara_id
+        $acara = Acara::findOrFail($acara_id);
+
+        // Retrieve the specific user based on the provided user_id
+        $user = User::findOrFail($user_id);
+
+        return view('absen.index', compact('users', 'sesiAcara', 'acara', 'user_id', 'user'));
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -120,6 +142,32 @@ class KehadiranController extends Controller
 
         // Redirect back with success message
         return redirect()->back()->with('success', 'Absensi Berhasil');
+    }
+
+    public function storeAbsen(Request $request)
+    {
+        // Retrieve the necessary parameters from the request (user_id and sesi_acara_id)
+        $user_id = $request->input('user_id');
+        $sesi_acara_id = $request->input('sesi_acara_id');
+
+        // Check if there is already an attendance record for the selected user and session
+        $existingAttendance = AnggotaKehadiranRegistrasi::where('user_id', $user_id)
+            ->where('sesi_acara_id', $sesi_acara_id)
+            ->exists();
+
+        // If there is an existing attendance record, redirect back with an error message
+        if ($existingAttendance) {
+            return Redirect::back()->withErrors(['user_id' => 'Sudah melakukan absensi untuk sesi ini.']);
+        }
+
+        // Create a new attendance record
+        AnggotaKehadiranRegistrasi::create([
+            'user_id' => $user_id,
+            'sesi_acara_id' => $sesi_acara_id,
+        ]);
+
+        // Redirect back with success message
+        return Redirect::back()->with('success', 'Absensi Berhasil');
     }
 
     /**

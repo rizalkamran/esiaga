@@ -45,6 +45,12 @@
                 @can('is-non-publik')
                     <button type="button" class="btn-c btn-sm btn-gradient-03 mb-2" data-bs-toggle="modal"
                         data-bs-target="#modalregis">Registrasi</button>
+                    <a href="{{ route('mobile.acara.detail') }}" class="btn-c btn-sm btn-gradient-05 mb-2">
+                        QR Code
+                    </a>
+                    <a href="#" class="btn-c btn-sm btn-gradient-05 mb-2">
+                        Tanda Terima
+                    </a>
                     {{-- <button type="button" class="btn-c btn-sm btn-gradient-03 mb-2" data-bs-toggle="modal"
                         data-bs-target="#modalabsen">Kehadiran</button> --}}
                 @endcan
@@ -98,7 +104,7 @@
 
                             <div class="modal-body">
                                 <!-- Update the route name in your view to match the existing route name -->
-                                <form c action="{{ route('mobile.acara.register') }}" method="POST">
+                                <form action="{{ route('mobile.acara.register') }}" method="POST">
                                     @csrf
                                     <select class="single-select w-100" name="acara_id">
                                         <option selected disabled>Pilih Acara</option>
