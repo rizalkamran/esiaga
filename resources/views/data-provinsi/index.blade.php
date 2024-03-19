@@ -46,6 +46,19 @@
             </div>
 
             {{ $reffProvinsi->links() }}
+
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <p class="btn btn-sm btn-secondary">Total Data: {{ $reffProvinsi->total() }}</p>
+                    </div>
+                    <div class="col">
+                        <div class="float-end">
+                            <p class="btn btn-sm btn-secondary">Data/Page: {{ $reffProvinsi->count() }} / {{ $reffProvinsi->currentPage() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

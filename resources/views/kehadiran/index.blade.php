@@ -96,7 +96,7 @@
                             <tr>
                                 <th scope="col">Nomor</th>
                                 <th scope="col">Nama Lengkap</th>
-                                <th scope="col">Cabor / Afiliasi</th>
+                                <th scope="col">Cabor/Afiliasi</th>
                                 <th scope="col">Acara/Sesi</th>
                                 <th scope="col">Waktu Hadir</th>
                                 <th scope="col">Aksi</th>
@@ -107,8 +107,8 @@
                                 <tr>
                                     <td>{{ $index + $kehadiran->firstItem() }}</td>
                                     <td>{{ $k->user->nama_lengkap }}</td>
-                                    <td>{{ $k->user->biodata->cabor->nama_cabor }}</td>
-                                    <td>{{  Illuminate\Support\Str::limit($k->sesiAcara->acara->nama_acara, 30) }} - {{ $k->sesiAcara->sesi }}</td>
+                                    <td>{{ Illuminate\Support\Str::limit($k->user->biodata->cabor->nama_cabor, 25) }}</td>
+                                    <td>{{  Illuminate\Support\Str::limit($k->sesiAcara->acara->nama_acara, 25) }} - {{ $k->sesiAcara->sesi }}</td>
                                     <td>{{ \Carbon\Carbon::parse($k->created_at)->locale('id_ID')->format('H:i:s') }}</td>
                                     <td>
                                         <a href="{{ route('kehadiran.edit', ['kehadiran' => $k->id]) }}" class="btn btn-sm btn-primary">
@@ -129,6 +129,19 @@
 
             <!-- Pagination Links -->
             {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor])->links() }}
+
+            <div>
+                <div class="row">
+                    {{-- <div class="col">
+                        <p class="btn btn-sm btn-secondary">Total Data: {{ $kehadiran->total() }}</p>
+                    </div> --}}
+                    <div class="col">
+                        <div class="float-start">
+                            <p class="btn btn-sm btn-secondary">Data/Page: {{ $kehadiran->count() }} / {{ $kehadiran->currentPage() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

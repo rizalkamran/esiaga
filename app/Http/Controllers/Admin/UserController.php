@@ -18,24 +18,36 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (Gate::denies('logged-in')) {
-            dd('no access allowed');
-        }
-
         if (Gate::allows('is-admin')) {
-            $users = User::paginate(10);
+            $searchQuery = $request->input('search');
+            $sortField = $request->input('sort_by', 'id'); // Default sort by ID
+            $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
+
+            $query = User::query();
+
+            if ($searchQuery) {
+                $query->where('nama_lengkap', 'like', '%' . $searchQuery . '%');
+            }
+
+            // Apply sorting
+            $query->orderBy($sortField, $sortOrder);
+
+            $users = $query->with('roles')->paginate(10);
 
             return view('admin.users.index')
                 ->with([
-                    'users' => $users
+                    'users' => $users,
+                    'searchQuery' => $searchQuery,
+                    'sortField' => $sortField,
+                    'sortOrder' => $sortOrder,
                 ]);
         }
 
         abort(403, 'Unauthorized action.');
-
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -201,6 +213,12 @@ class UserController extends Controller
 
         $user->update($request->except(['_token', 'roles']));
         $user->roles()->sync($request->roles);
+
+        // Update password if provided
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+            $user->save();
+        }
 
         $request->session()->flash('success', 'Data User diupdate');
 

@@ -24,9 +24,17 @@ class BiodataAdminController extends Controller
     {
         if (Gate::allows('is-admin')) {
             $searchQuery = $request->input('search');
+            $sortField = $request->input('sort_by', 'id'); // Default sort by ID
+            $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
 
             // Start with the base query
             $query = Biodata::query();
+
+            // Include the user relationship to sort by user's nama_lengkap
+            $query->leftJoin('users', 'biodata.user_id', '=', 'users.id');
+
+            // Include the cabor relationship to sort by cabor's nama_cabor
+            $query->leftJoin('reff_cabor', 'biodata.cabor_id', '=', 'reff_cabor.id');
 
             // Filter by search query
             if ($searchQuery) {
@@ -37,10 +45,28 @@ class BiodataAdminController extends Controller
                 });
             }
 
-            // Paginate the results
+            // Apply sorting based on the selected field and order
+            if ($sortField === 'nama_lengkap') {
+                $query->orderBy('users.nama_lengkap', $sortOrder);
+            } elseif ($sortField === 'nama_cabor') {
+                $query->orderBy('reff_cabor.nama_cabor', $sortOrder);
+            } elseif ($sortField === 'jenis_kelamin') {
+                // Assuming jenis_kelamin is a column in the Biodata model
+                $query->orderBy('biodata.jenis_kelamin', $sortOrder); // Specify the table alias or full column name for jenis_kelamin
+            } else {
+                // Default sorting if invalid field is provided
+                $query->orderBy('biodata.id', 'asc'); // Specify the table alias or full column name for id
+            }
+
+            // Paginate the sorted results
             $biodata = $query->paginate(10);
 
-            return view('biodata_admin.index', ['biodata' => $biodata, 'searchQuery' => $searchQuery]);
+            return view('biodata_admin.index', [
+                'biodata' => $biodata,
+                'searchQuery' => $searchQuery,
+                'sortField' => $sortField,
+                'sortOrder' => $sortOrder,
+            ]);
         }
 
         abort(403, 'Unauthorized action');

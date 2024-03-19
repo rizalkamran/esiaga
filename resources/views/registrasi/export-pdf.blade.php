@@ -44,7 +44,6 @@
         <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Acara</span> : {{ $ag->acara->nama_acara }} <br>
         <!-- Adjust width and add ellipsis for long text -->
         <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Lokasi/Tingkat</span> : {{ $ag->acara->lokasi_acara }} - {{ $ag->acara->tingkat_wilayah_acara }} <br>
-        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Lokasi/Tingkat</span> : {{ $ag->acara->tanggal_awal_acara }} - {{ $ag->acara->tanggal_akhir_acara }} <br>
         <!-- Adjust width and add ellipsis for long text -->
         <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Tanggal Acara</span> : {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_awal_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_akhir_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} <br>
     </p>

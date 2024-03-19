@@ -91,11 +91,13 @@
         <div class="mb-3">
             <h6>Jenis Kelamin</h6>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki-laki" value="L">
+                <input class="form-check-input" type="radio" name="jenis_kelamin" id="laki-laki" value="L"
+                {{ (old('jenis_kelamin') == 'L' || (isset($user) && $user->jenis_kelamin == 'L')) ? 'checked' : '' }}>
                 <label class="form-check-label" for="laki-laki">Pria</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan" value="P">
+                <input class="form-check-input" type="radio" name="jenis_kelamin" id="perempuan" value="P"
+                {{ (old('jenis_kelamin') == 'P' || (isset($user) && $user->jenis_kelamin == 'P')) ? 'checked' : '' }}>
                 <label class="form-check-label" for="perempuan">Wanita</label>
             </div>
         </div>
@@ -103,8 +105,6 @@
 </div>
 
 
-
-@isset($create)
     <div class="row align-items-start mb-3">
         <div class="col-md-6">
             <div>
@@ -131,7 +131,8 @@
             </div>
         </div>
     </div>
-@endisset
 
 
-<button type="submit" class="btn btn-primary">Submit</button>
+
+<button type="submit" class="btn btn-sm btn-primary">Submit</button>
+<a href="{{ route('admin.users.index') }}" class="btn btn-secondary btn-sm">Cancel</a>

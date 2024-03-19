@@ -64,6 +64,20 @@
             </div>
 
             {{ $reffCabors->links() }}
+
+            <div>
+                <div class="row">
+                    {{-- <div class="col">
+                        <p class="btn btn-sm btn-secondary">Total Data: {{ $reffCabors->total() }}</p>
+                    </div> --}}
+                    <div class="col">
+                        <div class="float-start">
+                            <p class="btn btn-sm btn-secondary">Data/Page: {{ $reffCabors->count() }} / {{ $reffCabors->currentPage() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 

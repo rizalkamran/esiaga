@@ -72,7 +72,21 @@
                 </table>
             </div>
 
-            {{ $reffKota->links() }}
+            {{ $reffKota->appends(['search' => $searchQuery])->links() }}
+
+            <div>
+                <div class="row">
+                    {{-- <div class="col">
+                        <p class="btn btn-sm btn-secondary">Total Data: {{ $reffKota->total() }}</p>
+                    </div> --}}
+                    <div class="col">
+                        <div class="float-start">
+                            <p class="btn btn-sm btn-secondary">Data/Page: {{ $reffKota->count() }} / {{ $reffKota->currentPage() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 

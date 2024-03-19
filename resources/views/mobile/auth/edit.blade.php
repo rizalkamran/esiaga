@@ -76,7 +76,7 @@
                             value="{{ old('telepon') }}@isset($user){{ $user->telepon }}@endisset">
                         </div>
                     </div>
-                    <<div class="col-md-6">
+                    <div class="col-md-6">
                         <div class="single-input-wrap">
                             <label for="password"><img src="{{ asset('image/mobile/icon/password.svg') }}" alt="img"></label>
                             <input name="password" type="password" class="form-control" placeholder="Password" id="password" value="">

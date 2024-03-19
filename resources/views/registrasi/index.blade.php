@@ -154,8 +154,18 @@
                 @endif
             </div>
 
-            <p class="btn bt-sm btn-primary">Total Data: {{ $anggota instanceof \Illuminate\Pagination\LengthAwarePaginator ? $anggota->total() : $anggota->count() }}</p>
-
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <p class="btn btn-sm btn-secondary">Total Data: {{ $anggota->total() }}</p>
+                    </div>
+                    <div class="col">
+                        <div class="float-end">
+                            <p class="btn btn-sm btn-secondary">Data/Page: {{ $anggota->count() }} / {{ $anggota->currentPage() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

@@ -12,6 +12,16 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <a class="btn btn-primary" href="#">Buat</a>
                         <a class="btn btn-secondary" href="{{ route('biodata_admin.index') }}">Reset</a>
+                        <button class="btn btn-warning dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Sort
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'id', 'sort_order' => 'asc', 'search' => $searchQuery]) }}">ID</a></li>
+                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
+                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'nama_cabor', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Cabang Olahraga</a></li>
+                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'jenis_kelamin', 'sort_order' => ($sortField == 'jenis_kelamin' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Jenis Kelamin</a></li>
+                            <!-- Add more sorting options as needed -->
+                        </ul>
                     </div>
                 </div>
 
@@ -38,7 +48,7 @@
                             <th>Nama Lengkap</th>
                             <th>Cabor</th>
                             <th>Kontak/Telepon</th>
-                            <th>Jenis Kelamin</th>
+                            <th>L/P</th>
                             <th>Agama</th>
                             <th>Action</th>
                         </tr>
@@ -52,9 +62,9 @@
                                 <td>{{ $bio->user->telepon }}</td>
                                 <td>
                                     @if ($bio->user->jenis_kelamin == 'L')
-                                        Laki-laki
+                                        L
                                     @else
-                                        Perempuan
+                                        P
                                     @endif
                                 </td>
                                 <td>{{ $bio->agama }}</td>
@@ -80,12 +90,25 @@
             @else
                 <div class="alert alert-danger" role="alert">
                     <h4 class="alert-heading">Peringatan</h4>
-                    <p>Harap isi biodata terlebih dahulu, kemudian jika ada salah data harap menghubungi pihak terkait</p>
+                    <p>tidak ada biodata</p>
                 </div>
             @endif
 
 
-            {{ $biodata->appends(['search' => $searchQuery])->links() }}
+            {{ $biodata->onEachSide(1)->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder])->links() }}
+
+            <div>
+                <div class="row">
+                    <div class="col">
+                        <p class="btn btn-sm btn-secondary">Total Data: {{ $biodata->total() }}</p>
+                    </div>
+                    <div class="col">
+                        <div class="float-end">
+                            <p class="btn btn-sm btn-secondary">Data/Page: {{ $biodata->count() }} / {{ $biodata->currentPage() }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

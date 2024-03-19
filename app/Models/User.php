@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Role;
 use App\Models\AnggotaPeran;
 use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\anggotaKehadiranRegistrasi;
@@ -60,9 +61,14 @@ class User extends Authenticatable implements MustVerifyEmail
     } */
 
 
-    public function roles()
+    /* public function roles()
     {
         return $this->belongsToMany('App\Models\Role');
+    } */
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
     }
 
     /**

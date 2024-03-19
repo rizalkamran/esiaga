@@ -16,15 +16,20 @@ class ReffKotaController extends Controller
     {
         $query = ReffKota::query();
 
-        if ($request->has('search')) {
-            $query->whereHas('provinsi', function ($query) use ($request) {
-                $query->where('nama_provinsi', 'like', '%' . $request->search . '%');
+        $searchQuery = $request->query('search'); // Retrieve the search query
+
+        if ($searchQuery) {
+            $query->whereHas('provinsi', function ($query) use ($searchQuery) {
+                $query->where('nama_provinsi', 'like', '%' . $searchQuery . '%');
             });
         }
 
         $reffKota = $query->simplePaginate(10); // Change 10 to the number of items you want per page
 
-        return view('data-kota.index', ['reffKota' => $reffKota]);
+        return view('data-kota.index', [
+            'reffKota' => $reffKota,
+            'searchQuery' => $searchQuery, // Pass the search query to the view
+        ]);
     }
 
 
