@@ -102,25 +102,34 @@
                                     aria-label="Close"></button>
                             </div>
 
-                            <div class="modal-body">
-                                <!-- Update the route name in your view to match the existing route name -->
-                                <form action="{{ route('mobile.acara.register') }}" method="POST">
-                                    @csrf
-                                    <select class="single-select w-100" name="acara_id">
-                                        <option selected disabled>Pilih Acara</option>
-                                        @foreach ($acaras as $ac)
-                                            <option value="{{ $ac->id }}">
-                                                {{ Illuminate\Support\Str::limit($ac->nama_acara, 35) }}</option>
-                                        @endforeach
-                                    </select>
 
-                                    <div class="float-end mt-3">
-                                        <button type="button" class="btn-c btn-sm btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button class="btn-c btn-sm btn-primary" type="submit">Register</button>
+                             <!-- Update the route name in your view to match the existing route name -->
+                            <form action="{{ route('mobile.acara.register') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                                <div class="modal-body">
+                                    <div>
+                                        <label>Pilih Acara</label>
+                                        <select class="single-select w-100" name="acara_id">
+                                            <option selected disabled>Klik disini</option>
+                                            @foreach ($acaras as $ac)
+                                                <option value="{{ $ac->id }}">
+                                                    {{ Illuminate\Support\Str::limit($ac->nama_acara, 35) }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                </form>
-                            </div>
+
+                                    <div class="mt-2">
+                                        <label>Mandat (img/jpg/jpeg)</label>
+                                        <input type="file" class="form-control form-control-sm" id="mandat" name="mandat" value="{{ old('mandat') }}">
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn-c btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button class="btn-c btn-sm btn-primary" type="submit">Register</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

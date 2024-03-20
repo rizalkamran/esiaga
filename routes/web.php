@@ -140,6 +140,7 @@ Route::get('/registrasi/create', [RegistrasiController::class, 'createAdmin'])->
 // Store Registrasi by Admin
 Route::post('/registrasi', [RegistrasiController::class, 'storeAdmin'])->middleware('can:is-admin')->name('registrasi.store.admin');
 Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
+Route::get('/export-user-pdf-regis/{id}', [RegistrasiController::class, 'exportUser'])->middleware('can:is-admin')->name('regis.export-user-pdf');
 //mobile
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
 Route::get('/mobile/acara/detail', [RegistrasiController::class, 'showUserEvents'])->name('mobile.acara.detail');

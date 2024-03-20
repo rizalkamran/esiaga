@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use Illuminate\Support\Str;
 use LaravelQRCode\Facades\QRCode;
+use Illuminate\Support\Facades\File;
 
 class RegistrasiController extends Controller
 {
@@ -262,12 +263,24 @@ class RegistrasiController extends Controller
 
         $anggotaAcaraRegistrasi->update($request->all());
 
-        // Process and store the first file if uploaded
         if ($request->hasFile('mandat')) {
             $file1 = $request->file('mandat');
             $nama_file1 = auth()->user()->name . '_' . $file1->getClientOriginalName();
             $tujuan_upload = 'mandat';
-            $file1->storeAs($tujuan_upload, $nama_file1);
+
+            // Delete the old file if it exists
+            if ($anggotaAcaraRegistrasi->mandat) {
+                $oldFilePath = public_path($tujuan_upload . '/' . $anggotaAcaraRegistrasi->mandat);
+                if (File::exists($oldFilePath)) {
+                    File::delete($oldFilePath);
+                    // Also remove the old file name from the database
+                    $anggotaAcaraRegistrasi->mandat = null;
+                    $anggotaAcaraRegistrasi->save();
+                }
+            }
+
+            // Move the new file to the destination folder
+            $file1->move($tujuan_upload, $nama_file1);
             $anggotaAcaraRegistrasi->mandat = $nama_file1;
         }
 
@@ -315,6 +328,24 @@ class RegistrasiController extends Controller
 
         // Stream the PDF to the browser
         return $pdf->stream('registrasi.pdf');
+    }
+
+    public function exportUser($id)
+    {
+        // Find the user registration record by ID
+        $anggota = AnggotaAcaraRegistrasi::findOrFail($id);
+
+        // Load the view and pass data to it
+        $pdf = PDF::loadView('registrasi.export-user-pdf', compact('anggota'));
+
+        // Set paper orientation to landscape
+        $pdf->setPaper('a4', 'portrait');
+
+        // Generate a unique filename for the PDF
+        $filename = 'registrasi_' . $anggota->user->name . '.pdf';
+
+        // Stream the PDF to the browser with the given filename
+        return $pdf->stream($filename);
     }
 
 }

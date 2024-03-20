@@ -123,6 +123,12 @@ class AcaraController extends Controller
         // Retrieve the currently logged-in user's data
         $user = auth()->user();
 
+        $request->validate([
+            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Validate that acara_id exists in the acara table
+            'qrcode_registrasi' => 'nullable',
+            'mandat' => 'nullable|file|image|max:2048',
+        ]);
+
         // Construct the URL for any route with additional data as query parameters
         //$baseUrl = 'http://192.168.1.10/esiaga2/public/absen';
         $baseUrl = 'https://e-siaga.com/aprizal/public/absen';
@@ -136,6 +142,14 @@ class AcaraController extends Controller
         // Define the path to the public directory where the QR code will be saved
         $publicPath = public_path('qrcodes/registrasi');
 
+        /* $existingRegistration = AnggotaAcaraRegistrasi::where('user_id', $user->id)
+            ->where('acara_id', $request->input('acara_id'))
+            ->exists();
+
+        if ($existingRegistration) {
+            return redirect()->back()->with('error', 'User sudah terdaftar event ini');
+        } */
+
         // Generate the QR code SVG and save it to the public directory
         QRCode::url($url)
             ->setSize(5)
@@ -143,11 +157,19 @@ class AcaraController extends Controller
             ->setOutfile($publicPath . '/' . $filename)
             ->svg();
 
+        if ($request->hasFile('mandat')) {
+                $file1 = $request->file('mandat');
+                $nama_file1 =  auth()->user()->name . '_' . $file1->getClientOriginalName();
+                $tujuan_upload = 'mandat';
+                $file1->move($tujuan_upload, $nama_file1);
+        }
+
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
             'user_id' => $user->id,
             'acara_id' => $request->input('acara_id'),
             'qrcode_registrasi' => $filename,
+            'mandat' => $nama_file1,
         ]);
 
         // Save the instance to the database

@@ -89,6 +89,10 @@
                                     Details
                                 </button>
 
+                                <a href="{{ route('regis.export-user-pdf', $ag->id) }}" class="btn btn-sm btn-danger" target="_blank">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </a>
+
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal{{$ag->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-xl">
@@ -104,18 +108,27 @@
                                                 <div class="row">
                                                     <div class="col-md-8">
                                                         @if ($ag->mandat)
-                                                        @if (Str::endsWith($ag->mandat, ['.jpg', '.jpeg', '.png', '.gif']))
-                                                            <!-- Display image -->
-                                                            <img src="{{ asset('mandat/' . $ag->mandat) }}" alt="Mandat" class="img-fluid mb-3">
-                                                        @elseif (Str::endsWith($ag->mandat, '.pdf'))
-                                                            <!-- Display PDF -->
-                                                            <div class="embed-responsive embed-responsive-16by9">
-                                                                <iframe class="embed-responsive-item" src="{{ asset('mandat/' . $ag->mandat) }}"></iframe>
-                                                            </div>
-                                                        @else
-                                                            <!-- Unsupported file type -->
-                                                            <p>Unsupported file type</p>
-                                                        @endif
+                                                            @php
+                                                                $mandatPath = 'mandat/' . $ag->mandat;
+                                                                $mandatUrl = asset($mandatPath);
+                                                            @endphp
+                                                            @if (file_exists(public_path($mandatPath)) && is_readable(public_path($mandatPath)))
+                                                                @if (Str::endsWith($ag->mandat, ['.jpg', '.jpeg', '.png', '.gif']))
+                                                                    <!-- Display image -->
+                                                                    <img src="{{ $mandatUrl }}" alt="Mandat" class="img-fluid mb-3">
+                                                                @elseif (Str::endsWith($ag->mandat, '.pdf'))
+                                                                    <!-- Display PDF -->
+                                                                    <div class="embed-responsive embed-responsive-16by9">
+                                                                        <iframe class="embed-responsive-item" src="{{ $mandatUrl }}"></iframe>
+                                                                    </div>
+                                                                @else
+                                                                    <!-- Unsupported file type -->
+                                                                    <p>Unsupported file type</p>
+                                                                @endif
+                                                            @else
+                                                                <!-- File not found or not readable -->
+                                                                <p>File not found or not readable</p>
+                                                            @endif
                                                         @else
                                                             <!-- No file uploaded -->
                                                             <p>No file uploaded</p>
@@ -126,8 +139,8 @@
                                                         <img src="{{ asset('qrcodes/registrasi/' . $ag->qrcode_registrasi) }}" alt="QR Code" style="height:auto;width:30%;">
                                                     </div>
                                                 </div>
-
                                             </div>
+
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>
