@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 
 class BiodataAdminController extends Controller
 {
@@ -24,17 +25,9 @@ class BiodataAdminController extends Controller
     {
         if (Gate::allows('is-admin')) {
             $searchQuery = $request->input('search');
-            $sortField = $request->input('sort_by', 'id'); // Default sort by ID
-            $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
 
             // Start with the base query
             $query = Biodata::query();
-
-            // Include the user relationship to sort by user's nama_lengkap
-            $query->leftJoin('users', 'biodata.user_id', '=', 'users.id');
-
-            // Include the cabor relationship to sort by cabor's nama_cabor
-            $query->leftJoin('reff_cabor', 'biodata.cabor_id', '=', 'reff_cabor.id');
 
             // Filter by search query
             if ($searchQuery) {
@@ -45,20 +38,33 @@ class BiodataAdminController extends Controller
                 });
             }
 
-            // Apply sorting based on the selected field and order
-            if ($sortField === 'nama_lengkap') {
-                $query->orderBy('users.nama_lengkap', $sortOrder);
-            } elseif ($sortField === 'nama_cabor') {
-                $query->orderBy('reff_cabor.nama_cabor', $sortOrder);
-            } elseif ($sortField === 'jenis_kelamin') {
-                // Assuming jenis_kelamin is a column in the Biodata model
-                $query->orderBy('biodata.jenis_kelamin', $sortOrder); // Specify the table alias or full column name for jenis_kelamin
-            } else {
-                // Default sorting if invalid field is provided
-                $query->orderBy('biodata.id', 'asc'); // Specify the table alias or full column name for id
+            // Apply sorting
+            $sortField = $request->input('sort_by', 'id'); // Default sort by ID
+            $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
+
+            // Ensure valid sort fields
+            $sortableFields = ['nama_lengkap', 'nama_cabor', 'jenis_kelamin'];
+
+            if (in_array($sortField, $sortableFields)) {
+                if ($sortField === 'nama_lengkap') {
+                    // Use subquery to sort by nama_lengkap from the related user
+                    $query->orderBy(function ($query) use ($sortOrder) {
+                        $query->select('nama_lengkap')
+                            ->from('users')
+                            ->whereColumn('users.id', 'biodata.user_id')
+                            ->orderBy('nama_lengkap', $sortOrder) // Updated to include sort order
+                            ->limit(1);
+                    });
+                } elseif ($sortField === 'nama_cabor') {
+                    // Sort by cabor_id while displaying it as nama_cabor
+                    $query->select('biodata.*')->orderBy('cabor_id', $sortOrder);
+                } else {
+                    // Sort by other fields directly in the Biodata table
+                    $query->orderBy($sortField, $sortOrder);
+                }
             }
 
-            // Paginate the sorted results
+            // Paginate the search results
             $biodata = $query->paginate(10);
 
             return view('biodata_admin.index', [
@@ -140,8 +146,8 @@ class BiodataAdminController extends Controller
         $request->validate([
             //'user_id' => 'required',
             //'provinsi_id' => 'required',
-            'kota_id' => 'required',
-            'cabor_id' => 'required',
+            //'kota_id' => 'required',
+            //'cabor_id' => 'required',
             'tempat_lahir' => 'nullable|string',
             'tanggal_lahir' => 'nullable|date',
             'agama' => 'nullable|string',

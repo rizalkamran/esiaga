@@ -29,7 +29,7 @@
             </div>
             @endif
 
-            <div class="row mb-3">
+            {{-- <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="cabor_id" class="form-label">Cabang Olahraga</label>
                     <input class="form-control form-control-sm" list="datalistOptions" id="cabor_id" placeholder="Cari data Cabor" name="cabor_id" value="{{ $biodata->cabor_id }}">
@@ -52,7 +52,7 @@
                         </datalist>
                     </datalist>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="row mb-3">
                 <div class="col-md-3">
@@ -97,7 +97,7 @@
                 </div>
                 <div class="col-md-4">
                     <label for="gol_darah" class="form-label">Golongan Darah</label>
-                    <input class="form-control form-control-sm" list="datalistOptions3" id="gol_darah" placeholder="Cari data Cabor" value="{{ $biodata->gol_darah }}">
+                    <input class="form-control form-control-sm" list="datalistOptions3" id="gol_darah" name="gol_darah" placeholder="Cari data Cabor" value="{{ $biodata->gol_darah }}">
                     <datalist id="datalistOptions3">
                         <datalist id="goldarah">
                             <option disabled>Golongan darah</option>

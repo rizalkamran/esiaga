@@ -162,6 +162,8 @@ class AcaraController extends Controller
                 $nama_file1 =  auth()->user()->name . '_' . $file1->getClientOriginalName();
                 $tujuan_upload = 'mandat';
                 $file1->move($tujuan_upload, $nama_file1);
+        }else {
+            $nama_file1 = null; // or whatever default value you want to set
         }
 
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields

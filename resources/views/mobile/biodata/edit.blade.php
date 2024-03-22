@@ -216,13 +216,13 @@
                                     value="{{ old('foto_npwp') }}">
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="upload_mandat">Mandat</label>
                                 <input type="file" class="form-control" id="upload_mandat" name="upload_mandat"
                                     value="{{ old('upload_mandat') }}">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="col-md-6">
                             <button class="btn-c btn-primary mb-2" type="submit">Simpan</button>
                         </div>

@@ -12,16 +12,15 @@
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                         <a class="btn btn-primary" href="#">Buat</a>
                         <a class="btn btn-secondary" href="{{ route('biodata_admin.index') }}">Reset</a>
-                        <button class="btn btn-warning dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        {{-- <button class="btn btn-warning dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Sort
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="sortDropdown">
                             <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'id', 'sort_order' => 'asc', 'search' => $searchQuery]) }}">ID</a></li>
-                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
-                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'nama_cabor', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Cabang Olahraga</a></li>
-                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'jenis_kelamin', 'sort_order' => ($sortField == 'jenis_kelamin' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Jenis Kelamin</a></li>
+                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'user_id', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
+                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'cabor_id', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Cabang Olahraga</a></li>
                             <!-- Add more sorting options as needed -->
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
 
@@ -45,8 +44,16 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama Lengkap</th>
-                            <th>Cabor</th>
+                            <th>
+                                <a href="{{ route('biodata_admin.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">
+                                    Nama Lengkap
+                                </a>
+                            </th>
+                            <th>
+                                <a href="{{ route('biodata_admin.index', ['sort_by' => 'nama_cabor', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">
+                                    Cabor
+                                </a>
+                            </th>
                             <th>Kontak/Telepon</th>
                             <th>L/P</th>
                             <th>Agama</th>
@@ -77,7 +84,7 @@
                                         data-bs-target="#dataModal{{ $bio->id }}">
                                         Detail
                                     </button>
-                                    <a href="{{ route('biodata_admin.edit', ['id' => $bio->id]) }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ route('biodata_admin.edit', $bio->id) }}" class="btn btn-sm btn-primary">
                                         Edit
                                     </a>
                                 </td>
@@ -95,7 +102,9 @@
             @endif
 
 
-            {{ $biodata->onEachSide(1)->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder])->links() }}
+            {{ $biodata->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder])->links() }}
+
+           {{--  {{ $biodata->onEachSide(1)->appends(['search' => $searchQuery])->links() }} --}}
 
             <div>
                 <div class="row">

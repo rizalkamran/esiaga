@@ -15,7 +15,7 @@
                             <button type="button" class="btn btn-success">Excel</button>
                             <a class="btn btn-secondary" href="{{ route('registrasi.index') }}">Reset</a>
                             <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
-                            <button id="togglePagination" class="btn btn-sm btn-warning">Toggle All data</button>
+                            <button id="togglePagination" class="btn btn-warning" disabled>Toggle All data</button>
                         </div>
                     </div>
                     <div class="col-md-6">

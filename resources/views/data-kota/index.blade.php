@@ -59,7 +59,7 @@
                                 @can('is-admin')
                                     <td>
                                         <a href="{{ route('data-kota.edit', $Kota->id) }}" class="btn btn-sm btn-primary">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger" onclick="event.preventDefault(); document.getElementById('delete-user-form-{{ $Kota->id }}').submit()">Delete</button>
+                                        <button type="button" class="btn btn-sm btn-danger" onclick="event.preventDefault(); document.getElementById('delete-user-form-{{ $Kota->id }}').submit()" disabled>Delete</button>
                                         <form id="delete-user-form-{{ $Kota->id }}" action="{{ route('data-kota.destroy', $Kota->id) }}" method="POST" style="display: none">
                                             @csrf
                                             @method("DELETE")

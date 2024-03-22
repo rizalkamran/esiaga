@@ -28,7 +28,7 @@
                                     <td>
                                         <a href="{{ route('data-provinsi.edit', $Provinsi->id) }}"
                                             class="btn btn-sm btn-primary">Edit</a>
-                                        <button type="button" class="btn btn-sm btn-danger"
+                                        <button type="button" class="btn btn-sm btn-danger" disabled
                                             onclick="event.preventDefault();
                                             document.getElementById('delete-user-form-{{ $Provinsi->id }}').submit()">
                                             Delete
