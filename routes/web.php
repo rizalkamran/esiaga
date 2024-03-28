@@ -3,15 +3,18 @@
 use App\Http\Controllers\AcaraController;
 use App\Http\Controllers\SesiAcaraController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\UserStafController;
 use App\Http\Controllers\ReffCaborController;
 use App\Http\Controllers\ReffPeranController;
 use App\Http\Controllers\AnggotaPeranController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\BiodataAdminController;
+use App\Http\Controllers\BiodataStafController;
 use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\RegistrasiStafController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\TandaTerimaAdminController;
 use Illuminate\Support\Facades\Route;
@@ -93,6 +96,14 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function(){
     Route::resource('/users', UserController::class);
 });
 
+//Staf - User
+Route::prefix('staf')->middleware('auth')->name('staf.')->group(function(){
+    Route::resource('/users', UserStafController::class);
+    Route::resource('/biodata', BiodataStafController::class);
+    Route::resource('/registrasi', RegistrasiStafController::class);
+    //Route::get('/registrasi/export-pdf', [RegistrasiStafController::class, 'exportStafPDF'])->name('registrasi.export-pdf');
+});
+
 Route::get('mobile/auth/edit/{id}', [UserController::class, 'edit'])->name('mobile.edit.profile')->middleware('auth');
 Route::patch('mobile/update/profile/{id}', [UserController::class, 'updateMobile'])->name('mobile.update.profile')->middleware('auth');
 
@@ -139,8 +150,8 @@ Route::resource('/registrasi', RegistrasiController::class)->middleware('can:is-
 Route::get('/registrasi/create', [RegistrasiController::class, 'createAdmin'])->middleware('can:is-admin')->name('registrasi.create');
 // Store Registrasi by Admin
 Route::post('/registrasi', [RegistrasiController::class, 'storeAdmin'])->middleware('can:is-admin')->name('registrasi.store.admin');
-Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->middleware('can:is-admin')->name('regis.export-pdf');
-Route::get('/export-user-pdf-regis/{id}', [RegistrasiController::class, 'exportUser'])->middleware('can:is-admin')->name('regis.export-user-pdf');
+Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->name('regis.export-pdf');
+Route::get('/export-user-pdf-regis/{id}', [RegistrasiController::class, 'exportUser'])->name('regis.export-user-pdf');
 //mobile
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
 Route::get('/mobile/acara/detail', [RegistrasiController::class, 'showUserEvents'])->name('mobile.acara.detail');

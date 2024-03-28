@@ -49,7 +49,7 @@
                             {{-- <li class="nav-item">
                                 <a class="nav-link" href="{{ route('admin.users.index') }}">Users</a>
                             </li> --}}
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   Data Master
                                 </a>
@@ -57,7 +57,7 @@
                                   <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Data User</a></li>
                                   <li><a class="dropdown-item" href="#">Role</a></li>
                                 </ul>
-                            </li>
+                            </li> --}}
 
 
                         <li class="nav-item dropdown">
@@ -71,15 +71,40 @@
                               <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
                             </ul>
                         </li>
-                        @endcan
 
-                        @can('logged-in')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Anggota
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Data User</a></li>
                                 <li><a class="dropdown-item" href="{{ route('biodata_admin.index') }}">Biodata</a></li>
+                                <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
+                                <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
+                            </ul>
+                        </li>
+                        @endcan
+
+                        @can('is-staf')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Referensi
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                              <li><a class="dropdown-item" href="{{ route('cabor.index') }}">Data Cabang Olahraga</a></li>
+                              <li><a class="dropdown-item" href="{{ route('peran.index') }}">Data Peran</a></li>
+                              <li><a class="dropdown-item" href="{{ route('data-provinsi.index') }}">Data Provinsi</a></li>
+                              <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Anggota
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('staf.users.index') }}">Data User</a></li>
+                                <li><a class="dropdown-item" href="{{ route('staf.biodata.index') }}">Biodata</a></li>
                                 <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
                             </ul>
@@ -95,13 +120,18 @@
                                 <li><a class="dropdown-item" href="{{ route('acara.index') }}">Daftar Acara</a></li>
                                 <li><a class="dropdown-item" href="{{ route('sesi_acara.index') }}">Daftar Sesi Acara</a></li>
                                 <li><a class="dropdown-item" href="{{ route('tanda_terima.index') }}">Data Tanda Terima</a></li>
+                                @can('is-admin')
                                 <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Peserta</a></li>
+                                @endcan
+                                @can('is-staf')
+                                <li><a class="dropdown-item" href="{{ route('staf.registrasi.index') }}">Data Registrasi Peserta</a></li>
+                                @endcan
                                 <li><a class="dropdown-item" href="{{ route('kehadiran.index') }}">Data Kehadiran Peserta</a></li>
                             </ul>
                         </li>
                         @endcan
 
-                        @can('is-publik')
+                        {{-- @can('is-publik')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               Anggota
@@ -110,7 +140,7 @@
                                 <li><a class="dropdown-item" href="{{ route('publik.anggota_peran.index') }}">Data Peran Anggota</a></li>
                             </ul>
                         </li>
-                        @endcan
+                        @endcan --}}
 
 
                     </ul>
@@ -120,12 +150,21 @@
                         @if (Route::has('login'))
                             <div>
                                 @auth
-                                    <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();">Logout</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-danger btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {{ Auth::user()->name }}
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">Logout <i class="ms-1 fa-solid fa-arrow-right-from-bracket"></i></a>
+                                        </li>
+                                    </ul>
 
                                     <form method="POST" id="logout-form" action="{{ route('logout') }}" style="display: none">
                                         @csrf
                                     </form>
+                                </div>
                                 @else
                                     {{-- <a href="{{ route('login') }}">Login</a>
 

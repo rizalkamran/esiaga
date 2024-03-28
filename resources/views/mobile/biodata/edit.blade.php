@@ -47,6 +47,7 @@
                                     @endforeach
                                 </datalist>
                             </div>
+                            <p id="display_cabor" class="btn-c btn-sm btn-success mb-3">{{ $biodata->cabor->nama_cabor ?? '' }}</p>
                         </div>
 
                         <div class="col-md-6">
@@ -59,6 +60,7 @@
                                     @endforeach
                                 </datalist>
                             </div>
+                            <p id="display_kota" class="btn-c btn-sm btn-success mb-3">{{ $biodata->kota->nama_kota ?? '' }}</p>
                         </div>
 
                         <div class="col-md-6">
@@ -272,4 +274,42 @@
     <div class="back-to-top">
         <span class="back-top"><i class="fas fa-angle-double-up"></i></span>
     </div>
+
+    <!-- JavaScript to handle dynamic display updates -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to update display text based on selected ID
+            function updateDisplayText(inputId, displayId) {
+                var inputElement = document.getElementById(inputId);
+                var selectedId = inputElement.value;
+                var optionText = '';
+
+                // Loop through options in the datalist to find the corresponding text
+                var options = inputElement.list.options;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value === selectedId) {
+                        optionText = options[i].text;
+                        break; // Exit the loop once the option is found
+                    }
+                }
+
+                // Update the text in the display element
+                var displayElement = document.getElementById(displayId);
+                displayElement.textContent = optionText;
+            }
+
+            // When an option is selected from the datalist
+            document.getElementById('cabor_id').addEventListener('change', function() {
+                updateDisplayText('cabor_id', 'display_cabor');
+            });
+
+            document.getElementById('kota_id').addEventListener('change', function() {
+                updateDisplayText('kota_id', 'display_kota');
+            });
+
+            // Initially update display text
+            updateDisplayText('cabor_id', 'display_cabor');
+            updateDisplayText('kota_id', 'display_kota');
+        });
+    </script>
 @endsection

@@ -7,7 +7,7 @@
         Update Biodata
     </div>
     <div class="card-body">
-        <form action="{{ route('biodata_admin.update', $biodata) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('staf.biodata.update', $biodata) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -183,7 +183,7 @@
 
             <!-- Submit Button -->
             <button type="submit" class="btn btn-sm btn-primary">Update</button>
-            <a class="btn btn-sm btn-secondary" href="{{ route('biodata_admin.index') }}">Cancel</a>
+            <a class="btn btn-sm btn-secondary" href="{{ route('staf.biodata.index') }}">Cancel</a>
         </form>
     </div>
 </div>

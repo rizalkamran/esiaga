@@ -8,13 +8,13 @@
         </div>
         <div class="card-body">
 
-            @can('is-admin')
+            @can('is-staf')
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <a class="btn btn-secondary" href="{{ route('registrasi.index') }}">Reset</a>
-                            <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
-                            <button id="togglePagination" class="btn btn-warning" disabled>Toggle All data</button>
+                            <a class="btn btn-secondary" href="{{ route('staf.registrasi.index') }}">Reset</a>
+                            <a class="btn btn-primary" href="{{ route('staf.registrasi.create') }}">Create</a>
+                            {{-- <button id="togglePagination" class="btn btn-warning" disabled>Toggle All data</button> --}}
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -37,7 +37,7 @@
 
                     <div class="col-md-3">
                         <div class="float-end">
-                            <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                            <form action="{{ route('staf.registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
                                 </div>
@@ -81,7 +81,7 @@
                             <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
                             <td>{{ $ag->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>
                             <td>
-                                <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
+                                <a href="{{ route('staf.registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
 
                                 <!-- Modal Button -->
                                 <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">

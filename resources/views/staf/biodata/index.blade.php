@@ -10,15 +10,15 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a class="btn btn-primary" href="{{ route('biodata_admin.create') }}">Buat</a>
-                        <a class="btn btn-secondary" href="{{ route('biodata_admin.index') }}">Reset</a>
+                        <a class="btn btn-primary" href="{{ route('staf.biodata.create') }}">Buat</a>
+                        <a class="btn btn-secondary" href="{{ route('staf.biodata.index') }}">Reset</a>
                         {{-- <button class="btn btn-warning dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Sort
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'id', 'sort_order' => 'asc', 'search' => $searchQuery]) }}">ID</a></li>
-                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'user_id', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
-                            <li><a class="dropdown-item" href="{{ route('biodata_admin.index', ['sort_by' => 'cabor_id', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Cabang Olahraga</a></li>
+                            <li><a class="dropdown-item" href="{{ route('staf.biodata.index', ['sort_by' => 'id', 'sort_order' => 'asc', 'search' => $searchQuery]) }}">ID</a></li>
+                            <li><a class="dropdown-item" href="{{ route('staf.biodata.index', ['sort_by' => 'user_id', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
+                            <li><a class="dropdown-item" href="{{ route('staf.biodata.index', ['sort_by' => 'cabor_id', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Cabang Olahraga</a></li>
                             <!-- Add more sorting options as needed -->
                         </ul> --}}
                     </div>
@@ -26,7 +26,7 @@
 
                 <div class="col-md-9">
                     <div class="float-end">
-                        <form action="{{ route('biodata_admin.index') }}" method="get" style="display: inline-flex; align-items: center;">
+                        <form action="{{ route('staf.biodata.index') }}" method="get" style="display: inline-flex; align-items: center;">
                             <div class="form-group mr-2" style="margin-bottom: 0;">
                                 <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
                             </div>
@@ -45,12 +45,12 @@
                         <tr>
                             <th>No</th>
                             <th>
-                                <a href="{{ route('biodata_admin.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">
+                                <a href="{{ route('staf.biodata.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">
                                     Nama Lengkap
                                 </a>
                             </th>
                             <th>
-                                <a href="{{ route('biodata_admin.index', ['sort_by' => 'nama_cabor', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">
+                                <a href="{{ route('staf.biodata.index', ['sort_by' => 'nama_cabor', 'sort_order' => ($sortField == 'nama_cabor' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">
                                     Cabor
                                 </a>
                             </th>
@@ -84,7 +84,7 @@
                                         data-bs-target="#dataModal{{ $bio->id }}">
                                         Detail
                                     </button>
-                                    <a href="{{ route('biodata_admin.edit', $bio->id) }}" class="btn btn-sm btn-primary">
+                                    <a href="{{ route('staf.biodata.edit', $bio->id) }}" class="btn btn-sm btn-primary">
                                         Edit
                                     </a>
                                 </td>

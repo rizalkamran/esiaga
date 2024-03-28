@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Biodata;
 use App\Models\ReffCabor;
 use App\Models\User;
 use App\Models\ReffProvinsi;
 use App\Models\ReffKota;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 
-class BiodataAdminController extends Controller
+class BiodataStafController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class BiodataAdminController extends Controller
      */
     public function index(Request $request)
     {
-        if (Gate::allows('is-admin')) {
+        if (Gate::allows('is-staf')) {
             $searchQuery = $request->input('search');
 
             // Start with the base query
@@ -67,7 +67,7 @@ class BiodataAdminController extends Controller
             // Paginate the search results
             $biodata = $query->paginate(10);
 
-            return view('biodata_admin.index', [
+            return view('staf.biodata.index', [
                 'biodata' => $biodata,
                 'searchQuery' => $searchQuery,
                 'sortField' => $sortField,
@@ -85,7 +85,7 @@ class BiodataAdminController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('is-admin')) {
+        if (Gate::allows('is-staf')) {
             // Get the authenticated user's ID
             $user =  User::all();
 
@@ -93,7 +93,7 @@ class BiodataAdminController extends Controller
             $kota = ReffKota::all();
             $cabor = ReffCabor::all();
 
-            return view('biodata_admin.create', [
+            return view('staf.biodata.create', [
                 'user' => $user,
                 //'provinsi' => $provinsi,
                 'kota' => $kota,
@@ -112,6 +112,7 @@ class BiodataAdminController extends Controller
      */
     public function store(Request $request)
     {
+        $user = User::findOrFail($request->input('user_id'));
         $username = auth()->user()->name;
 
         $request->validate([
@@ -200,36 +201,40 @@ class BiodataAdminController extends Controller
             'request_role' => $request->request_role,
         ]);
 
-        $request->session()->flash('success', 'Biodata berhasil dibuat');
+        $flashMessage = 'Biodata dibuat,';
+        $flashMessage .= "\nNomor User: " . $request->input('user_id');
+        $flashMessage .= "\nNama Lengkap: " . $user->nama_lengkap; // Add the user's nama_lengkap
 
-        return redirect()->route('biodata_admin.index');
+        $request->session()->flash('success', $flashMessage);
+
+        return redirect()->route('staf.registrasi.create');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Biodata  $biodata
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Biodata $biodata)
+    public function show($id)
     {
-        //
+
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Biodata  $biodata
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
-        if (Gate::allows('is-admin')) {
+        if (Gate::allows('is-staf')) {
             $biodata = Biodata::findOrFail($id);
             $kota = ReffKota::all();
             $cabor = ReffCabor::all();
 
-            return view('biodata_admin.edit', [
+            return view('staf.biodata.edit', [
                 'biodata' => $biodata,
                 'kota' => $kota,
                 'cabor' => $cabor,
@@ -237,13 +242,14 @@ class BiodataAdminController extends Controller
         }
 
         abort(403, 'Unauthorized action');
+
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Biodata  $biodata
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -352,16 +358,16 @@ class BiodataAdminController extends Controller
         $biodata->save();
 
         // Redirect the user to the index page or any other appropriate page
-        return redirect()->route('biodata_admin.index');
+        return redirect()->route('staf.biodata.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Biodata  $biodata
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Biodata $biodata)
+    public function destroy($id)
     {
         //
     }

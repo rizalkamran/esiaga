@@ -9,21 +9,21 @@
             <div class="row mb-3">
                 <div class="col-md-4">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a class="btn btn-primary" href="{{ route('admin.users.create') }}" target="_blank">Create</a>
-                        <a class="btn btn-secondary" href="{{ route('admin.users.index') }}">Reset</a>
+                        <a class="btn btn-primary" href="{{ route('staf.users.create') }}" target="_blank">Create</a>
+                        <a class="btn btn-secondary" href="{{ route('staf.users.index') }}">Reset</a>
                         <button class="btn btn-warning dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Sort
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="sortDropdown">
-                            <li><a class="dropdown-item" href="{{ route('admin.users.index', ['sort_by' => 'id', 'sort_order' => 'asc', 'search' => $searchQuery]) }}">ID</a></li>
-                            <li><a class="dropdown-item" href="{{ route('admin.users.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
+                            <li><a class="dropdown-item" href="{{ route('staf.users.index', ['sort_by' => 'id', 'sort_order' => 'asc', 'search' => $searchQuery]) }}">ID</a></li>
+                            <li><a class="dropdown-item" href="{{ route('staf.users.index', ['sort_by' => 'nama_lengkap', 'sort_order' => ($sortField == 'nama_lengkap' && $sortOrder == 'asc') ? 'desc' : 'asc', 'search' => $searchQuery]) }}">Nama Lengkap</a></li>
                             <!-- Add more sorting options as needed -->
                         </ul>
                     </div>
                 </div>
                 <div class="col-md-8">
                     <div class="float-end">
-                        <form action="{{ route('admin.users.index') }}" method="get" style="display: inline-flex; align-items: center;">
+                        <form action="{{ route('staf.users.index') }}" method="get" style="display: inline-flex; align-items: center;">
                             <div class="form-group mr-2" style="margin-bottom: 0;">
                                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Search ..." value="{{ $searchQuery }}">
                             </div>
@@ -62,16 +62,16 @@
                                 <td>
                                     @if(auth()->user() && $user->id !== auth()->user()->id)
                                         @if(!$user->hasAnyRole('admin'))
-                                            <a class="btn btn-sm btn-success" href="{{ route('admin.users.edit', $user->id) }}" role="button">Edit</a>
-                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}">
+                                            <a class="btn btn-sm btn-success" href="{{ route('staf.users.edit', $user->id) }}" role="button">Edit</a>
+                                            <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $user->id }}" disabled>
                                                 Delete
                                             </button>
-                                            <form id="delete-user-form-{{ $user->id }}" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" style="display: none">
+                                            <form id="delete-user-form-{{ $user->id }}" action="{{ route('staf.users.destroy', $user->id) }}" method="POST" style="display: none">
                                                 @csrf
                                                 @method("DELETE")
                                             </form>
                                         @else
-                                            <a class="btn btn-sm btn-success" href="{{ route('admin.users.edit', $user->id) }}" role="button">Edit</a>
+                                            <a class="btn btn-sm btn-success disabled" href="#" role="button">Edit</a>
                                             <button type="button" class="btn btn-sm btn-danger" disabled>
                                                 Delete
                                             </button>

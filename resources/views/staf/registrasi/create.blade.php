@@ -24,7 +24,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('registrasi.store.admin') }}">
+        <form method="POST" action="{{ route('staf.registrasi.store') }}">
             @csrf
 
             <div class="row">
@@ -33,7 +33,7 @@
                     <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
                         <option selected disabled>Pilih User</option>
                         @foreach ($user as $u)
-                            <option value="{{ $u->id }}">{{ $u->nama_lengkap }}</option>
+                            <option value="{{ $u->id }}">{{ $u->id }} - {{ $u->nama_lengkap }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -51,7 +51,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-sm mt-3">Create</button>
-            <a href="{{ route('registrasi.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
+            <a href="{{ route('staf.registrasi.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
         </form>
     </div>
 </div>
