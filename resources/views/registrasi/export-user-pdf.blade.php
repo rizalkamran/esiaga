@@ -58,9 +58,9 @@
             <tr>
                 <td>{{ $anggota->user->nama_lengkap }}</td>
                 <td>{{ $anggota->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
-                <td>{{ $anggota->user->biodata->cabor->nama_cabor }}</td>
+                <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
                 <td>{{ $anggota->user->nomor_ktp }}</td>
-                <td>{{ $anggota->user->biodata->kota->nama_kota }}</td>
+                <td>{{ $anggota->user->biodata?->kota?->nama_kota ?? 'Data belum diisi'}}</td>
             </tr>
         </tbody>
     </table>

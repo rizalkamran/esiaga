@@ -78,7 +78,7 @@
                             <td>{{ ($anggota->currentPage() - 1) * $anggota->perPage() + $loop->iteration }}</td>
                             <td>{{ $ag->user->nama_lengkap }}</td>
                             <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
-                            <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
+                            <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
                             <td>{{ $ag->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>
                             <td>
                                 <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>

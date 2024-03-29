@@ -14,6 +14,7 @@ use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\anggotaKehadiranRegistrasi;
 use App\Models\Biodata;
 use App\Models\Diklat;
+use App\Models\Lisensi;
 use App\Models\TandaTerima;
 
 
@@ -116,6 +117,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function diklat()
     {
         return $this->hasMany(Diklat::class);
+    }
+
+    public function lisensi()
+    {
+        return $this->hasMany(Lisensi::class);
     }
 
     public function tandaTerima()

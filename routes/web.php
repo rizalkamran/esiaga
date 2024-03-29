@@ -11,6 +11,8 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\BiodataAdminController;
 use App\Http\Controllers\BiodataStafController;
 use App\Http\Controllers\DiklatController;
+use App\Http\Controllers\LisensiUserController;
+use App\Http\Controllers\LisensiAdminController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\RegistrasiController;
@@ -189,6 +191,12 @@ Route::resource('/diklat', DiklatController::class);
 Route::get('/mobile/diklat', [DiklatController::class, 'index'])->name('mobile.diklat.index');
 Route::get('/mobile/diklat/create', [DiklatController::class, 'create'])->name('mobile.diklat.create');
 Route::post('/mobile/diklat', [DiklatController::class, 'store'])->name('mobile.diklat.store');
+
+// lisensi
+Route::resource('/lisensi', LisensiAdminController::class);
+Route::get('/mobile/lisensi', [LisensiUserController::class, 'index'])->name('mobile.lisensi.index');
+Route::get('/mobile/lisensi/create', [LisensiUserController::class, 'create'])->name('mobile.lisensi.create');
+Route::post('/mobile/lisensi', [LisensiUserController::class, 'store'])->name('mobile.lisensi.store');
 
 
 //Referensi

@@ -70,10 +70,10 @@
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $ag->user->nama_lengkap }}</td>
                         <td>{{ $ag->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
-                        <td>{{ $ag->user->biodata->cabor->nama_cabor }}</td>
+                        <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
                         <td>{{ $ag->user->nomor_ktp }}</td>
-                        <td>{{ $ag->user->biodata->npwp }}</td>
-                        <td>{{ $ag->user->biodata->kota->nama_kota }}</td>
+                        <td>{{ $ag->user->biodata?->npwp ?? 'Data belum diisi'}}</td>
+                        <td>{{ $ag->user->biodata?->kota?->nama_kota ?? 'Data belum diisi'}}</td>
                         <td>{{ $ag->user->telepon }}</td>
                         <td>{{ \Carbon\Carbon::parse($ag->created_at)->locale('id_ID')->isoFormat('D MMMM YYYY H:m:s') }}</td>
                     </tr>

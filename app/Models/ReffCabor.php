@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AnggotaPeran;
 use App\Models\Biodata;
+use App\Models\Lisensi;
 
 class ReffCabor extends Model
 {
@@ -26,5 +27,10 @@ class ReffCabor extends Model
     public function biodata()
     {
         return $this->hasMany(Biodata::class, 'cabor_id');
+    }
+
+    public function lisensi()
+    {
+        return $this->hasMany(Lisensi::class, 'cabor_id');
     }
 }

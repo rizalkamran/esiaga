@@ -81,6 +81,7 @@
                                 <li><a class="dropdown-item" href="{{ route('biodata_admin.index') }}">Biodata</a></li>
                                 <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
+                                <li><a class="dropdown-item" href="{{ route('lisensi.index') }}">Sertifikat/Lisensi</a></li>
                             </ul>
                         </li>
                         @endcan
@@ -107,6 +108,7 @@
                                 <li><a class="dropdown-item" href="{{ route('staf.biodata.index') }}">Biodata</a></li>
                                 <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
+                                <li><a class="dropdown-item" href="{{ route('lisensi.index') }}">Sertifikat/Lisensi</a></li>
                             </ul>
                         </li>
                         @endcan

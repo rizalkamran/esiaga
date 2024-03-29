@@ -111,6 +111,10 @@
                             <a class="single-profile-wrap" href="{{ route('mobile.diklat.index') }}"><i class="fa fa-tag"></i>
                                 Diklat <i class="ri-arrow-right-s-line"></i></a>
                         </li>
+                        <li>
+                            <a class="single-profile-wrap" href="{{ route('mobile.lisensi.index') }}"><i class="fa fa-tag"></i>
+                                Sertifikat/Lisensi <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
                     @endcan
                 </ul>
 
