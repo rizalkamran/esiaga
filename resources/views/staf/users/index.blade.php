@@ -39,7 +39,7 @@
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#ID</th>
+                            <th scope="col">Nomor</th>
                             <th scope="col">Username</th>
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">Role</th>
@@ -60,6 +60,25 @@
                                 </td>
                                 <td>{{ $user->email }}</td>
                                 <td>
+                                    <button class="btn btn-sm btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Link
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('staf.biodata.index', ['user_id' => $user->id]) }}">
+                                                Biodata
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('lisensi.index', ['user_id' => $user->id]) }}">
+                                                Lisensi
+                                            </a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="#">Diklat</a></li>
+                                        <li><a class="dropdown-item" href="#">Prestasi</a></li>
+                                        <li><a class="dropdown-item" href="#">Pekerjaan</a></li>
+                                        <li><a class="dropdown-item" href="#">Pendidikan</a></li>
+                                    </ul>
                                     @if(auth()->user() && $user->id !== auth()->user()->id)
                                         @if(!$user->hasAnyRole('admin'))
                                             <a class="btn btn-sm btn-success" href="{{ route('staf.users.edit', $user->id) }}" role="button">Edit</a>

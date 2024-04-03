@@ -3,32 +3,56 @@
 @section('content')
     <div class="card shadow mt-3">
         <div class="card-header">
-            Data Profil
+            Data Diklat
         </div>
         <div class="card-body">
+
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a class="btn btn-primary" href="{{ route('diklat.create') }}">Buat</a>
+                        <a class="btn btn-secondary" href="{{ route('diklat.index') }}">Reset</a>
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+                    <div class="float-end">
+                        <form action="{{ route('diklat.index') }}" method="get" style="display: inline-flex; align-items: center;">
+                            <div class="form-group mr-2" style="margin-bottom: 0;">
+                                <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-primary ms-2">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             @if (!$diklat->isEmpty())
             <div class="table-responsive-md">
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Lengkap</th>
-                            <th>Jenis Kelamin</th>
+                            <th>L/P</th>
                             <th>Tingkat</th>
                             <th>Nama diklat</th>
                             <th>Penyelenggara</th>
-                            <th>Action</th>
+                            <th>Sertifikat</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($diklat as $d)
+                        @foreach ($diklat as $index => $d)
                             <tr>
+                                <td>{{ $index + $diklat->firstItem() }}</td>
                                 <td>{{ $d->user->nama_lengkap }}</td>
                                 <td>
                                     @if ($d->user->jenis_kelamin == 'L')
-                                        Laki-laki
+                                        L
                                     @else
-                                        Perempuan
+                                        P
                                     @endif
                                 </td>
                                 <td>{{ $d->tingkat }}</td>
@@ -37,7 +61,7 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $d->id }}">
-                                        Images
+                                        Lihat
                                     </button>
                                 </td>
                             </tr>
@@ -54,7 +78,7 @@
             @endif
 
 
-            {{ $diklat->links() }}
+            {{ $diklat->appends(['search' => $searchQuery])->links() }}
         </div>
     </div>
 
@@ -62,7 +86,7 @@
     @foreach ($diklat as $d)
         <div class="modal fade" id="imagesModal{{ $d->id }}" tabindex="-1"
             aria-labelledby="imagesModalLabel{{ $d->id }}" aria-hidden="true">
-            <div class="modal-dialog modal-dialog modal-md">
+            <div class="modal-dialog modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="imagesModalLabel{{ $d->id }}">Images</h5>
@@ -71,7 +95,7 @@
                     <div class="modal-body">
                         <div class="row text-center">
                             <div class="col">
-                                <img src="{{ asset('storage/foto_ijazah/' . $d->foto_ijazah) }}" alt="Foto Diri" class="img-fluid mb-3">
+                                <img src="{{ asset('foto_ijazah/' . $d->foto_ijazah) }}" alt="Foto Ijazah" class="img-fluid mb-3">
                             </div>
                         </div>
                     </div>

@@ -9,7 +9,7 @@
     <div class="single-page-area">
         <div class="title-area">
             <a class="btn back-page-btn" href="{{ route('mobile.lisensi.index') }}"><i class="ri-arrow-left-s-line"></i></a>
-            <h3 class="ms-5 ps-5">Tambah Diklat</h3>
+            <h3 class="ms-5 ps-5">Tambah Lisensi</h3>
         </div>
 
         <div class="my-profile-detail">
@@ -62,7 +62,7 @@
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="profesi">Profesi</label>
-                                <input type="text" class="form-control" placeholder="Isi Nama Diklat"
+                                <input type="text" class="form-control" placeholder="Isi Profesi"
                                     id="profesi" name="profesi" value="{{ old('profesi') }}">
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="nama_lisensi">Nama Lisensi</label>
-                                <input type="text" class="form-control" placeholder="Isi Nama Diklat"
+                                <input type="text" class="form-control" placeholder="Isi Nama Lisensi"
                                     id="nama_lisensi" name="nama_lisensi" value="{{ old('nama_lisensi') }}">
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                         <div class="col-md-6">
                             <div class="single-input-wrap">
                                 <label for="nomor_lisensi">Nomor Lisensi</label>
-                                <input type="text" class="form-control" placeholder="Isi Nama Diklat"
+                                <input type="text" class="form-control" placeholder="Isi Nomor Lisensi"
                                     id="nomor_lisensi" name="nomor_lisensi" value="{{ old('nomor_lisensi') }}">
                             </div>
                         </div>

@@ -7,6 +7,11 @@
             Buat Biodata
         </div>
         <div class="card-body">
+
+            <div class="alert alert-primary" role="alert">
+                <strong>Data yang wajib diisi -> Nama, Cabor, Kota Domisili, dan NPWP</strong>
+            </div>
+
             <form action="{{ route('staf.biodata.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
@@ -33,6 +38,7 @@
                                 @endforeach
                             </datalist>
                         </datalist>
+                        <span id="display_user" class="badge text-bg-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label for="cabor_id" class="form-label">Cabang Olahraga</label>
@@ -45,6 +51,7 @@
                                 @endforeach
                             </datalist>
                         </datalist>
+                        <span id="display_cabor" class="badge text-bg-danger"></span>
                     </div>
                     <div class="col-md-4">
                         <label for="kota_id" class="form-label">Kota Domisili</label>
@@ -57,6 +64,7 @@
                                 @endforeach
                             </datalist>
                         </datalist>
+                        <span id="display_kota" class="badge text-bg-danger"></span>
                     </div>
                 </div>
 
@@ -212,4 +220,60 @@
     </div>
 
     @include('templates.footer')
+
+    <!-- JavaScript to handle input change -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to update display text based on selected ID
+            function updateDisplayText(inputId, displayId) {
+                var inputElement = document.getElementById(inputId);
+                var selectedId = inputElement.value;
+                var optionText = '';
+
+                // Loop through options in the datalist to find the corresponding text
+                var options = inputElement.list.options;
+                for (var i = 0; i < options.length; i++) {
+                    if (options[i].value === selectedId) {
+                        optionText = options[i].text;
+                        break; // Exit the loop once the option is found
+                    }
+                }
+
+                // Update the text in the display element
+                var displayElement = document.getElementById(displayId);
+                displayElement.textContent = optionText;
+            }
+
+            // Hide display text initially
+            document.getElementById('display_cabor').style.display = 'none';
+            document.getElementById('display_kota').style.display = 'none';
+            document.getElementById('display_user').style.display = 'none';
+
+            // When the input gains focus (clicked)
+            document.getElementById('cabor_id').addEventListener('focus', function() {
+                document.getElementById('display_cabor').style.display = 'block';
+            });
+
+            document.getElementById('kota_id').addEventListener('focus', function() {
+                document.getElementById('display_kota').style.display = 'block';
+            });
+
+            document.getElementById('user_id').addEventListener('focus', function() {
+                document.getElementById('display_user').style.display = 'block';
+            });
+
+            // When an option is selected from the datalist
+            document.getElementById('cabor_id').addEventListener('change', function() {
+                updateDisplayText('cabor_id', 'display_cabor');
+            });
+
+            document.getElementById('kota_id').addEventListener('change', function() {
+                updateDisplayText('kota_id', 'display_kota');
+            });
+
+            document.getElementById('user_id').addEventListener('change', function() {
+                updateDisplayText('user_id', 'display_user');
+            });
+        });
+    </script>
 @endsection

@@ -24,11 +24,6 @@ class DiklatController extends Controller
                 $diklat = Diklat::where('user_id', auth()->user()->id)->get(); // Change 10 to the desired number of items per page
                 return view('mobile.diklat.index', ['diklat' => $diklat]);
             }
-        } else {
-            if (Gate::allows('is-admin')) {
-                $diklat = Diklat::paginate(10);
-                return view('diklat.index', ['diklat' => $diklat]);
-            }
         }
 
         abort(403, 'Unauthorized action');
@@ -75,9 +70,9 @@ class DiklatController extends Controller
         // Process and store the first file if uploaded
         if ($request->hasFile('foto_ijazah')) {
             $file1 = $request->file('foto_ijazah');
-            $nama_file1 = $username . '_' . time() . '_' . $file1->getClientOriginalName(); // Appending timestamp
+            $nama_file1 = $username . '_' . $file1->getClientOriginalName(); // Appending timestamp
             $tujuan_upload = 'foto_ijazah';
-            $file1->storeAs($tujuan_upload, $nama_file1);
+            $file1->move($tujuan_upload, $nama_file1);
         } else {
             $nama_file1 = null; // or whatever default value you want to set
         }

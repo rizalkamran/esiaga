@@ -34,6 +34,7 @@
                 <table class="table table-sm table-hover">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama Lengkap</th>
                             <th>Cabor/Afiliasi</th>
                             <th>Jenis Kelamin</th>
@@ -43,8 +44,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($lisensi as $lis)
+                        @foreach ($lisensi as $index => $lis)
                             <tr>
+                                <td>{{ $index + $lisensi->firstItem() }}</td>
                                 <td>{{ $lis->user->nama_lengkap }}</td>
                                 <td>{{ $lis->cabor->nama_cabor }}</td>
                                 <td>
@@ -119,7 +121,7 @@
                                 </div>
                                 <div class="col">
                                     <p class="fw-bold">Foto Sertifikat:</p>
-                                    <img src="{{ asset('foto_lisensi/' . $lis->foto_lisensi) }}" alt="Foto Diri" class="img-fluid mt-2">
+                                    <img src="{{ asset('foto_lisensi/' . $lis->foto_lisensi) }}" alt="Foto Lisensi" class="img-fluid mt-2">
                                 </div>
                             </div>
                         </div>

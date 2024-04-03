@@ -28,7 +28,7 @@
                 <form class="edit-form-wrap" method="POST" enctype="multipart/form-data" action="{{ route('mobile.diklat.store') }}">
                     @csrf
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6" style="display:none;">
                             <div class="single-input-wrap">
                                 <label for="user_id">User ID</label>
                                 <input type="text" class="form-control" placeholder="User ID" name="user_id"

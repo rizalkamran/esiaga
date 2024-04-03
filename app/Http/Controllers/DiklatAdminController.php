@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Lisensi;
-use App\Models\ReffCabor;
-use App\Models\User;
+use App\Models\Diklat;
 use Illuminate\Http\Request;
+use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class LisensiAdminController extends Controller
+class DiklatAdminController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +24,7 @@ class LisensiAdminController extends Controller
             $searchQuery = $request->input('search');
 
             // Start with the base query
-            $query = Lisensi::query();
+            $query = Diklat::query();
 
             if ($userId) {
                 $query->where('user_id', $userId);
@@ -39,9 +38,9 @@ class LisensiAdminController extends Controller
             }
 
             // Paginate the search results
-            $lisensi = $query->paginate(10);
+            $diklat = $query->paginate(10);
 
-            return view('lisensi.index', ['lisensi' => $lisensi, 'searchQuery' => $searchQuery, 'user_id' => $userId]);
+            return view('diklat.index', ['diklat' => $diklat, 'searchQuery' => $searchQuery, 'user_id' => $userId]);
         }
 
         abort(403, 'Unauthorized action');
@@ -54,14 +53,12 @@ class LisensiAdminController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('is-admin')) {
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             // Get the authenticated user's ID
             $user =  User::all();
-            $cabor = ReffCabor::all();
 
-            return view('lisensi.create', [
+            return view('diklat.create', [
                 'user' => $user,
-                'cabor' => $cabor,
             ]);
         }
 
@@ -76,56 +73,52 @@ class LisensiAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = auth()->user()->id;
-
         $username = auth()->user()->name;
 
         $request->validate([
             'user_id' => 'required',
-            'cabor_id' => 'required',
             'tingkat' => 'required|string',
-            'profesi' => 'required|string',
-            'nama_lisensi' => 'required|string',
-            'nomor_lisensi' => 'required|string',
+            'nama_diklat' => 'required|string',
             'tgl_mulai' => 'required|date',
             'tgl_selesai' => 'required|date',
+            'jumlah_jam' => 'required|integer',
             'penyelenggara' => 'required|string',
-            'foto_lisensi' => 'nullable|file|image|max:1024',
+            'foto_ijazah' => 'nullable|file|image|max:1024',
         ]);
 
-        if ($request->hasFile('foto_lisensi')) {
-            $file1 = $request->file('foto_lisensi');
-            $nama_file1 = $username . '_' . time() . '_' . $file1->getClientOriginalName(); // Appending timestamp
-            $tujuan_upload = 'foto_lisensi';
+        // Process and store the first file if uploaded
+        if ($request->hasFile('foto_ijazah')) {
+            $file1 = $request->file('foto_ijazah');
+            $nama_file1 = $username . '_' . $file1->getClientOriginalName(); // Appending timestamp
+            $tujuan_upload = 'foto_ijazah';
             $file1->move($tujuan_upload, $nama_file1);
         } else {
             $nama_file1 = null; // or whatever default value you want to set
         }
 
+
         // Create Biodata instance with the validated data and file paths
-        Lisensi::create([
+        Diklat::create([
             'user_id' => $request->user_id,
-            'cabor_id' => $request->cabor_id,
             'tingkat' => $request->tingkat,
-            'profesi' => $request->profesi,
-            'nama_lisensi' => $request->nama_lisensi,
-            'nomor_lisensi' => $request->nomor_lisensi,
+            'nama_diklat' => $request->nama_diklat,
             'tgl_mulai' => $request->tgl_mulai,
             'tgl_selesai' => $request->tgl_selesai,
+            'jumlah_jam' => $request->jumlah_jam,
             'penyelenggara' => $request->penyelenggara,
-            'foto_lisensi' => $nama_file1,
+            'foto_ijazah' => $nama_file1,
         ]);
 
-        return redirect()->route('lisensi.index');
+        return redirect()->route('diklat.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Lisensi  $lisensi
+     * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function show(Lisensi $lisensi)
+    public function show(Diklat $diklat)
     {
         //
     }
@@ -133,10 +126,10 @@ class LisensiAdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Lisensi  $lisensi
+     * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lisensi $lisensi)
+    public function edit(Diklat $diklat)
     {
         //
     }
@@ -145,10 +138,10 @@ class LisensiAdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lisensi  $lisensi
+     * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lisensi $lisensi)
+    public function update(Request $request, Diklat $diklat)
     {
         //
     }
@@ -156,10 +149,10 @@ class LisensiAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Lisensi  $lisensi
+     * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lisensi $lisensi)
+    public function destroy(Diklat $diklat)
     {
         //
     }

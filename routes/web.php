@@ -11,6 +11,7 @@ use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\BiodataAdminController;
 use App\Http\Controllers\BiodataStafController;
 use App\Http\Controllers\DiklatController;
+use App\Http\Controllers\DiklatAdminController;
 use App\Http\Controllers\LisensiUserController;
 use App\Http\Controllers\LisensiAdminController;
 use App\Http\Controllers\ReffKotaController;
@@ -102,6 +103,7 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function(){
 Route::prefix('staf')->middleware('auth')->name('staf.')->group(function(){
     Route::resource('/users', UserStafController::class);
     Route::resource('/biodata', BiodataStafController::class);
+    Route::get('/biodata', [BiodataStafController::class, 'index'])->name('biodata.index');
     Route::resource('/registrasi', RegistrasiStafController::class);
     //Route::get('/registrasi/export-pdf', [RegistrasiStafController::class, 'exportStafPDF'])->name('registrasi.export-pdf');
 });
@@ -173,6 +175,7 @@ Route::get('/export-pdf-absen', [KehadiranController::class, 'exportPDF'])->midd
 
 // Biodata Admin
 Route::resource('/biodata_admin', BiodataAdminController::class);
+Route::get('/biodata_admin', [BiodataAdminController::class, 'index'])->name('biodata_admin.index');
 Route::get('/biodata_admin/{id}/edit', [BiodataAdminController::class, 'edit'])->name('biodata_admin.edit');
 Route::get('/biodata_admin/{id}', [BiodataAdminController::class, 'update'])->name('biodata_admin.update');
 
@@ -187,13 +190,15 @@ Route::put('/mobile/biodata/{id}', [BiodataController::class, 'update'])->name('
 //Route::get('/download/image/{imageName}', 'BiodataController@downloadImage')->name('download.image');
 
 // Diklat
-Route::resource('/diklat', DiklatController::class);
+Route::resource('/diklat', DiklatAdminController::class);
+Route::get('/diklat', [DiklatAdminController::class, 'index'])->name('diklat.index');
 Route::get('/mobile/diklat', [DiklatController::class, 'index'])->name('mobile.diklat.index');
 Route::get('/mobile/diklat/create', [DiklatController::class, 'create'])->name('mobile.diklat.create');
 Route::post('/mobile/diklat', [DiklatController::class, 'store'])->name('mobile.diklat.store');
 
 // lisensi
 Route::resource('/lisensi', LisensiAdminController::class);
+Route::get('/lisensi', [LisensiAdminController::class, 'index'])->name('lisensi.index');
 Route::get('/mobile/lisensi', [LisensiUserController::class, 'index'])->name('mobile.lisensi.index');
 Route::get('/mobile/lisensi/create', [LisensiUserController::class, 'create'])->name('mobile.lisensi.create');
 Route::post('/mobile/lisensi', [LisensiUserController::class, 'store'])->name('mobile.lisensi.store');

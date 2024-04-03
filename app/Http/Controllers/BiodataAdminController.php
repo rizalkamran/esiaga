@@ -24,10 +24,15 @@ class BiodataAdminController extends Controller
     public function index(Request $request)
     {
         if (Gate::allows('is-admin')) {
+            $userId = $request->input('user_id');
             $searchQuery = $request->input('search');
 
             // Start with the base query
             $query = Biodata::query();
+
+            if ($userId) {
+                $query->where('user_id', $userId);
+            }
 
             // Filter by search query
             if ($searchQuery) {
@@ -72,6 +77,7 @@ class BiodataAdminController extends Controller
                 'searchQuery' => $searchQuery,
                 'sortField' => $sortField,
                 'sortOrder' => $sortOrder,
+                'user_id' => $userId,
             ]);
         }
 
@@ -170,6 +176,13 @@ class BiodataAdminController extends Controller
             $file3->move($tujuan_upload3, $nama_file3);
         } else {
             $nama_file3 = null; // or whatever default value you want to set
+        }
+
+        $existing = Biodata::where('user_id', $request->user_id)->exists();
+
+        // If there is an existing record, return with an error message
+        if ($existing) {
+            return redirect()->back()->withErrors(['user_id' => 'User sudah memiliki biodata.']);
         }
 
         // Create Biodata instance with the validated data and file paths

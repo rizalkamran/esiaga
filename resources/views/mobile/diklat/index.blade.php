@@ -53,7 +53,7 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <img src="{{ asset('storage/foto_ijazah/' . $d->foto_ijazah) }}" alt="Foto ijazah">
+                                        <img src="{{ asset('foto_ijazah/' . $d->foto_ijazah) }}" alt="Foto ijazah">
                                     </div>
                                 </div>
                             </div>
