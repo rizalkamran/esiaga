@@ -37,9 +37,8 @@
                             <th>No</th>
                             <th>Nama Lengkap</th>
                             <th>Cabor/Afiliasi</th>
-                            <th>Jenis Kelamin</th>
-                            <th>Tingkat</th>
-                            <th>Nama Lisensi</th>
+                            <th>L/P</th>
+                            <th>Profesi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -51,20 +50,48 @@
                                 <td>{{ $lis->cabor->nama_cabor }}</td>
                                 <td>
                                     @if ($lis->user->jenis_kelamin == 'L')
-                                        Laki-laki
+                                        L
                                     @else
-                                        Perempuan
+                                        P
                                     @endif
                                 </td>
-                                <td>{{ $lis->tingkat }}</td>
-                                <td>{{ $lis->nama_lisensi }}</td>
+                                <td>{{ $lis->profesi }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $lis->id }}">
                                         Detail
                                     </button>
+                                    <a href="{{ route('lisensi.edit', $lis->id) }}" target="_blank" class="btn btn-sm btn-primary">
+                                        Edit
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $lis->id }}">
+                                        Delete
+                                    </button>
+                                    <form id="delete-user-form-{{ $lis->id }}" action="{{ route('lisensi.destroy', $lis->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                        @method("DELETE")
+                                    </form>
                                 </td>
                             </tr>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal{{ $lis->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $lis->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $lis->id }}">Hapus data lisensi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <strong>Apakah anda ingin menghapus lisensi ini?</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('delete-user-form-{{ $lis->id }}').submit()">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
@@ -96,12 +123,22 @@
                         <div class="row text-center">
                             <div class="row mb-3">
                                 <div class="col">
+                                    <p class="fw-bold">Nama Lisensi:</p>
+                                    <p>{{ $lis->nama_lisensi }}</p>
+                                </div>
+                                <div class="col">
+                                    <p class="fw-bold">Nomor Lisensi:</p>
+                                    <p>{{ $lis->nomor_lisensi }}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
                                     <p class="fw-bold">Tingkat:</p>
                                     <p>{{ $lis->tingkat }}</p>
                                 </div>
                                 <div class="col">
-                                    <p class="fw-bold">Profesi:</p>
-                                    <p>{{ $lis->profesi }}</p>
+                                    <p class="fw-bold">Penyelenggara:</p>
+                                    <p>{{ $lis->penyelenggara }}</p>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -116,10 +153,6 @@
                             </div>
                             <div class="row mb-3">
                                 <div class="col">
-                                    <p class="fw-bold">Penyelenggara:</p>
-                                    <p>{{ $lis->penyelenggara }}</p>
-                                </div>
-                                <div class="col">
                                     <p class="fw-bold">Foto Sertifikat:</p>
                                     <img src="{{ asset('foto_lisensi/' . $lis->foto_lisensi) }}" alt="Foto Lisensi" class="img-fluid mt-2">
                                 </div>
@@ -131,6 +164,28 @@
         </div>
     @endforeach
 
-
     @include('templates.footer')
+
+    <!-- JavaScript Section -->
+    @section('scripts')
+    <script>
+        // Initialize Bootstrap modal
+        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+
+        // Show modal on delete button click
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var modal = $(this);
+            // Extract ID from button data-id attribute
+            var lisId = button.data('id');
+            modal.find('.modal-footer #lisId').val(lisId);
+        });
+
+        // Handle form submission when modal delete button is clicked
+        $('#deleteModal .btn-danger').on('click', function () {
+            var lisId = $('#lisId').val();
+            $('#delete-user-form-' + lisId).submit();
+        });
+    </script>
+    @endsection
 @endsection

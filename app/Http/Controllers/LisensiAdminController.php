@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class LisensiAdminController extends Controller
 {
@@ -54,7 +55,7 @@ class LisensiAdminController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('is-admin')) {
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             // Get the authenticated user's ID
             $user =  User::all();
             $cabor = ReffCabor::all();
@@ -116,6 +117,8 @@ class LisensiAdminController extends Controller
             'foto_lisensi' => $nama_file1,
         ]);
 
+        $request->session()->flash('success', 'Data lisensi dibuat');
+
         return redirect()->route('lisensi.index');
     }
 
@@ -136,9 +139,19 @@ class LisensiAdminController extends Controller
      * @param  \App\Models\Lisensi  $lisensi
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lisensi $lisensi)
+    public function edit($id)
     {
-        //
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            $lisensi = Lisensi::findOrFail($id);
+            $cabor = ReffCabor::all();
+
+            return view('lisensi.edit', [
+                'lisensi' => $lisensi,
+                'cabor' => $cabor,
+            ]);
+        }
+
+        abort(403, 'Unauthorized action');
     }
 
     /**
@@ -148,9 +161,56 @@ class LisensiAdminController extends Controller
      * @param  \App\Models\Lisensi  $lisensi
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lisensi $lisensi)
+    public function update(Request $request, $id)
     {
-        //
+        $username = auth()->user()->name;
+
+        $request->validate([
+            'cabor_id' => 'required',
+            'tingkat' => 'required|string',
+            'profesi' => 'required|string',
+            'nama_lisensi' => 'required|string',
+            'nomor_lisensi' => 'required|string',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'penyelenggara' => 'required|string',
+            'foto_lisensi' => 'nullable|file|image|max:1024',
+        ]);
+
+        // Find the lisensi entry by its ID
+        $lisensi = Lisensi::findOrFail($id);
+
+        // Update the lisensi entry with the validated data from the request
+        $lisensi->update($request->all());
+
+        // Using move priority, storeAs recommended for continue development
+        // Process and store the first file if uploaded
+        if ($request->hasFile('foto_lisensi')) {
+            $file1 = $request->file('foto_lisensi');
+            $nama_file1 = $username . '_' . time() . '_' . $file1->getClientOriginalName();
+            $tujuan_upload = 'foto_lisensi';
+
+            // Delete the old file if it exists
+            if ($lisensi->foto_lisensi) {
+                $oldFilePath = public_path($tujuan_upload . '/' . $lisensi->foto_lisensi);
+                if (File::exists($oldFilePath)) {
+                    File::delete($oldFilePath);
+                    // Also remove the old file name from the database
+                    $lisensi->foto_lisensi = null;
+                    $lisensi->save();
+                }
+            }
+
+            // Move the new file to the destination folder
+            $file1->move($tujuan_upload, $nama_file1);
+            $lisensi->foto_lisensi = $nama_file1;
+        }
+
+        $lisensi->save();
+        $request->session()->flash('success', 'Data lisensi diupdate');
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('lisensi.index');
     }
 
     /**
@@ -159,8 +219,23 @@ class LisensiAdminController extends Controller
      * @param  \App\Models\Lisensi  $lisensi
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lisensi $lisensi)
+    public function destroy($id, Request $request)
     {
-        //
+        $lisensi = Lisensi::findOrFail($id);
+
+        // Get the filename from the Lisensi model
+        $filename = $lisensi->foto_lisensi;
+
+        // Check if the file exists before deleting
+        if ($filename && File::exists(public_path('foto_lisensi/' . $filename))) {
+            File::delete(public_path('foto_lisensi/' . $filename));
+        }
+
+        // Delete the Lisensi data from the database
+        $lisensi->delete();
+
+        $request->session()->flash('danger', 'Data Lisensi telah dihapus');
+
+        return redirect(route('lisensi.index'));
     }
 }
