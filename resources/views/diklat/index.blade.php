@@ -40,7 +40,7 @@
                             <th>Tingkat</th>
                             <th>Nama diklat</th>
                             <th>Penyelenggara</th>
-                            <th>Sertifikat</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -59,12 +59,41 @@
                                 <td>{{ $d->nama_diklat }}</td>
                                 <td>{{ $d->penyelenggara }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $d->id }}">
-                                        Lihat
+                                        Sertif
                                     </button>
+                                    <a href="{{ route('diklat.edit', $d->id) }}" target="_blank" class="btn btn-sm btn-primary">
+                                        Edit
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $d->id }}">
+                                        Delete
+                                    </button>
+                                    <form id="delete-user-form-{{ $d->id }}" action="{{ route('diklat.destroy',  $d->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                        @method("DELETE")
+                                    </form>
                                 </td>
                             </tr>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal{{  $d->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{  $d->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{  $d->id }}">Hapus data lisensi</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <strong>Apakah anda ingin menghapus lisensi ini?</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('delete-user-form-{{  $d->id }}').submit()">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>

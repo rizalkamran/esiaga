@@ -2,10 +2,10 @@
     <div class="container">
       <div class="row">
         <div class="col-md-6">
-          <p>&copy; 2024 Your Company</p>
+          <p>&copy; 2024 DISPORA KALTIM</p>
         </div>
         <div class="col-md-6">
-          <p class="text-end">Designed by You</p>
+          <p class="text-end">Designed by GANKO GEMILANG</p>
         </div>
       </div>
     </div>

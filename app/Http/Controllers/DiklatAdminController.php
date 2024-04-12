@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class DiklatAdminController extends Controller
 {
@@ -89,7 +90,7 @@ class DiklatAdminController extends Controller
         // Process and store the first file if uploaded
         if ($request->hasFile('foto_ijazah')) {
             $file1 = $request->file('foto_ijazah');
-            $nama_file1 = $username . '_' . $file1->getClientOriginalName(); // Appending timestamp
+            $nama_file1 = $username . '_' . time() . '_' . $file1->getClientOriginalName(); // Appending timestamp
             $tujuan_upload = 'foto_ijazah';
             $file1->move($tujuan_upload, $nama_file1);
         } else {
@@ -108,6 +109,8 @@ class DiklatAdminController extends Controller
             'penyelenggara' => $request->penyelenggara,
             'foto_ijazah' => $nama_file1,
         ]);
+
+        $request->session()->flash('success', 'Data berhasil dibuat');
 
         return redirect()->route('diklat.index');
     }
@@ -129,9 +132,17 @@ class DiklatAdminController extends Controller
      * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function edit(Diklat $diklat)
+    public function edit($id)
     {
-        //
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            $diklat = Diklat::findOrFail($id);
+
+            return view('diklat.edit', [
+                'diklat' => $diklat,
+            ]);
+        }
+
+        abort(403, 'Unauthorized action');
     }
 
     /**
@@ -141,9 +152,54 @@ class DiklatAdminController extends Controller
      * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Diklat $diklat)
+    public function update(Request $request, $id)
     {
-        //
+        $username = auth()->user()->name;
+
+        $request->validate([
+            'tingkat' => 'required|string',
+            'nama_diklat' => 'required|string',
+            'tgl_mulai' => 'required|date',
+            'tgl_selesai' => 'required|date',
+            'jumlah_jam' => 'required|integer',
+            'penyelenggara' => 'required|string',
+            'foto_ijazah' => 'nullable|file|image|max:1024',
+        ]);
+
+        // Find the lisensi entry by its ID
+        $diklat = Diklat::findOrFail($id);
+
+        // Update the lisensi entry with the validated data from the request
+        $diklat->update($request->all());
+
+        // Using move priority, storeAs recommended for continue development
+        // Process and store the first file if uploaded
+        if ($request->hasFile('foto_ijazah')) {
+            $file1 = $request->file('foto_ijazah');
+            $nama_file1 = $username . '_' . time() . '_' . $file1->getClientOriginalName();
+            $tujuan_upload = 'foto_ijazah';
+
+            // Delete the old file if it exists
+            if ($diklat->foto_ijazah) {
+                $oldFilePath = public_path($tujuan_upload . '/' . $diklat->foto_ijazah);
+                if (File::exists($oldFilePath)) {
+                    File::delete($oldFilePath);
+                    // Also remove the old file name from the database
+                    $diklat->foto_ijazah = null;
+                    $diklat->save();
+                }
+            }
+
+            // Move the new file to the destination folder
+            $file1->move($tujuan_upload, $nama_file1);
+            $diklat->foto_ijazah = $nama_file1;
+        }
+
+        $diklat->save();
+        $request->session()->flash('success', 'Data diklat diupdate');
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('diklat.index');
     }
 
     /**
@@ -152,8 +208,23 @@ class DiklatAdminController extends Controller
      * @param  \App\Models\Diklat  $diklat
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Diklat $diklat)
+    public function destroy($id, Request $request)
     {
-        //
+        $diklat = Diklat::findOrFail($id);
+
+        // Get the filename from the Lisensi model
+        $filename = $diklat->foto_ijazah;
+
+        // Check if the file exists before deleting
+        if ($filename && File::exists(public_path('foto_ijazah/' . $filename))) {
+            File::delete(public_path('foto_ijazah/' . $filename));
+        }
+
+        // Delete the Lisensi data from the database
+        $diklat->delete();
+
+        $request->session()->flash('danger', 'Data Lisensi telah dihapus');
+
+        return redirect(route('diklat.index'));
     }
 }

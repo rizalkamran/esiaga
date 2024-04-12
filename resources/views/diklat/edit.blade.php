@@ -4,10 +4,10 @@
 
     <div class="card shadow mt-3">
         <div class="card-header">
-            Update data Sertifikat
+            Update data diklat
         </div>
         <div class="card-body">
-            <form action="{{ route('lisensi.update', $lisensi) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('diklat.update', $diklat) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -31,68 +31,51 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="cabor_id" class="form-label">Cabang Olahraga</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" name="cabor_id">
-                            <option selected disabled>Pilih Cabor</option>
-                            @foreach ($cabor as $c)
-                                <option value="{{ $c->id }}" {{ $lisensi->cabor_id == $c->id ? 'selected' : '' }}>{{ $c->nama_cabor }}</option>
-                            @endforeach
-                        </select>
+                        <label for="nama_diklat" class="form-label">Nama Lisensi</label>
+                        <input type="text" class="form-control form-control-sm" id="nama_diklat" name="nama_diklat"
+                            value="{{ $diklat->nama_diklat }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="penyelenggara" class="form-label">Penyelenggara</label>
+                        <input type="text" class="form-control form-control-sm" id="penyelenggara" name="penyelenggara"
+                            value="{{ $diklat->penyelenggara }}">
                     </div>
                     <div class="col-md-4">
                         <label for="tingkat" class="form-label">Tingkat</label>
                         <select class="form-select form-select-sm" aria-label="Small select example" name="tingkat">
                             <option selected disabled>Pilih Tingkat</option>
-                            <option value="Daerah" {{ $lisensi->tingkat == 'Daerah' ? 'selected' : '' }}>Daerah</option>
-                            <option value="Nasional" {{ $lisensi->tingkat == 'Nasional' ? 'selected' : '' }}>Nasional</option>
-                            <option value="Internasional" {{ $lisensi->tingkat == 'Internasional' ? 'selected' : '' }}>Internasional</option>
+                            <option value="Lokal" {{ $diklat->tingkat == 'Lokal' ? 'selected' : '' }}>Lokal</option>
+                            <option value="Provinsi" {{ $diklat->tingkat == 'Provinsi' ? 'selected' : '' }}>Provinsi</option>
+                            <option value="Nasional" {{ $diklat->tingkat == 'Nasional' ? 'selected' : '' }}>Nasional</option>
+                            <option value="Internasional" {{ $diklat->tingkat == 'Internasional' ? 'selected' : '' }}>Internasional</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label for="profesi" class="form-label">Profesi</label>
-                        <input type="text" class="form-control form-control-sm" id="profesi" name="profesi"
-                            value="{{ $lisensi->profesi }}">
-                    </div>
                 </div>
-
                 <div class="row mb-3">
-                    <div class="col-md-4">
-                        <label for="nama_lisensi" class="form-label">Nama Lisensi</label>
-                        <input type="text" class="form-control form-control-sm" id="nama_lisensi" name="nama_lisensi"
-                            value="{{ $lisensi->nama_lisensi }}">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="nomor_lisensi" class="form-label">Nomor Lisensi</label>
-                        <input type="text" class="form-control form-control-sm" id="nomor_lisensi" name="nomor_lisensi"
-                            value="{{ $lisensi->nomor_lisensi }}">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="penyelenggara" class="form-label">Penyelenggara</label>
-                        <input type="text" class="form-control form-control-sm" id="penyelenggara" name="penyelenggara"
-                            value="{{ $lisensi->penyelenggara }}">
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="tgl_mulai" class="form-label">Tanggal mulai Berlaku</label>
                         <input type="date" class="form-control form-control-sm" id="tgl_mulai" name="tgl_mulai"
-                            value="{{ $lisensi->tgl_mulai }}">
+                            value="{{ $diklat->tgl_mulai }}">
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="tgl_selesai" class="form-label">Tanggal Berakhir</label>
                         <input type="date" class="form-control form-control-sm" id="tgl_selesai" name="tgl_selesai"
-                            value="{{ $lisensi->tgl_selesai }}">
+                            value="{{ $diklat->tgl_selesai }}">
                     </div>
-                    <div class="col-md-4">
-                        <label for="foto_lisensi" class="form-label">Foto Lisensi</label>
-                        <input type="file" class="form-control form-control-sm" id="foto_lisensi" name="foto_lisensi">
+                    <div class="col-md-3">
+                        <label for="jumlah_jam" class="form-label">Jumlah Jam</label>
+                        <input type="number" class="form-control form-control-sm" id="jumlah_jam" name="jumlah_jam"
+                            value="{{ $diklat->jumlah_jam }}">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="foto_ijazah" class="form-label">Foto Lisensi</label>
+                        <input type="file" class="form-control form-control-sm" id="foto_ijazah" name="foto_ijazah">
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <button type="submit" class="btn btn-sm btn-primary">Submit</button>
-                <a class="btn btn-sm btn-secondary" href="{{ route('lisensi.index') }}">Cancel</a>
+                <a class="btn btn-sm btn-secondary" href="{{ route('diklat.index') }}">Cancel</a>
             </form>
         </div>
     </div>
