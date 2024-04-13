@@ -10,7 +10,8 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a class="btn btn-primary" href="{{ route('diklat.create') }}">Buat</a>
+                        {{-- <a class="btn btn-primary" href="{{ route('diklat.create') }}">Buat</a> --}}
+                        <a class="btn btn-primary" href="{{ route('diklat.create', ['user_id' => request()->query('user_id')]) }}">Buat</a>
                         <a class="btn btn-secondary" href="{{ route('diklat.index') }}">Reset</a>
                     </div>
                 </div>

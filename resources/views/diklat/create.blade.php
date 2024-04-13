@@ -30,6 +30,11 @@
 
                 <div class="row mb-3">
                     <div class="col-md-6">
+                        @if(request()->has('user_id'))
+                            <!-- If there is a user_id parameter in the URL -->
+                            <label for="user_id" class="form-label">ID</label>
+                            <input class="form-control form-control-sm" type="text" name="user_id" value="{{ request()->query('user_id') }}" readonly>
+                        @else
                         <label for="user_id" class="form-label">Nama</label>
                         <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
                             <option selected disabled>Pilih user</option>
@@ -37,6 +42,7 @@
                                 <option value="{{ $u->id }}" {{ old('user_id') == $u->id ? 'selected' : '' }}>{{ $u->nama_lengkap }}</option>
                             @endforeach
                         </select>
+                        @endif
                     </div>
                     <div class="col-md-6">
                         <label for="tingkat" class="form-label">Tingkat</label>

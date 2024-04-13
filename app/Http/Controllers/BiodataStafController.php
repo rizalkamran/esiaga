@@ -89,11 +89,17 @@ class BiodataStafController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        if (Gate::allows('is-staf')) {
             // Get the authenticated user's ID
-            $user =  User::all();
+            $userId = $request->input('user_id');
+
+            // Get the user list based on the presence of the user_id parameter
+            if ($userId) {
+                $user = User::where('id', $userId)->get();
+            } else {
+                $user = User::all();
+            }
 
             //$provinsi = ReffProvinsi::all();
             $kota = ReffKota::all();
@@ -101,13 +107,10 @@ class BiodataStafController extends Controller
 
             return view('staf.biodata.create', [
                 'user' => $user,
-                //'provinsi' => $provinsi,
+                'user_id' => $userId,
                 'kota' => $kota,
                 'cabor' => $cabor,
             ]);
-        }
-
-        abort(403, 'Unauthorized action');
     }
 
     /**
@@ -118,10 +121,7 @@ class BiodataStafController extends Controller
      */
     public function store(Request $request)
     {
-        $user = User::findOrFail($request->input('user_id'));
-        $username = auth()->user()->name;
-
-        $request->validate([
+         $request->validate([
             'user_id' => 'required',
             //'provinsi_id' => 'required',
             'kota_id' => 'required',
@@ -147,6 +147,9 @@ class BiodataStafController extends Controller
             'status_anggota' => 'nullable|integer',
             'request_role' => 'nullable|integer',
         ]);
+
+        $user = User::findOrFail($request->input('user_id'));
+        $username = auth()->user()->name;
 
         // Using move priority, storeAs recommended for continue development
         // Process and store the first file if uploaded

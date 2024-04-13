@@ -53,15 +53,24 @@ class LisensiAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             // Get the authenticated user's ID
-            $user =  User::all();
+            $userId = $request->input('user_id');
+
+            // Get the user list based on the presence of the user_id parameter
+            if ($userId) {
+                $user = User::where('id', $userId)->get();
+            } else {
+                $user = User::all();
+            }
+
             $cabor = ReffCabor::all();
 
             return view('lisensi.create', [
                 'user' => $user,
+                'user_id' => $userId,
                 'cabor' => $cabor,
             ]);
         }
@@ -77,10 +86,6 @@ class LisensiAdminController extends Controller
      */
     public function store(Request $request)
     {
-        $user_id = auth()->user()->id;
-
-        $username = auth()->user()->name;
-
         $request->validate([
             'user_id' => 'required',
             'cabor_id' => 'required',
@@ -93,6 +98,10 @@ class LisensiAdminController extends Controller
             'penyelenggara' => 'required|string',
             'foto_lisensi' => 'nullable|file|image|max:1024',
         ]);
+
+        $user_id = auth()->user()->id;
+
+        $username = auth()->user()->name;
 
         if ($request->hasFile('foto_lisensi')) {
             $file1 = $request->file('foto_lisensi');

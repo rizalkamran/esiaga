@@ -35,6 +35,11 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
+                        @if(request()->has('user_id'))
+                            <!-- If there is a user_id parameter in the URL -->
+                            <label for="user_id" class="form-label">ID</label>
+                            <input class="form-control form-control-sm" type="text" name="user_id" value="{{ request()->query('user_id') }}" readonly>
+                        @else
                         <label for="user_id" class="form-label">Nama</label>
                         <input class="form-control form-control-sm" list="datalistOptions1" id="user_id"
                             placeholder="Cari user" name="user_id" value="{{ old('user_id') }}">
@@ -46,6 +51,7 @@
                             </datalist>
                         </datalist>
                         <span id="display_user" class="badge text-bg-danger"></span>
+                        @endif
                     </div>
                     <div class="col-md-4">
                         <label for="cabor_id" class="form-label">Cabang Olahraga</label>
@@ -230,6 +236,7 @@
 
     <!-- JavaScript to handle input change -->
     <script>
+        // JavaScript to handle input change
         document.addEventListener('DOMContentLoaded', function() {
             // Function to update display text based on selected ID
             function updateDisplayText(inputId, displayId) {
@@ -248,26 +255,10 @@
 
                 // Update the text in the display element
                 var displayElement = document.getElementById(displayId);
-                displayElement.textContent = optionText;
+                if (displayElement) {
+                    displayElement.textContent = optionText;
+                }
             }
-
-            // Hide display text initially
-            document.getElementById('display_cabor').style.display = 'none';
-            document.getElementById('display_kota').style.display = 'none';
-            document.getElementById('display_user').style.display = 'none';
-
-            // When the input gains focus (clicked)
-            document.getElementById('cabor_id').addEventListener('focus', function() {
-                document.getElementById('display_cabor').style.display = 'block';
-            });
-
-            document.getElementById('kota_id').addEventListener('focus', function() {
-                document.getElementById('display_kota').style.display = 'block';
-            });
-
-            document.getElementById('user_id').addEventListener('focus', function() {
-                document.getElementById('display_user').style.display = 'block';
-            });
 
             // When an option is selected from the datalist
             document.getElementById('cabor_id').addEventListener('change', function() {
@@ -281,6 +272,11 @@
             document.getElementById('user_id').addEventListener('change', function() {
                 updateDisplayText('user_id', 'display_user');
             });
+
+            // Initially update display text for cabor_id and kota_id if they have values
+            updateDisplayText('cabor_id', 'display_cabor');
+            updateDisplayText('kota_id', 'display_kota');
+            updateDisplayText('user_id', 'display_user');
         });
     </script>
 @endsection

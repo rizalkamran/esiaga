@@ -10,7 +10,7 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a class="btn btn-primary" href="{{ route('biodata_admin.create') }}">Buat</a>
+                        <a class="btn btn-primary" href="{{ route('biodata_admin.create', ['user_id' => request()->query('user_id')]) }}">Buat</a>
                         <a class="btn btn-secondary" href="{{ route('biodata_admin.index') }}">Reset</a>
                         {{-- <button class="btn btn-warning dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Sort

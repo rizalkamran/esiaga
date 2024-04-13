@@ -74,7 +74,11 @@
                                                 Lisensi
                                             </a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Diklat</a></li>
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('diklat.index', ['user_id' => $user->id]) }}">
+                                                Diklat
+                                            </a>
+                                        </li>
                                         <li><a class="dropdown-item" href="#">Prestasi</a></li>
                                         <li><a class="dropdown-item" href="#">Pekerjaan</a></li>
                                         <li><a class="dropdown-item" href="#">Pendidikan</a></li>

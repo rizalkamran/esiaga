@@ -89,19 +89,24 @@ class BiodataAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (Gate::allows('is-admin')) {
-            // Get the authenticated user's ID
-            $user =  User::all();
+            $userId = $request->input('user_id');
 
-            //$provinsi = ReffProvinsi::all();
+            // Get the user list based on the presence of the user_id parameter
+            if ($userId) {
+                $user = User::where('id', $userId)->get();
+            } else {
+                $user = User::all();
+            }
+
             $kota = ReffKota::all();
             $cabor = ReffCabor::all();
 
             return view('biodata_admin.create', [
                 'user' => $user,
-                //'provinsi' => $provinsi,
+                'user_id' => $userId,
                 'kota' => $kota,
                 'cabor' => $cabor,
             ]);

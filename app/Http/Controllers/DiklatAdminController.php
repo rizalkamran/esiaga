@@ -52,14 +52,22 @@ class DiklatAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             // Get the authenticated user's ID
-            $user =  User::all();
+            $userId = $request->input('user_id');
+
+            // Get the user list based on the presence of the user_id parameter
+            if ($userId) {
+                $user = User::where('id', $userId)->get();
+            } else {
+                $user = User::all();
+            }
 
             return view('diklat.create', [
                 'user' => $user,
+                'user_id' => $userId,
             ]);
         }
 
