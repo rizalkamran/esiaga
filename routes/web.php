@@ -15,6 +15,7 @@ use App\Http\Controllers\DiklatAdminController;
 use App\Http\Controllers\LisensiUserController;
 use App\Http\Controllers\LisensiAdminController;
 use App\Http\Controllers\PendidikanAdminController;
+use App\Http\Controllers\PendidikanUserController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\ReffPendidikanController;
@@ -208,6 +209,9 @@ Route::post('/mobile/lisensi', [LisensiUserController::class, 'store'])->name('m
 // pendidikan
 Route::resource('/pendidikan', PendidikanAdminController::class);
 Route::get('/pendidikan', [PendidikanAdminController::class, 'index'])->name('pendidikan.index');
+Route::get('/mobile/pendidikan', [PendidikanUserController::class, 'index'])->name('mobile.pendidikan.index');
+Route::get('/mobile/pendidikan/create', [PendidikanUserController::class, 'create'])->name('mobile.pendidikan.create');
+Route::post('/mobile/pendidikan', [PendidikanUserController::class, 'store'])->name('mobile.pendidikan.store');
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);

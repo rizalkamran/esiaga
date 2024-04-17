@@ -100,10 +100,6 @@
                 <ul class="profile-list-inner">
                     @can('is-non-publik')
                         <li>
-                            <a class="single-profile-wrap" href="#"><i class="fa fa-book"></i> Pendidikan Formal <i
-                                    class="ri-arrow-right-s-line"></i></a>
-                        </li>
-                        <li>
                             <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i>
                                 Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
                         </li>
@@ -114,6 +110,10 @@
                         <li>
                             <a class="single-profile-wrap" href="{{ route('mobile.lisensi.index') }}"><i class="fa fa-tag"></i>
                                 Sertifikat/Lisensi <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
+                        <li>
+                            <a class="single-profile-wrap" href="{{ route('mobile.pendidikan.index') }}"><i class="fa fa-book"></i>
+                                Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
                         </li>
                     @endcan
                 </ul>
