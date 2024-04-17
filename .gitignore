@@ -2,6 +2,8 @@
 /public/hot
 /public/biodata/*
 /public/lisensi/*
+/public/foto_ijazah/*
+/public/ijazah/*
 /public/mandat
 /public/storage
 /storage/*.key

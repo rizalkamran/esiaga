@@ -14,8 +14,10 @@ use App\Http\Controllers\DiklatController;
 use App\Http\Controllers\DiklatAdminController;
 use App\Http\Controllers\LisensiUserController;
 use App\Http\Controllers\LisensiAdminController;
+use App\Http\Controllers\PendidikanAdminController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
+use App\Http\Controllers\ReffPendidikanController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\RegistrasiStafController;
 use App\Http\Controllers\KehadiranController;
@@ -203,12 +205,16 @@ Route::get('/mobile/lisensi', [LisensiUserController::class, 'index'])->name('mo
 Route::get('/mobile/lisensi/create', [LisensiUserController::class, 'create'])->name('mobile.lisensi.create');
 Route::post('/mobile/lisensi', [LisensiUserController::class, 'store'])->name('mobile.lisensi.store');
 
+// pendidikan
+Route::resource('/pendidikan', PendidikanAdminController::class);
+Route::get('/pendidikan', [PendidikanAdminController::class, 'index'])->name('pendidikan.index');
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);
 Route::resource('peran', ReffPeranController::class);
 Route::resource('data-provinsi', ReffProvinsiController::class);
 Route::resource('data-kota', ReffKotaController::class);
+Route::resource('reffdidik', ReffPendidikanController::class);
 
 
 

@@ -79,9 +79,13 @@
                                                 Diklat
                                             </a>
                                         </li>
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('pendidikan.index', ['user_id' => $user->id]) }}">
+                                                Pendidikan
+                                            </a>
+                                        </li>
                                         <li><a class="dropdown-item" href="#">Prestasi</a></li>
                                         <li><a class="dropdown-item" href="#">Pekerjaan</a></li>
-                                        <li><a class="dropdown-item" href="#">Pendidikan</a></li>
                                     </ul>
                                     @if(auth()->user() && $user->id !== auth()->user()->id)
                                         @if(!$user->hasAnyRole('admin'))

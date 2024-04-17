@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleUserSeeder::class);
         $this->call(ReffPeranSeeder::class);
         $this->call(ReffCaborSeeder::class);
+        $this->call(ReffPendidikanSeeder::class);
     }
 }
