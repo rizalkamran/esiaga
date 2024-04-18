@@ -62,7 +62,7 @@
                                 <td>
                                     <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $d->id }}">
-                                        Sertif
+                                        Detail
                                     </button>
                                     <a href="{{ route('diklat.edit', $d->id) }}" target="_blank" class="btn btn-sm btn-primary">
                                         Edit

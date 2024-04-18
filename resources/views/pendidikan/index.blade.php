@@ -3,7 +3,7 @@
 @section('content')
     <div class="card shadow mt-3">
         <div class="card-header">
-            Data Diklat
+            Data Pendidikan
         </div>
         <div class="card-body">
 

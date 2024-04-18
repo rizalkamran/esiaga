@@ -32,8 +32,9 @@
                     <div class="col-md-3">
                         @if(request()->has('user_id'))
                             <!-- If there is a user_id parameter in the URL -->
-                            <label for="user_id" class="form-label">ID</label>
-                            <input class="form-control form-control-sm" type="text" name="user_id" value="{{ request()->query('user_id') }}" readonly>
+                            <label for="user_id" class="form-label">Nama Lengkap</label>
+                            <input type="hidden" name="user_id" value="{{ request()->query('user_id') }}" readonly>
+                            <input type="text" value="{{ $user->first()->nama_lengkap }}" class="form-control form-control-sm" disabled>
                         @else
                         <label for="user_id" class="form-label">Nama</label>
                         <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
