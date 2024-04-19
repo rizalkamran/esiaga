@@ -22,7 +22,7 @@
                     @foreach ($lisensi as $index => $lis)
                         <div class="mybet-single-card mb-2">
                             <div class="card-title">
-                                <h6>Data Diklat</h6>
+                                <h6>Data Lisensi - {{ $loop->iteration }}</h6>
                             </div>
                             <ul class="bet-details">
                                 <li><span>Cabang Olahraga:</span><span>{{ $lis->cabor->nama_cabor }}</span></li>

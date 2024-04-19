@@ -108,12 +108,16 @@
                                 Diklat <i class="ri-arrow-right-s-line"></i></a>
                         </li>
                         <li>
-                            <a class="single-profile-wrap" href="{{ route('mobile.lisensi.index') }}"><i class="fa fa-tag"></i>
+                            <a class="single-profile-wrap" href="{{ route('mobile.lisensi.index') }}"><i class="fa fa-stamp"></i>
                                 Sertifikat/Lisensi <i class="ri-arrow-right-s-line"></i></a>
                         </li>
                         <li>
                             <a class="single-profile-wrap" href="{{ route('mobile.pendidikan.index') }}"><i class="fa fa-book"></i>
                                 Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
+                        <li>
+                            <a class="single-profile-wrap" href="{{ route('mobile.prestasi.index') }}"><i class="fa fa-pen"></i>
+                                Prestasi <i class="ri-arrow-right-s-line"></i></a>
                         </li>
                     @endcan
                 </ul>

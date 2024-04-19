@@ -17,6 +17,7 @@ use App\Http\Controllers\LisensiAdminController;
 use App\Http\Controllers\PendidikanAdminController;
 use App\Http\Controllers\PendidikanUserController;
 use App\Http\Controllers\PrestasiAdminController;
+use App\Http\Controllers\PrestasiUserController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\ReffPendidikanController;
@@ -217,6 +218,9 @@ Route::post('/mobile/pendidikan', [PendidikanUserController::class, 'store'])->n
 // prestasi
 Route::resource('/prestasi', PrestasiAdminController::class);
 Route::get('/prestasi', [PrestasiAdminController::class, 'index'])->name('prestasi.index');
+Route::get('/mobile/prestasi', [PrestasiUserController::class, 'index'])->name('mobile.prestasi.index');
+Route::get('/mobile/prestasi/create', [PrestasiUserController::class, 'create'])->name('mobile.prestasi.create');
+Route::post('/mobile/prestasi', [PrestasiUserController::class, 'store'])->name('mobile.prestasi.store');
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);

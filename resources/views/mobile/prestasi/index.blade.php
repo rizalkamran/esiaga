@@ -9,34 +9,40 @@
     <div class="single-page-area">
         <div class="title-area">
             <a class="btn back-page-btn" href="{{ route('mobile-landing') }}"><i class="ri-arrow-left-s-line"></i></a>
-            <h3 class="ms-5 ps-5">Menu Pendidikan</h3>
+            <h3 class="ms-5 ps-5">Menu Prestasi</h3>
         </div>
 
         <div class="mybet-page-wrap">
             <div class="container">
 
-                <a href="{{ route('mobile.pendidikan.create') }}" class="btn-c btn-sm btn-gradient-03 mb-2">Tambah</a>
+                <a href="{{ route('mobile.prestasi.create') }}" class="btn-c btn-sm btn-gradient-03 mb-2">Tambah</a>
 
-                @if (!$pendidikan->isEmpty())
+                @if (!$prestasi->isEmpty())
 
-                    @foreach ($pendidikan as $index => $pen)
+                    @foreach ($prestasi as $index => $pres)
                         <div class="mybet-single-card mb-2">
                             <div class="card-title">
-                                <h6>Data Pendidikan - {{ $loop->iteration }}</h6>
+                                <h6>Data Prestasi - {{ $loop->iteration }}</h6>
                             </div>
                             <ul class="bet-details">
-                                <li><span>Tingkat Pendidikan:</span><span>{{ $pen->reffPendidikan->nama_pendidikan }}</span></li>
-                                <li><span>Gelar Depan:</span><span>{{ $pen->gelar_depan }}</span></li>
-                                <li><span>Gelar Belakang:</span><span>{{ $pen->gelar_belakang }}</span></li>
-                                <li><span>Nama Sekolah:</span><span>{{ $pen->nama_sekolah }}</span></li>
-                                <li><span>Prodi/Jurusan:</span><span>{{ $pen->nama_jurusan }}</span></li>
-                                <li><span>Tahun Lulus:</span><span>{{ $pen->tahun_lulus }}</span></li>
+                                <li><span>Tipe Prestasi:</span><span>{{ $pres->tipe_prestasi }}</span></li>
+                                <li><span>Cabang Olahraga:</span><span>{{ $pres->cabor->nama_cabor }}</span></li>
+                                <li><span>Nama Event:</span><span>{{ $pres->nama_event }}</span></li>
+                                <li><span>Nama Team:</span><span>{{ $pres->nama_team }}</span></li>
+                                <li><span>Tahun:</span><span>{{ $pres->tahun }}</span></li>
+                                <li><span>Rekor:</span><span>{{ $pres->rekor }}</span></li>
+
+                            </ul>
+                            <ul class="bet-status">
+                                <li><span>Nomor:</span><span>{{ $pres->nomor_bukti_prestasi }}</span></li>
+                                <li><span>Prestasi:</span><span>{{ $pres->prestasi }}</span></li>
+                                <li><span>Catatan:</span><span>{{ $pres->catatan }}</span></li>
                             </ul>
                             <div class="row">
                                 <div class="col">
-                                    <button type="button" class="btn-c btn-gradient-05 btn-sm mb-2 mt-1"
+                                    <button type="button" class="btn-c btn-gradient-05 btn-sm mb-2 mt-3"
                                             data-bs-toggle="modal" data-bs-target="#modal{{ $index }}">
-                                        Ijazah
+                                        Bukti Prestasi
                                     </button>
                                 </div>
                             </div>
@@ -47,12 +53,12 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h6 class="modal-title" id="exampleModalLabel">Ijazah</h6>
+                                        <h6 class="modal-title" id="exampleModalLabel">Bukti Prestasi</h6>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
-                                        <img src="{{ asset('ijazah/' . $pen->ijazah) }}" alt="Foto ijazah">
+                                        <img src="{{ asset('file_bukti_prestasi/' . $pres->file_bukti_prestasi) }}" alt="Foto Prestasi">
                                     </div>
                                 </div>
                             </div>
