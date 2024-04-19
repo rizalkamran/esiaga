@@ -15,6 +15,8 @@ use App\Models\anggotaKehadiranRegistrasi;
 use App\Models\Biodata;
 use App\Models\Diklat;
 use App\Models\Lisensi;
+use App\Models\Pendidikan;
+use App\Models\Prestasi;
 use App\Models\TandaTerima;
 
 
@@ -122,6 +124,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function lisensi()
     {
         return $this->hasMany(Lisensi::class);
+    }
+
+    public function pendidikan()
+    {
+        return $this->hasMany(Pendidikan::class);
+    }
+
+    public function prestasi()
+    {
+        return $this->hasMany(Prestasi::class);
     }
 
     public function tandaTerima()

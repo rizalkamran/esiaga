@@ -83,6 +83,8 @@
                                 <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
                                 <li><a class="dropdown-item" href="{{ route('lisensi.index') }}">Sertifikat/Lisensi</a></li>
+                                <li><a class="dropdown-item" href="{{ route('pendidikan.index') }}">Pendidikan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('prestasi.index') }}">Prestasi</a></li>
                             </ul>
                         </li>
                         @endcan
@@ -111,6 +113,8 @@
                                 <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
                                 <li><a class="dropdown-item" href="{{ route('lisensi.index') }}">Sertifikat/Lisensi</a></li>
+                                <li><a class="dropdown-item" href="{{ route('pendidikan.index') }}">Pendidikan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('prestasi.index') }}">Prestasi</a></li>
                             </ul>
                         </li>
                         @endcan

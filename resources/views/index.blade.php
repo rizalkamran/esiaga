@@ -253,11 +253,11 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="#">
-                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                <a href="{{ route('prestasi.index') }}">
+                                    <img src="{{ asset('icon/trophy.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Menu belum tersedia
+                                        Daftar Prestasi
                                     </p>
                                 </a>
                             </div>
@@ -467,11 +467,11 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="#">
-                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                <a href="{{ route('prestasi.index') }}">
+                                    <img src="{{ asset('icon/trophy.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Menu belum tersedia
+                                        Daftar Prestasi
                                     </p>
                                 </a>
                             </div>

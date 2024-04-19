@@ -84,7 +84,11 @@
                                                 Pendidikan
                                             </a>
                                         </li>
-                                        <li><a class="dropdown-item" href="#">Prestasi</a></li>
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('prestasi.index', ['user_id' => $user->id]) }}">
+                                                Prestasi
+                                            </a>
+                                        </li>
                                         <li><a class="dropdown-item" href="#">Pekerjaan</a></li>
                                     </ul>
                                     @if(auth()->user() && $user->id !== auth()->user()->id)

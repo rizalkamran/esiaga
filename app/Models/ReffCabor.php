@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\AnggotaPeran;
 use App\Models\Biodata;
 use App\Models\Lisensi;
+use App\Models\Prestasi;
 
 class ReffCabor extends Model
 {
@@ -32,5 +33,10 @@ class ReffCabor extends Model
     public function lisensi()
     {
         return $this->hasMany(Lisensi::class, 'cabor_id');
+    }
+
+    public function prestasi()
+    {
+        return $this->hasMany(Prestasi::class, 'cabor_id');
     }
 }
