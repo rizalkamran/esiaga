@@ -3,7 +3,7 @@
 @section('content')
     <div class="card shadow mt-3">
         <div class="card-header">
-            Data Profil Anggota
+            Data Profil/Biodata
         </div>
         <div class="card-body">
 
@@ -87,8 +87,34 @@
                                     <a href="{{ route('biodata_admin.edit', $bio->id) }}" class="btn btn-sm btn-primary">
                                         Edit
                                     </a>
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $bio->id }}">
+                                        Delete
+                                    </button>
+                                    <form id="delete-user-form-{{ $bio->id }}" action="{{ route('biodata_admin.destroy',  $bio->id) }}" method="POST" style="display: none">
+                                        @csrf
+                                        @method("DELETE")
+                                    </form>
                                 </td>
                             </tr>
+
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal{{  $bio->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{  $bio->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{  $bio->id }}">Hapus biodata</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <strong>Apakah anda ingin menghapus data ini?</strong>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                            <button type="button" class="btn btn-sm btn-danger" onclick="document.getElementById('delete-user-form-{{  $bio->id }}').submit()">Hapus</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         @endforeach
                     </tbody>
                 </table>

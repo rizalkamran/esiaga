@@ -2,191 +2,6 @@
 
 @section('content')
 
-    @if (!Auth::check())
-        <div class="text-center mt-3">
-            <div class="row align-items-start">
-                <div class="col-md-6">
-                    <img style="width: 50%"
-                        src="{{ asset('image/mobile/logo1_rm.png') }}"
-                        class="img-fluid" alt="...">
-                </div>
-                <div class="col-md-6">
-                    <p class="h3 text-danger">E-SIAGA</p>
-                    <p class="h5 text-primary">APLIKASI PENINGKATAN PRESTASI OLAHRAGA</p>
-                    <p class="lead">
-                        Sebuah aplikasi yang diharapkan mampu memonitor berbagai aspek dalam peningkatan prestasi olahraga
-                        para atlet wilayah Kalimantan Timur seperti aspek latihan fisik dan manajemen waktu.
-                    </p>
-                    <p class="btn btn-sm btn-success">
-                        DINAS PEMUDA DAN OLAHRAGA PROV KALTIM
-                    </p>
-
-                    @if (Route::has('login'))
-                        <div>
-                            @auth
-                            @else
-                                <a class="btn btn-sm btn-outline-primary me-2" href="{{ route('login') }}">Login</a>
-
-                                @if (Route::has('register'))
-                                    <a class="btn btn-sm btn-outline-primary" href="{{ route('register') }}">Register</a>
-                                @endif
-
-                            @endauth
-                        </div>
-                    @endif
-
-                    {{-- <button type="button" class="btn btn-outline-primary">Login</button>
-                <button type="button" class="btn btn-outline-primary">Register</button> --}}
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mt-3">
-            <p class="h3 text-primary mb-3">BERITA TERBARU</p>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-3">
-                    <div class="card border border-primary-subtle">
-                        <img src="https://img.freepik.com/free-vector/news-concept-landing-page_52683-18598.jpg?w=740&t=st=1707902906~exp=1707903506~hmac=e4e80db4eefdcc9f0ee04acc69379b6587082422b82c87f13114f49e7a4283bd"
-                            class="card-img-top mx-auto news-img">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                                the card's content.</p>
-                            <a href="#" class="btn btn-sm btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border border-primary-subtle">
-                        <img src="https://img.freepik.com/free-vector/influencer-concept-illustration_114360-2680.jpg?w=740&t=st=1707903195~exp=1707903795~hmac=c09d94433465aab67aa3e42a1e159a1548d453ece8e6aca06d08cac649f58906"
-                            class="card-img-top mx-auto news-img">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                                the card's content.</p>
-                            <a href="#" class="btn btn-sm btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border border-primary-subtle">
-                        <img src="https://img.freepik.com/free-vector/news-concept-illustration_114360-5648.jpg?w=740&t=st=1707903246~exp=1707903846~hmac=974e9586a918c729b23dec50306bfb329ac79e3f8999d201ace9180d1841aa0f"
-                            class="card-img-top mx-auto news-img">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                                the card's content.</p>
-                            <a href="#" class="btn btn-sm btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card border border-primary-subtle">
-                        <img src="https://img.freepik.com/free-vector/news-concept-landing-page_52683-20167.jpg?w=740&t=st=1707903305~exp=1707903905~hmac=4488afbe4468532fa073b91c64eb99d15734c6316186edff81844e74298844e1"
-                            class="card-img-top mx-auto news-img">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                                the card's content.</p>
-                            <a href="#" class="btn btn-sm btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="text-center mt-3">
-            <p class="h3 text-primary">Hasil pertandingan</p>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-3">
-                    <div class="card match-card border-danger">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/hand-drawn-soccer-logo-template_23-2149364523.jpg?w=740&t=st=1707904272~exp=1707904872~hmac=988ca67d92ead59b60f5428d94410c03ceddef00b049d0f572ef5612fe973c0c" alt="Team A Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team A</h6>
-                            </div>
-                            <div>
-                                <h5 class="m-0">1 - 1</h5>
-                              </div>
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/hand-drawn-soccer-logo-template_23-2149364524.jpg?w=740&t=st=1707904372~exp=1707904972~hmac=5160e34091519b84bdd451f7c89ac286c17ff5a4d96b2de8ebfb0c5ed98e557a" alt="Team B Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team B</h6>
-                            </div>
-                          </div>
-                          <hr>
-                        <a href="#" class="btn btn-sm btn-primary">Match Review</a>
-                        </div>
-                      </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card match-card border-danger">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/football-logo-background_1195-244.jpg?w=740&t=st=1707905088~exp=1707905688~hmac=57ca23d50811786df2f8ba465aecb89019bbe08a9cd5af1dd75f63bd7ab0e7b5" alt="Team A Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team C</h6>
-                            </div>
-                            <div>
-                                <h5 class="m-0">2 - 1</h5>
-                              </div>
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/hand-drawn-sports-logo-template_23-2149437344.jpg?w=740&t=st=1707905109~exp=1707905709~hmac=c0ebfcf6e49baf1509e94a74a9bd7eb580f62277bd4bc08de4a2ec1d88c3f15b" alt="Team B Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team D</h6>
-                            </div>
-                          </div>
-                          <hr>
-                            <a href="#" class="btn btn-sm btn-primary">Match Review</a>
-                        </div>
-                      </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card match-card border-danger">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/hand-drawn-soccer-logo-template_23-2149364523.jpg?w=740&t=st=1707904272~exp=1707904872~hmac=988ca67d92ead59b60f5428d94410c03ceddef00b049d0f572ef5612fe973c0c" alt="Team A Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team A</h6>
-                            </div>
-                            <div>
-                                <h5 class="m-0">1 - 3</h5>
-                              </div>
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/hand-drawn-soccer-logo-template_23-2149364524.jpg?w=740&t=st=1707904372~exp=1707904972~hmac=5160e34091519b84bdd451f7c89ac286c17ff5a4d96b2de8ebfb0c5ed98e557a" alt="Team B Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team B</h6>
-                            </div>
-                          </div>
-                          <hr>
-                            <a href="#" class="btn btn-sm btn-primary">Match Review</a>
-                        </div>
-                      </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card match-card border-danger">
-                        <div class="card-body">
-                          <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/football-logo-background_1195-244.jpg?w=740&t=st=1707905088~exp=1707905688~hmac=57ca23d50811786df2f8ba465aecb89019bbe08a9cd5af1dd75f63bd7ab0e7b5" alt="Team A Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team C</h6>
-                            </div>
-                            <div>
-                                <h5 class="m-0">0 - 2</h5>
-                              </div>
-                            <div>
-                              <img src="https://img.freepik.com/free-vector/hand-drawn-sports-logo-template_23-2149437344.jpg?w=740&t=st=1707905109~exp=1707905709~hmac=c0ebfcf6e49baf1509e94a74a9bd7eb580f62277bd4bc08de4a2ec1d88c3f15b" alt="Team B Logo" class="club-icon">
-                              <h6 class="card-title mt-1 m-0">Team D</h6>
-                            </div>
-                          </div>
-                          <hr>
-                            <a href="#" class="btn btn-sm btn-primary">Match Review</a>
-                        </div>
-                      </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
     @can('is-admin')
         @if (Auth::check())
 
@@ -645,7 +460,54 @@
         @endif
     @endcan
 
+    @can('is-admin')
+    <div class="modal" id="myModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Pemberitahuan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success mt-2" role="alert">
+                        <p>Untuk mempermudah mencari detail user, silakan akses ke menu <strong>"Data User"</strong> kemudian klik tombol <strong>"link"</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endcan
+
+    @can('is-staf')
+        <div class="modal" id="myModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Pemberitahuan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success mt-2" role="alert">
+                            <p>Untuk mempermudah mencari detail user, silakan akses ke menu <strong>"Data User"</strong> kemudian klik tombol <strong>"link"</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endcan
 
     @include('templates.footer')
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#myModal').modal('show');
+
+            setTimeout(function() {
+                $('#myModal').modal('hide');
+            }, 5500);
+        });
+    </script>
 
 @endsection

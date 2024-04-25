@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -24,6 +25,7 @@ class UserController extends Controller
             $searchQuery = $request->input('search');
             $sortField = $request->input('sort_by', 'id'); // Default sort by ID
             $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
+            $perPage = $request->input('per_page', 10); // Default items per page is 10
 
             $query = User::query();
 
@@ -34,7 +36,7 @@ class UserController extends Controller
             // Apply sorting
             $query->orderBy($sortField, $sortOrder);
 
-            $users = $query->with('roles')->paginate(10);
+            $users = $query->with('roles')->paginate($perPage);
 
             return view('admin.users.index')
                 ->with([
@@ -42,6 +44,7 @@ class UserController extends Controller
                     'searchQuery' => $searchQuery,
                     'sortField' => $sortField,
                     'sortOrder' => $sortOrder,
+                    'perPage' => $perPage,
                 ]);
         }
 
@@ -211,11 +214,11 @@ class UserController extends Controller
             return redirect(route('admin.users.index'));
         }
 
-        $user->update($request->except(['_token', 'roles']));
+        $user->update($request->except(['_token', 'roles', 'password']));
         $user->roles()->sync($request->roles);
 
         // Update password if provided
-        if ($request->has('password')) {
+        if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
             $user->save();
         }
@@ -245,10 +248,10 @@ class UserController extends Controller
         ]);
 
         // Update user's profile data
-        $user->update($validatedData);
+        $user->update(Arr::except($validatedData, ['password'])); // Exclude password from update
 
-        // Update password if provided
-        if ($request->has('password')) {
+        // Update password only if provided
+        if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
             $user->save();
         }

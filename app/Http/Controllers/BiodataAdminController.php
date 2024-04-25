@@ -379,8 +379,33 @@ class BiodataAdminController extends Controller
      * @param  \App\Models\Biodata  $biodata
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Biodata $biodata)
+    public function destroy($id, Request $request)
     {
-        //
+        $biodata = Biodata::findOrFail($id);
+
+        // Get the filename from the Biodata model
+        $filename1 = $biodata->foto_diri;
+        $filename2 = $biodata->foto_ktp;
+        $filename3 = $biodata->foto_npwp;
+
+        // Check if the file exists before deleting
+        if ($filename1 && File::exists(public_path('biodata/foto_diri/' . $filename1))) {
+            File::delete(public_path('biodata/foto_diri/' . $filename1));
+        }
+
+        if ($filename2 && File::exists(public_path('biodata/foto_ktp/' . $filename2))) {
+            File::delete(public_path('biodata/foto_ktp/' . $filename2));
+        }
+
+        if ($filename3 && File::exists(public_path('biodata/foto_npwp/' . $filename3))) {
+            File::delete(public_path('biodata/foto_npwp/' . $filename3));
+        }
+
+        // Delete the Biodata data from the database
+        $biodata->delete();
+
+        $request->session()->flash('danger', 'User telah dihapus');
+
+        return redirect(route('biodata_admin.index'));
     }
 }

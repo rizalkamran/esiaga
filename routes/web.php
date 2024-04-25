@@ -91,7 +91,7 @@ Route::get('/mobile-forget', function () {
 
 Route::get('/web-landing', function () {
     return view('index');
-})->name('web-landing');
+})->name('web-landing')->middleware('auth');
 /**
  * Add 'verified'
  * to create soft lock

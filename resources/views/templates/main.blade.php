@@ -34,7 +34,7 @@
     <div>
 
 
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top mb-2">
             <div class="container-md">
                 <a class="navbar-brand" href="{{ route('web-landing') }}">{{ config('app.name', 'E-Siaga 0.1') }}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"

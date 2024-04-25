@@ -23,8 +23,20 @@
                 </div>
                 <div class="col-md-8">
                     <div class="float-end">
+                        <form action="{{ route('admin.users.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
+                                    <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="15" {{ $perPage == 15 ? 'selected' : '' }}>15</option>
+                                    <option value="20" {{ $perPage == 20 ? 'selected' : '' }}>20</option>
+                                    <option value="25" {{ $perPage == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                                </select>
+                            </div>
+                        </form>
                         <form action="{{ route('admin.users.index') }}" method="get" style="display: inline-flex; align-items: center;">
-                            <div class="form-group mr-2" style="margin-bottom: 0;">
+                            <div class="form-group ms-2" style="margin-bottom: 0;">
                                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Search ..." value="{{ $searchQuery }}">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 5px;">
@@ -120,7 +132,7 @@
 
                             <!-- Delete Modal -->
                             <div class="modal fade" id="deleteModal{{ $user->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $user->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="deleteModalLabel{{ $user->id }}">Hapus data user</h5>
@@ -128,6 +140,14 @@
                                         </div>
                                         <div class="modal-body">
                                             <strong>Apakah anda ingin menghapus user ini?</strong>
+                                            <div class="alert alert-danger mt-2" role="alert">
+                                                <strong>Jika hapus data user, maka data turunan lainnya akan terhapus</strong>
+                                                <ul>
+                                                    <li>Biodata, diklat, dan lain-lain</li>
+                                                    <li>Registrasi, Kehadiran & Tanda Terima (Data keterlibatan user)</li>
+                                                </ul>
+                                            <strong>Klik hapus jika anda yakin</strong>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -141,7 +161,7 @@
                 </table>
             </div>
 
-            {{ $users->onEachSide(1)->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder])->links() }}
+            {{ $users->onEachSide(1)->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder, 'per_page' => $perPage])->links() }}
 
             <div>
                 <div class="row">
