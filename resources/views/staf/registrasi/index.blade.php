@@ -10,15 +10,11 @@
 
             @can('is-staf')
                 <div class="row mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-7">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <a class="btn btn-secondary" href="{{ route('staf.registrasi.index') }}">Reset</a>
                             <a class="btn btn-primary" href="{{ route('staf.registrasi.create') }}">Create</a>
-                            {{-- <button id="togglePagination" class="btn btn-warning" disabled>Toggle All data</button> --}}
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="float-end">
+                            <a class="btn btn-secondary me-2" href="{{ route('staf.registrasi.index') }}">Reset</a>
+
                             <form action="{{ route('regis.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <select class="form-control form-control-sm" id="acara" name="acara">
@@ -35,7 +31,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <div class="float-end">
                             <form action="{{ route('staf.registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
@@ -43,9 +39,17 @@
                                 </div>
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">Semua Acara</option>
+                                        <option selected disabled>Pilih Acara</option>
                                         @foreach($acaraOptions as $acaraOption)
                                             <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <select class="form-control form-control-sm" id="peran" name="peran">
+                                        <option value="" selected>Pilih Peran</option>
+                                        @foreach($peranOptions as $peranOption)
+                                            <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>{{ $peranOption->nama_peran }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -230,11 +234,7 @@
             </div>
             @endif
 
-            <div id="paginationLinks"> <!-- Add this container around the pagination links -->
-                @if ($anggota instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                    {!! $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara])->links() !!}
-                @endif
-            </div>
+            {{ $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara, 'peran' => $selectedPeran])->links() }}
 
             <div>
                 <div class="row">

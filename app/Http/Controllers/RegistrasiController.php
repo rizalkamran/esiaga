@@ -26,18 +26,15 @@ class RegistrasiController extends Controller
     {
         // Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
-
-        // Retrieve all acara options for the dropdown
         $acaraOptions = Acara::all();
-
-        // Retrieve all cabor options for the dropdown
         $caborOptions = ReffCabor::all();
+        $peranOptions = ReffPeran::all();
 
-        // Retrieve the selected acara and cabor (if any) from the request
+        // Retrieve the selected acara, cabor, nama_peran, and search query from the request
         $selectedAcara = $request->input('acara');
         $selectedCabor = $request->input('cabor');
+        $selectedPeran = $request->input('peran'); // New input for nama_peran filter
         $searchQuery = $request->input('search');
-        $showAll = $request->input('showAll'); // Check if the toggle button is clicked
 
         // Filter by acara if selected
         if ($selectedAcara) {
@@ -50,6 +47,13 @@ class RegistrasiController extends Controller
         if ($selectedCabor) {
             $query->whereHas('user.biodata.cabor', function ($q) use ($selectedCabor) {
                 $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
+            });
+        }
+
+        // Filter by nama_peran if selected
+        if ($selectedPeran) {
+            $query->whereHas('peran', function ($q) use ($selectedPeran) {
+                $q->where('id', $selectedPeran);
             });
         }
 
@@ -92,8 +96,10 @@ class RegistrasiController extends Controller
             'anggota' => $anggota,
             'acaraOptions' => $acaraOptions,
             'caborOptions' => $caborOptions,
+            'peranOptions' => $peranOptions, // Add peranOptions here
             'selectedAcara' => $selectedAcara,
             'selectedCabor' => $selectedCabor,
+            'selectedPeran' => $selectedPeran, // Pass selectedPeran to the view
             'searchQuery' => $searchQuery,
             'totalFoto' => $totalFoto,
             'totalKTP' => $totalKTP,

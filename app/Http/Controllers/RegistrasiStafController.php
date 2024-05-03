@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AnggotaAcaraRegistrasi;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Acara;
+use App\Models\ReffPeran;
 use App\Models\ReffCabor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -23,20 +24,17 @@ class RegistrasiStafController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with the base query
+        /// Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
-
-        // Retrieve all acara options for the dropdown
         $acaraOptions = Acara::all();
-
-        // Retrieve all cabor options for the dropdown
         $caborOptions = ReffCabor::all();
+        $peranOptions = ReffPeran::all();
 
-        // Retrieve the selected acara and cabor (if any) from the request
+        // Retrieve the selected acara, cabor, nama_peran, and search query from the request
         $selectedAcara = $request->input('acara');
         $selectedCabor = $request->input('cabor');
+        $selectedPeran = $request->input('peran'); // New input for nama_peran filter
         $searchQuery = $request->input('search');
-        $showAll = $request->input('showAll'); // Check if the toggle button is clicked
 
         // Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
@@ -52,6 +50,13 @@ class RegistrasiStafController extends Controller
         if ($selectedCabor) {
             $query->whereHas('user.biodata.cabor', function ($q) use ($selectedCabor) {
                 $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
+            });
+        }
+
+        // Filter by nama_peran if selected
+        if ($selectedPeran) {
+            $query->whereHas('peran', function ($q) use ($selectedPeran) {
+                $q->where('id', $selectedPeran);
             });
         }
 
@@ -94,8 +99,10 @@ class RegistrasiStafController extends Controller
             'anggota' => $anggota,
             'acaraOptions' => $acaraOptions,
             'caborOptions' => $caborOptions,
+            'peranOptions' => $peranOptions, // Add peranOptions here
             'selectedAcara' => $selectedAcara,
             'selectedCabor' => $selectedCabor,
+            'selectedPeran' => $selectedPeran, // Pass selectedPeran to the view
             'searchQuery' => $searchQuery,
             'totalFoto' => $totalFoto,
             'totalKTP' => $totalKTP,
@@ -112,8 +119,9 @@ class RegistrasiStafController extends Controller
     {
         if (Gate::allows('is-staf')) {
             $user = User::all();
+            $peran = ReffPeran::all();
             $acara = Acara::where('status_acara', 1)->get(); // Retrieve only active Acara records
-            return view('staf.registrasi.create', ['acara' => $acara, 'user' => $user]);
+            return view('staf.registrasi.create', ['acara' => $acara, 'user' => $user, 'peran' => $peran]);
         }
 
         abort(403, 'Unauthorized action.');
