@@ -62,7 +62,7 @@ class AcaraController extends Controller
 
     public function admin()
     {
-        if (Gate::allows('is-admin')){
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')){
             $acaras = Acara::paginate(5); // Paginate with * records per page
             return view('acara.index', ['acaras' => $acaras]);
         }
@@ -77,7 +77,7 @@ class AcaraController extends Controller
      */
     public function create()
     {
-        if (Gate::allows('is-admin')) {
+        if(Gate::allows('is-admin') || Gate::allows('is-staf')) {
             return view('acara.create');
         }
 
@@ -100,7 +100,6 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date',
             'deskripsi_acara' => 'required',
             'tingkat_wilayah_acara' => 'required',
-            'security_pass' => 'required',
         ]);
 
        // Set status_acara to true (1) explicitly
@@ -182,51 +181,6 @@ class AcaraController extends Controller
     }
 
 
-    /* public function register(Request $request)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Validate that acara_id exists in the acara table
-            'qrcode_registrasi' => 'nullable'
-        ]);
-
-        // Retrieve the currently logged-in user's ID
-        $user_id = Auth::id();
-
-        // Get the authenticated user's data
-        $user = auth()->user();
-
-        // Generate QR code data with customized field names and header
-        $qrCodeData = [
-            'Test' => 'QR Code Test Registration',
-            'Nama' => $user->nama_lengkap,
-        ];
-
-        // Generate a unique filename
-        $filename = Str::random(20) . '.svg';
-
-        // Define the path to the public directory where the QR code will be saved
-        $publicPath = public_path('qrcodes/registrasi');
-
-        // Generate the QR code SVG and save it to the public directory
-        QRCode::text(json_encode($qrCodeData))
-        ->setOutfile($publicPath . '/' . $filename)
-        ->svg();
-
-        // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
-        $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
-            'user_id' => $user_id,
-            'acara_id' => $request->input('acara_id'),
-            'qrcode_registrasi' => $filename,
-        ]);
-
-        // Save the instance to the database
-        $anggotaAcaraRegistrasi->save();
-
-        // Redirect the user back to the index page
-        return redirect()->route('mobile.acara.index')->with('success', 'Berhasil daftar acara ini');
-    } */
-
     /**
      * Display the specified resource.
      *
@@ -270,7 +224,6 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date|after_or_equal:tanggal_awal_acara',
             'deskripsi_acara' => 'required|string',
             'tingkat_wilayah_acara' => 'required',
-            'security_pass' => 'required',
             // Add other validation rules for additional fields...
         ]);
 
@@ -282,7 +235,6 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => $validatedData['tanggal_akhir_acara'],
             'deskripsi_acara' => $validatedData['deskripsi_acara'],
             'tingkat_wilayah_acara' => $validatedData['tingkat_wilayah_acara'],
-            'security_pass' => $validatedData['security_pass'],
             // Add other fields as needed...
         ];
 

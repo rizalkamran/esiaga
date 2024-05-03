@@ -5,7 +5,7 @@
           <p>&copy; 2024 DISPORA KALTIM</p>
         </div>
         <div class="col-md-6">
-          <p class="text-end">Designed by GANKO GEMILANG</p>
+          <p class="text-end">Designed by AKN</p>
         </div>
       </div>
     </div>

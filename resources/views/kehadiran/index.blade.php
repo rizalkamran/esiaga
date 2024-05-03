@@ -8,12 +8,13 @@
         </div>
         <div class="card-body">
 
-            @can('is-admin')
+            @can('logged-in')
                 <div class="row mb-3">
                     <div class="col-md-3">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <button type="button" class="btn btn-success">Excel</button>
-                            <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
+                            @can('is-admin')
+                                <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
+                            @endcan
                             <a class="btn btn-secondary" href="{{ route('kehadiran.index') }}">Reset</a>
                         </div>
                     </div>

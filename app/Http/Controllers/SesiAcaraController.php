@@ -14,10 +14,22 @@ class SesiAcaraController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (Gate::allows('is-admin')){
-            $sesi = SesiAcara::with('acara')->paginate(10); // Eager load the 'acara' relationship
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            $query = SesiAcara::query();
+
+            if ($request->has('search')) {
+                $searchTerm = $request->query('search');
+                $query->whereHas('acara', function ($subQuery) use ($searchTerm) {
+                    $subQuery->where('nama_acara', 'like', '%' . $searchTerm . '%');
+                })->orWhere('sesi', 'like', '%' . $searchTerm . '%');
+            }
+
+            $sesi = $query->whereHas('acara', function ($subQuery) {
+                $subQuery->where('status_acara', 1);
+            })->with('acara')->paginate(10);
+
             return view('sesi_acara.index', ['sesi' => $sesi]);
         }
 

@@ -6,6 +6,7 @@ use App\Models\AnggotaAcaraRegistrasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Acara;
+use App\Models\ReffPeran;
 use App\Models\ReffCabor;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,9 @@ class RegistrasiController extends Controller
      */
     public function index(Request $request)
     {
+        // Start with the base query
+        $query = AnggotaAcaraRegistrasi::query();
+
         // Retrieve all acara options for the dropdown
         $acaraOptions = Acara::all();
 
@@ -34,9 +38,6 @@ class RegistrasiController extends Controller
         $selectedCabor = $request->input('cabor');
         $searchQuery = $request->input('search');
         $showAll = $request->input('showAll'); // Check if the toggle button is clicked
-
-        // Start with the base query
-        $query = AnggotaAcaraRegistrasi::query();
 
         // Filter by acara if selected
         if ($selectedAcara) {
@@ -64,14 +65,27 @@ class RegistrasiController extends Controller
             });
         }
 
-        // Check if the toggle button is clicked
-        if ($showAll) {
-            // Retrieve all data without pagination
-            $anggota = $query->get();
-        } else {
-            // Paginate the data (default behavior)
-            $anggota = $query->paginate(10);
+        // If no search query and acara/cabor filters, apply only status_acara filter
+        if (!$searchQuery && !$selectedAcara && !$selectedCabor) {
+            $query->whereHas('acara', function ($q) {
+                $q->where('status_acara', 1);
+            });
         }
+
+        $anggota = $query->paginate(10);
+
+        // Calculate the total counts outside of the paginated query
+        $totalFoto = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+            $q->whereNotNull('foto_diri');
+        })->count();
+
+        $totalKTP = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+            $q->whereNotNull('foto_ktp');
+        })->count();
+
+        $totalNPWP = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+            $q->whereNotNull('foto_npwp');
+        })->count();
 
         // Return the view with data and options
         return view('registrasi.index', [
@@ -80,18 +94,17 @@ class RegistrasiController extends Controller
             'caborOptions' => $caborOptions,
             'selectedAcara' => $selectedAcara,
             'selectedCabor' => $selectedCabor,
-            'searchQuery' => $searchQuery
+            'searchQuery' => $searchQuery,
+            'totalFoto' => $totalFoto,
+            'totalKTP' => $totalKTP,
+            'totalNPWP' => $totalNPWP,
         ]);
     }
 
     public function showUserEvents()
     {
         if (Gate::allows('is-non-publik')) {
-           // Retrieve all registration records associated with the currently authenticated user
-            $user_id = auth()->id();
-            $regis = AnggotaAcaraRegistrasi::where('user_id', $user_id)->get();
-
-            // Pass the registrations to the view to display
+            $regis = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->get(); // Change 10 to the desired number of items per page
             return view('mobile.acara.detail', ['regis' => $regis]);
         }
 
@@ -103,66 +116,23 @@ class RegistrasiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        if (Gate::allows('is-non-publik')) {
-            $acara = Acara::where('status_acara', 1)->get(); // Retrieve only active Acara records
-            return view('mobile.registrasi.create', ['acara' => $acara]);
-        }
-
-        abort(403, 'Unauthorized action.');
-    }
-
     public function createAdmin()
     {
         if (Gate::allows('is-admin')) {
             $user = User::all();
+            $peran = ReffPeran::all();
             $acara = Acara::where('status_acara', 1)->get(); // Retrieve only active Acara records
-            return view('registrasi.create', ['acara' => $acara, 'user' => $user]);
+            return view('registrasi.create', ['acara' => $acara, 'user' => $user, 'peran' => $peran]);
         }
 
         abort(403, 'Unauthorized action.');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        // Retrieve the currently logged-in user's ID
-        $user_id = Auth::id();
-
-        $request->validate([
-            'acara_id' => ['required', 'exists:acara,id', 'not_registered_for_event'], // Validate that acara_id exists in the acara table
-            'qrcode_registrasi' => 'nullable'
-        ]);
-
-        // Merge the user_id into the request data
-        $requestData = array_merge($request->all(), ['user_id' => $user_id]);
-
-        // Dump and die to inspect the request data before proceeding
-        //dd($requestData);d
-
-        // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
-        $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
-            'user_id' => $user_id,
-            'acara_id' => $request->input('acara_id'),
-        ]);
-
-        // Save the instance to the database
-        $anggotaAcaraRegistrasi->save();
-
-        // Optionally, you can redirect the user to a different page after successful submission
-        return redirect()->route('mobile.registrasi.index');
     }
 
     public function storeAdmin(Request $request)
     {
         $request->validate([
             'user_id' => 'required',
+            'peran_id' => 'required',
             'acara_id' => ['required', 'exists:acara,id'], // Ensure the user is not already registered for the event
             'qrcode_registrasi' => 'nullable'
         ]);
@@ -202,6 +172,7 @@ class RegistrasiController extends Controller
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
             'user_id' => $request->input('user_id'),
+            'peran_id' => $request->input('peran_id'),
             'acara_id' => $request->input('acara_id'),
             'qrcode_registrasi' => $filename,
         ]);
@@ -212,7 +183,6 @@ class RegistrasiController extends Controller
         // Optionally, you can redirect the user to a different page after successful submission
         return redirect()->route('registrasi.index')->with('success', 'Registration successful.');
     }
-
 
     /**
      * Display the specified resource.
@@ -321,8 +291,14 @@ class RegistrasiController extends Controller
             // Fetch data from the database based on the query
             $anggota = $query->get();
 
-            // Load the view and pass data to it
-            $pdf = PDF::loadView('registrasi.export-pdf', compact('anggota'));
+            // Pass $selectedAcara to the view along with $anggota
+            $viewData = [
+                'anggota' => $anggota,
+                'selectedAcara' => $selectedAcara, // Add this line
+            ];
+
+            // Load the view and pass data to it, including the QR code URL and image
+            $pdf = PDF::loadView('registrasi.export-pdf', $viewData);
 
             // Set paper orientation to landscape
             $pdf->setPaper('a4', 'landscape');
@@ -332,6 +308,38 @@ class RegistrasiController extends Controller
         }
 
         abort(403, 'Unauthorized action');
+    }
+
+    public function exportPDFPublic(Request $request)
+    {
+        // Retrieve the 'acara' parameter from the request
+        $selectedAcara = $request->input('acara');
+
+        // Build your query based on conditions
+        $query = AnggotaAcaraRegistrasi::query();
+
+        // Apply the condition for 'acara_id'
+        if ($selectedAcara) {
+            $query->where('acara_id', $selectedAcara);
+        }
+
+        // Fetch data from the database based on the query
+        $anggota = $query->get();
+
+        // Pass $selectedAcara to the view along with $anggota
+        $viewData = [
+            'anggota' => $anggota,
+            'selectedAcara' => $selectedAcara,
+        ];
+
+        // Load the view and pass data to it, including the QR code URL and image
+        $pdf = PDF::loadView('registrasi.export-pdf', $viewData);
+
+        // Set paper orientation to landscape
+        $pdf->setPaper('a4', 'landscape');
+
+        // Stream the PDF to the browser
+        return $pdf->stream('registrasi_public_access.pdf');
     }
 
     public function exportUser($id)

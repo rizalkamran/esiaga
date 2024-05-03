@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Acara;
+use App\Models\ReffPeran;
 use App\Models\AnggotaKehadiranRegistrasi;
 
 class AnggotaAcaraRegistrasi extends Model
@@ -17,6 +18,7 @@ class AnggotaAcaraRegistrasi extends Model
     protected $fillable = [
         'user_id',
         'acara_id',
+        'peran_id',
         'qrcode_registrasi',
         'mandat',
     ];
@@ -29,6 +31,11 @@ class AnggotaAcaraRegistrasi extends Model
     public function acara()
     {
         return $this->belongsTo(Acara::class);
+    }
+
+    public function peran()
+    {
+        return $this->belongsTo(ReffPeran::class);
     }
 
     public function anggotaKehadiranRegistrasi()

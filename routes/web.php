@@ -7,6 +7,7 @@ use App\Http\Controllers\UserStafController;
 use App\Http\Controllers\ReffCaborController;
 use App\Http\Controllers\ReffPeranController;
 use App\Http\Controllers\AnggotaPeranController;
+use App\Http\Controllers\AnggotaPeranAdminController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\BiodataAdminController;
 use App\Http\Controllers\BiodataStafController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\PendidikanAdminController;
 use App\Http\Controllers\PendidikanUserController;
 use App\Http\Controllers\PrestasiAdminController;
 use App\Http\Controllers\PrestasiUserController;
+use App\Http\Controllers\PekerjaanAdminController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\ReffPendidikanController;
@@ -147,6 +149,8 @@ Route::resource('/tanda_terima', TandaTerimaAdminController::class);
 //Route::resource('/kode-acara', KodeAcaraController::class);
 
 // Anggota
+Route::resource('/anggota_peran', AnggotaPeranAdminController::class);
+Route::get('/anggota_peran', [AnggotaPeranAdminController::class, 'index'])->name('anggota_peran.index');
 Route::get('/mobile/anggota', [AnggotaPeranController::class, 'index'])->name('mobile.anggota.index');
 Route::get('/mobile/anggota/create', [AnggotaPeranController::class, 'create'])->name('mobile.anggota.create');
 Route::post('/mobile/anggota', [AnggotaPeranController::class, 'store'])->name('mobile.anggota.store');
@@ -160,6 +164,8 @@ Route::get('/registrasi/create', [RegistrasiController::class, 'createAdmin'])->
 // Store Registrasi by Admin
 Route::post('/registrasi', [RegistrasiController::class, 'storeAdmin'])->middleware('can:is-admin')->name('registrasi.store.admin');
 Route::get('/export-pdf-regis', [RegistrasiController::class, 'exportPDF'])->name('regis.export-pdf');
+// Route for exporting PDF without gate middleware
+Route::get('/export-pdf-public', [RegistrasiController::class, 'exportPDFPublic'])->name('export.pdf.public');
 Route::get('/export-user-pdf-regis/{id}', [RegistrasiController::class, 'exportUser'])->name('regis.export-user-pdf');
 //mobile
 Route::post('/mobile/acara/register', [AcaraController::class, 'register'])->name('mobile.acara.register');
@@ -171,7 +177,7 @@ Route::put('/registrasi/{id}', [RegistrasiController::class, 'update'])->middlew
 
 
 // Kehadiran
-Route::resource('/kehadiran', KehadiranController::class)->middleware('can:is-admin');
+Route::resource('/kehadiran', KehadiranController::class);
 // Route for displaying the absen form
 Route::get('/absen', [KehadiranController::class, 'absen'])->name('absen.index');
 // Route for storing absen data
@@ -221,6 +227,10 @@ Route::get('/prestasi', [PrestasiAdminController::class, 'index'])->name('presta
 Route::get('/mobile/prestasi', [PrestasiUserController::class, 'index'])->name('mobile.prestasi.index');
 Route::get('/mobile/prestasi/create', [PrestasiUserController::class, 'create'])->name('mobile.prestasi.create');
 Route::post('/mobile/prestasi', [PrestasiUserController::class, 'store'])->name('mobile.prestasi.store');
+
+// pekerjaan
+Route::resource('/pekerjaan', PekerjaanAdminController::class);
+Route::get('/pekerjaan', [PekerjaanAdminController::class, 'index'])->name('pekerjaan.index');
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);

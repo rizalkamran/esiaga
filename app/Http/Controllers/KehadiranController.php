@@ -22,28 +22,33 @@ class KehadiranController extends Controller
      */
     public function index(Request $request)
     {
-        $caborOptions = ReffCabor::all();
-        $acara = Acara::all();
-        $sesiOptions = SesiAcara::all();
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            $caborOptions = ReffCabor::all();
+            $acara = Acara::all();
+            $sesiOptions = SesiAcara::all();
 
-        // Query SesiAcara
-        $sesiAcara = SesiAcara::all();
+            // Retrieve the selected session and cabor from the request
+            $selectedSesi = $request->input('sesi');
+            $selectedCabor = $request->input('cabor');
 
-        // Retrieve the selected session from the request
-        $selectedSesi = $request->input('sesi');
-        $selectedCabor = $request->input('cabor');
-
-        // Check if the user is an admin
-        if (Gate::allows('is-admin')) {
             // Create base query
             $query = AnggotaKehadiranRegistrasi::query();
 
             // Order by the newest date (created_at) first
-            $query->orderBy('created_at', 'desc');
+            $query->orderBy('created_at', 'asc');
 
             // Filter by session if selected
             if ($selectedSesi) {
                 $query->where('sesi_acara_id', $selectedSesi);
+            } else {
+                // Get the first session of the active event (where status_acara is 1)
+                $activeEvent = Acara::where('status_acara', 1)->first();
+                if ($activeEvent) {
+                    $firstSession = $activeEvent->sesiAcara()->orderBy('created_at', 'asc')->first();
+                    if ($firstSession) {
+                        $query->where('sesi_acara_id', $firstSession->id);
+                    }
+                }
             }
 
             // Filter by nama_cabor if selected
@@ -57,7 +62,9 @@ class KehadiranController extends Controller
             }
 
             // Paginate the results
-            $kehadiran = $query->simplePaginate(10);
+            $kehadiran = $query->paginate(10);
+
+            $sesiAcara = SesiAcara::all();
 
             // Pass the attendance data and other necessary data to the view
             return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi', 'selectedCabor', 'caborOptions', 'acara', 'sesiAcara'));
@@ -66,8 +73,6 @@ class KehadiranController extends Controller
         // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action');
     }
-
-
 
 
 
@@ -189,12 +194,17 @@ class KehadiranController extends Controller
      */
     public function edit($id)
     {
-        $kehadiran = AnggotaKehadiranRegistrasi::findOrFail($id);
+        if (Gate::allows('is-admin')) {
 
-        // Convert the created_at timestamp to the desired timezone
-        $localizedDateTime = Carbon::parse($kehadiran->created_at)->timezone('Asia/Makassar');
+            $kehadiran = AnggotaKehadiranRegistrasi::findOrFail($id);
 
-        return view('kehadiran.edit', compact('kehadiran', 'localizedDateTime'));
+            // Convert the created_at timestamp to the desired timezone
+            $localizedDateTime = Carbon::parse($kehadiran->created_at)->timezone('Asia/Makassar');
+
+            return view('kehadiran.edit', compact('kehadiran', 'localizedDateTime'));
+        }
+
+        abort(403, 'Unauthorized action');
     }
 
     /**

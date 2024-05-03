@@ -79,6 +79,12 @@
                 @endforeach
             </tbody>
         </table>
+
+        <p>
+            Print Details <br>
+            User: {{ Auth::user()->nama_lengkap }} <br>
+            Date/Time: {{ \Carbon\Carbon::now()->locale('id_ID')->isoFormat('dddd, D MMMM YYYY, HH:mm:ss') }}
+        </p>
     @else
         <h4>No Events Found</h4>
     @endif

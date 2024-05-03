@@ -57,6 +57,7 @@
                     <th>Nama Lengkap</th>
                     <th>L/P</th>
                     <th>Afiliasi</th>
+                    <th>Peran</th>
                     <th>NIK</th>
                     <th>NPWP</th>
                     <th>Kota Domisili</th>
@@ -71,6 +72,7 @@
                         <td>{{ $ag->user->nama_lengkap }}</td>
                         <td>{{ $ag->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
                         <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
+                        <td>{{ $ag->peran?->nama_peran ?? 'Data belum diisi' }}</td>
                         <td>{{ $ag->user->nomor_ktp }}</td>
                         <td>{{ $ag->user->biodata?->npwp ?? 'Data belum diisi'}}</td>
                         <td>{{ $ag->user->biodata?->kota?->nama_kota ?? 'Data belum diisi'}}</td>
@@ -80,8 +82,16 @@
                 @endforeach
             </tbody>
         </table>
+
+        <p>
+            Print Details <br>
+            User: {{ Auth::check() ? Auth::user()->nama_lengkap : 'Guest' }} <br>
+            Date/Time: {{ \Carbon\Carbon::now()->locale('id_ID')->isoFormat('dddd, D MMMM YYYY, HH:mm:ss') }} <br>
+        </p>
+        <a href="{{ route('export.pdf.public', ['acara' => $selectedAcara]) }}">Link PDF</a>
     @else
         <h4>No Events Found</h4>
     @endif
+
 </body>
 </html>

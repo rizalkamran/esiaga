@@ -17,6 +17,7 @@ use App\Models\Diklat;
 use App\Models\Lisensi;
 use App\Models\Pendidikan;
 use App\Models\Prestasi;
+use App\Models\Pekerjaan;
 use App\Models\TandaTerima;
 
 
@@ -134,6 +135,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function prestasi()
     {
         return $this->hasMany(Prestasi::class);
+    }
+
+    public function pekerjaan()
+    {
+        return $this->hasMany(Pekerjaan::class);
     }
 
     public function tandaTerima()

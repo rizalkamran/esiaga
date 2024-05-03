@@ -28,17 +28,27 @@
             @csrf
 
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label for="user_id" class="form-label">Data User</label>
                     <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
                         <option selected disabled>Pilih User</option>
                         @foreach ($user as $u)
-                            <option value="{{ $u->id }}">{{ $u->id }} - {{ $u->nama_lengkap }}</option>
+                            <option value="{{ $u->id }}">{{ $u->nama_lengkap }}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-4">
+                    <label for="peran_id" class="form-label">Data Peran</label>
+                    <select class="form-select form-select-sm" aria-label="Small select example" name="peran_id">
+                        <option selected disabled>Pilih Peran</option>
+                        @foreach ($peran as $p)
+                            <option value="{{ $p->id }}">{{ $p->nama_peran }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-4">
                     <!-- Event dropdown/select -->
                     <label for="acara_id" class="form-label">Pilih Acara</label>
                     <select name="acara_id" class="form-control form-control-sm" id="acara_id">

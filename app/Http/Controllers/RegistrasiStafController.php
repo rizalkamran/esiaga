@@ -23,6 +23,9 @@ class RegistrasiStafController extends Controller
      */
     public function index(Request $request)
     {
+        // Start with the base query
+        $query = AnggotaAcaraRegistrasi::query();
+
         // Retrieve all acara options for the dropdown
         $acaraOptions = Acara::all();
 
@@ -64,14 +67,27 @@ class RegistrasiStafController extends Controller
             });
         }
 
-        // Check if the toggle button is clicked
-        if ($showAll) {
-            // Retrieve all data without pagination
-            $anggota = $query->get();
-        } else {
-            // Paginate the data (default behavior)
-            $anggota = $query->paginate(10);
+        // If no search query and acara/cabor filters, apply only status_acara filter
+        if (!$searchQuery && !$selectedAcara && !$selectedCabor) {
+            $query->whereHas('acara', function ($q) {
+                $q->where('status_acara', 1);
+            });
         }
+
+        $anggota = $query->paginate(10);
+
+        // Calculate the total counts outside of the paginated query
+        $totalFoto = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+            $q->whereNotNull('foto_diri');
+        })->count();
+
+        $totalKTP = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+            $q->whereNotNull('foto_ktp');
+        })->count();
+
+        $totalNPWP = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+            $q->whereNotNull('foto_npwp');
+        })->count();
 
         // Return the view with data and options
         return view('staf.registrasi.index', [
@@ -80,7 +96,10 @@ class RegistrasiStafController extends Controller
             'caborOptions' => $caborOptions,
             'selectedAcara' => $selectedAcara,
             'selectedCabor' => $selectedCabor,
-            'searchQuery' => $searchQuery
+            'searchQuery' => $searchQuery,
+            'totalFoto' => $totalFoto,
+            'totalKTP' => $totalKTP,
+            'totalNPWP' => $totalNPWP,
         ]);
     }
 
@@ -110,6 +129,7 @@ class RegistrasiStafController extends Controller
     {
         $request->validate([
             'user_id' => 'required',
+            'peran_id' => 'required',
             'acara_id' => ['required', 'exists:acara,id'], // Ensure the user is not already registered for the event
             'qrcode_registrasi' => 'nullable'
         ]);
@@ -149,6 +169,7 @@ class RegistrasiStafController extends Controller
         // Create a new instance of AnggotaAcaraRegistrasi and fill in the fields
         $anggotaAcaraRegistrasi = new AnggotaAcaraRegistrasi([
             'user_id' => $request->input('user_id'),
+            'peran_id' => $request->input('peran_id'),
             'acara_id' => $request->input('acara_id'),
             'qrcode_registrasi' => $filename,
         ]);

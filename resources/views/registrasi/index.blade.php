@@ -14,7 +14,6 @@
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <a class="btn btn-secondary" href="{{ route('registrasi.index') }}">Reset</a>
                             <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
-                            <button id="togglePagination" class="btn btn-warning" disabled>Toggle All data</button>
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -67,8 +66,9 @@
                             <th scope="col">Nomor</th>
                             <th scope="col">Nama Lengkap</th>
                             <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">Peran</th>
                             <th scope="col">Cabor / Afliliasi</th>
-                            <th scope="col">Waktu Daftar</th>
+                            <th scope="col">Lampiran</th>
                             <th scope="col">Surat Mandat</th>
                         </tr>
                     </thead>
@@ -78,8 +78,23 @@
                             <td>{{ ($anggota->currentPage() - 1) * $anggota->perPage() + $loop->iteration }}</td>
                             <td>{{ $ag->user->nama_lengkap }}</td>
                             <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
+                            <td>{{ $ag->peran?->nama_peran ?? 'Data belum diisi' }}</td>
                             <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
-                            <td>{{ $ag->created_at->locale('id_ID')->isoFormat('D MMMM YYYY H:mm:ss') }}</td>
+                            <td>
+                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_diri ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#Modal1{{$ag->id}}">
+                                    Foto
+                                </button>
+                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_ktp ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#Modal2{{$ag->id}}">
+                                    KTP
+                                </button>
+                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_npwp ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#Modal3{{$ag->id}}">
+                                    NPWP
+                                </button>
+                                <a href="{{ route('biodata_admin.index', ['user_id' => $ag->user->id]) }}" class="btn btn-sm btn-primary" target="_blank">
+                                    Link
+                                </a>
+                            </td>
+
                             <td>
                                 <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
 
@@ -91,6 +106,64 @@
                                 <a href="{{ route('regis.export-user-pdf', $ag->id) }}" class="btn btn-sm btn-danger" target="_blank">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </a>
+
+                                <!-- Modal Lampiran -->
+                                <div class="modal fade" id="Modal1{{$ag->id}}" tabindex="-1" aria-labelledby="Modal1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="Modal1">Foto Profil</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display Registration Details Here -->
+                                                @if ($ag->user->biodata && $ag->user->biodata->foto_diri)
+                                                    <img src="{{ asset('biodata/foto_diri/' . $ag->user->biodata->foto_diri) }}" alt="Foto Diri" style="width: 50%; height: auto;">
+                                                @else
+                                                    Foto tidak tersedia
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="Modal2{{$ag->id}}" tabindex="-1" aria-labelledby="Modal2" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="Modal2">KTP</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display Registration Details Here -->
+                                                @if ($ag->user->biodata && $ag->user->biodata->foto_ktp)
+                                                    <img src="{{ asset('biodata/foto_ktp/' . $ag->user->biodata->foto_ktp) }}" alt="Foto KTP" style="width: 50%; height: auto;">
+                                                @else
+                                                    Foto tidak tersedia
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="Modal3{{$ag->id}}" tabindex="-1" aria-labelledby="Modal3" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="Modal3">NPWP</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <!-- Display Registration Details Here -->
+                                                @if ($ag->user->biodata && $ag->user->biodata->foto_npwp)
+                                                    <img src="{{ asset('biodata/foto_npwp/' . $ag->user->biodata->foto_npwp) }}" alt="Foto NPWP" style="width: 50%; height: auto;">
+                                                @else
+                                                    Foto tidak tersedia
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <!-- Modal -->
                                 <div class="modal fade" id="exampleModal{{$ag->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -170,6 +243,9 @@
                 <div class="row">
                     <div class="col">
                         <p class="btn btn-sm btn-secondary">Total Data: {{ $anggota->total() }}</p>
+                        <p class="btn btn-sm btn-secondary">Foto: {{ $totalFoto }}</p>
+                        <p class="btn btn-sm btn-secondary">KTP: {{ $totalKTP }}</p>
+                        <p class="btn btn-sm btn-secondary">NPWP: {{ $totalNPWP }}</p>
                     </div>
                     <div class="col">
                         <div class="float-end">
@@ -181,16 +257,6 @@
 
         </div>
     </div>
-
-    <script>
-        // Event listener for toggle button click
-        document.getElementById('togglePagination').addEventListener('click', function() {
-            const url = new URL(window.location.href);
-            const showAll = url.searchParams.get('showAll') ? 0 : 1; // Toggle showAll parameter
-            url.searchParams.set('showAll', showAll); // Set the showAll parameter in the URL
-            window.location.href = url.toString(); // Redirect to the new URL
-        });
-    </script>
 
     @include('templates.footer')
 @endsection

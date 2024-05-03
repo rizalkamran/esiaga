@@ -80,7 +80,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('admin.users.index') }}">Data User</a></li>
                                 <li><a class="dropdown-item" href="{{ route('biodata_admin.index') }}">Biodata</a></li>
-                                <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
+                                <li><a class="dropdown-item" href="{{ route('anggota_peran.index') }}">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
                                 <li><a class="dropdown-item" href="{{ route('lisensi.index') }}">Sertifikat/Lisensi</a></li>
                                 <li><a class="dropdown-item" href="{{ route('pendidikan.index') }}">Pendidikan</a></li>
@@ -110,7 +110,7 @@
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{ route('staf.users.index') }}">Data User</a></li>
                                 <li><a class="dropdown-item" href="{{ route('staf.biodata.index') }}">Biodata</a></li>
-                                <li><a class="dropdown-item" href="#">Peran Anggota</a></li>
+                                <li><a class="dropdown-item" href="{{ route('anggota_peran.index') }}">Peran Anggota</a></li>
                                 <li><a class="dropdown-item" href="{{ route('diklat.index') }}">Diklat</a></li>
                                 <li><a class="dropdown-item" href="{{ route('lisensi.index') }}">Sertifikat/Lisensi</a></li>
                                 <li><a class="dropdown-item" href="{{ route('pendidikan.index') }}">Pendidikan</a></li>
