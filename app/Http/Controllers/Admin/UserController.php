@@ -23,9 +23,9 @@ class UserController extends Controller
     {
         if (Gate::allows('is-admin')) {
             $searchQuery = $request->input('search');
-            $sortField = $request->input('sort_by', 'id'); // Default sort by ID
-            $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
-            $perPage = $request->input('per_page', 10); // Default items per page is 10
+            $sortField = $request->input('sort_by', 'id');
+            $sortOrder = $request->input('sort_order', 'asc');
+            $perPage = $request->input('per_page', 50);
 
             $query = User::query();
 

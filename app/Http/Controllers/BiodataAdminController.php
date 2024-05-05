@@ -26,6 +26,7 @@ class BiodataAdminController extends Controller
         if (Gate::allows('is-admin')) {
             $userId = $request->input('user_id');
             $searchQuery = $request->input('search');
+            $perPage = $request->input('per_page', 50);
 
             // Start with the base query
             $query = Biodata::query();
@@ -70,7 +71,7 @@ class BiodataAdminController extends Controller
             }
 
             // Paginate the search results
-            $biodata = $query->paginate(10);
+            $biodata = $query->paginate($perPage);
 
             return view('biodata_admin.index', [
                 'biodata' => $biodata,
@@ -78,6 +79,7 @@ class BiodataAdminController extends Controller
                 'sortField' => $sortField,
                 'sortOrder' => $sortOrder,
                 'user_id' => $userId,
+                'perPage' => $perPage,
             ]);
         }
 

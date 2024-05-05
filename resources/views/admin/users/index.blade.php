@@ -26,17 +26,20 @@
                         <form action="{{ route('admin.users.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                             <div class="form-group" style="margin-bottom: 0;">
                                 <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
-                                    <option value="10" {{ $perPage == 10 ? 'selected' : '' }}>10</option>
-                                    <option value="15" {{ $perPage == 15 ? 'selected' : '' }}>15</option>
-                                    <option value="20" {{ $perPage == 20 ? 'selected' : '' }}>20</option>
-                                    <option value="25" {{ $perPage == 25 ? 'selected' : '' }}>25</option>
+                                    <option selected disabled>Per Page</option>
                                     <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="75" {{ $perPage == 75 ? 'selected' : '' }}>75</option>
                                     <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                                    <option value="150" {{ $perPage == 150 ? 'selected' : '' }}>150</option>
+                                    <option value="200" {{ $perPage == 200 ? 'selected' : '' }}>200</option>
+                                    <option value="250" {{ $perPage == 250 ? 'selected' : '' }}>250</option>
                                 </select>
                             </div>
                         </form>
                         <form action="{{ route('admin.users.index') }}" method="get" style="display: inline-flex; align-items: center;">
                             <div class="form-group ms-2" style="margin-bottom: 0;">
+                                <!-- Inside the search form -->
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Search ..." value="{{ $searchQuery }}">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 5px;">

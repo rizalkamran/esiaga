@@ -20,10 +20,11 @@ class UserStafController extends Controller
      */
     public function index(Request $request)
     {
-        if (Gate::allows('logged-in')) {
+        if (Gate::allows('is-staf')) {
             $searchQuery = $request->input('search');
-            $sortField = $request->input('sort_by', 'id'); // Default sort by ID
-            $sortOrder = $request->input('sort_order', 'asc'); // Default sort order is ascending
+            $sortField = $request->input('sort_by', 'id');
+            $sortOrder = $request->input('sort_order', 'asc');
+            $perPage = $request->input('per_page', 50);
 
             $query = User::query();
 
@@ -34,7 +35,7 @@ class UserStafController extends Controller
             // Apply sorting
             $query->orderBy($sortField, $sortOrder);
 
-            $users = $query->with('roles')->paginate(10);
+            $users = $query->with('roles')->paginate($perPage);
 
             return view('staf.users.index')
                 ->with([
@@ -42,6 +43,7 @@ class UserStafController extends Controller
                     'searchQuery' => $searchQuery,
                     'sortField' => $sortField,
                     'sortOrder' => $sortOrder,
+                    'perPage' => $perPage,
                 ]);
         }
 
@@ -143,11 +145,11 @@ class UserStafController extends Controller
             return redirect(route('staf.users.index'));
         }
 
-        $user->update($request->except(['_token', 'roles']));
+        $user->update($request->except(['_token', 'roles', 'password']));
         $user->roles()->sync($request->roles);
 
         // Update password if provided
-        if ($request->has('password')) {
+        if ($request->filled('password')) {
             $user->password = bcrypt($request->password);
             $user->save();
         }

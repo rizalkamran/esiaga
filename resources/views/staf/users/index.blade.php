@@ -23,8 +23,22 @@
                 </div>
                 <div class="col-md-8">
                     <div class="float-end">
+                        <form action="{{ route('staf.users.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
+                                    <option selected disabled>Per Page</option>
+                                    <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="75" {{ $perPage == 75 ? 'selected' : '' }}>75</option>
+                                    <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                                    <option value="150" {{ $perPage == 150 ? 'selected' : '' }}>150</option>
+                                    <option value="200" {{ $perPage == 200 ? 'selected' : '' }}>200</option>
+                                    <option value="250" {{ $perPage == 250 ? 'selected' : '' }}>250</option>
+                                </select>
+                            </div>
+                        </form>
                         <form action="{{ route('staf.users.index') }}" method="get" style="display: inline-flex; align-items: center;">
                             <div class="form-group mr-2" style="margin-bottom: 0;">
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="text" name="search" class="form-control form-control-sm" placeholder="Search ..." value="{{ $searchQuery }}">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 5px;">
@@ -141,7 +155,7 @@
                 </table>
             </div>
 
-            {{ $users->onEachSide(1)->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder])->links() }}
+            {{ $users->onEachSide(1)->appends(['search' => $searchQuery, 'sort_by' => $sortField, 'sort_order' => $sortOrder, 'per_page' => $perPage])->links() }}
 
             <div>
                 <div class="row">
