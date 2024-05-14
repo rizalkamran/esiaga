@@ -16,7 +16,21 @@
                                 <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
                             @endcan
                             <a class="btn btn-secondary" href="{{ route('kehadiran.index') }}">Reset</a>
+                            <form action="{{ route('kehadiran.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                                <div class="form-group ms-2" style="margin-bottom: 0;">
+                                    <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
+                                        <option selected disabled>Per Page</option>
+                                        <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                                        <option value="75" {{ $perPage == 75 ? 'selected' : '' }}>75</option>
+                                        <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                                        <option value="150" {{ $perPage == 150 ? 'selected' : '' }}>150</option>
+                                        <option value="200" {{ $perPage == 200 ? 'selected' : '' }}>200</option>
+                                        <option value="250" {{ $perPage == 250 ? 'selected' : '' }}>250</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
+
                     </div>
 
                     <div class="col-md-9">
@@ -52,6 +66,7 @@
                     <div class="col-md-4">
                         <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
                             <div class="form-group">
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="text" name="cabor" id="cabor" class="form-control form-control-sm" placeholder="Cari ..." value="{{ $selectedCabor ?? '' }}">
                             </div>
                             <button type="submit" class="btn btn-sm btn-primary ms-2">
@@ -63,6 +78,7 @@
                     <div class="col-md-8">
                         <div class="float-end">
                             <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
                                     <option selected disabled>Pilih Acara</option>
                                     @foreach ($acara as $ac)
@@ -129,7 +145,7 @@
             @endif
 
             <!-- Pagination Links -->
-            {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor])->links() }}
+            {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor, 'per_page' => $perPage])->links() }}
 
             <div>
                 <div class="row">

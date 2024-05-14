@@ -58,7 +58,13 @@
                                 </td>
                                 <td>{{ $pe->pekerjaan }}</td>
                                 <td>{{ $pe->tipe_kerja }}</td>
-                                <td>{{ $pe->status_kerja }}</td>
+                                <td>
+                                    @if ($pe->status_kerja == 1)
+                                        {{ \Carbon\Carbon::parse($pe->tgl_mulai)->format('d-m-Y') }} / Sekarang
+                                    @else
+                                        {{ \Carbon\Carbon::parse($pe->tgl_mulai)->format('d-m-Y') }} / {{ \Carbon\Carbon::parse($pe->tgl_selesai)->format('d-m-Y') }}
+                                    @endif
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-success" data-bs-toggle="modal"
                                         data-bs-target="#imagesModal{{ $pe->id }}">
@@ -119,12 +125,27 @@
             <div class="modal-dialog modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="imagesModalLabel{{ $pe->id }}">Images</h5>
+                        <h5 class="modal-title" id="imagesModalLabel{{ $pe->id }}">Detail</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="row text-center">
-                            <div class="col">
+                            <div class="col-md-7">
+                                <dl class="row">
+                                    <dt class="col-sm-3">Nama Instansi</dt>
+                                    <dd class="col-sm-9">{{ $pe->nama_instansi }}</dd>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-3">Alamat Instansi</dt>
+                                    <dd class="col-sm-9">{{ $pe->alamat_instansi }}</dd>
+                                </dl>
+                                <dl class="row">
+                                    <dt class="col-sm-3">Kontak Instansi</dt>
+                                    <dd class="col-sm-9">{{ $pe->kontak_instansi }}</dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-5">
+                                <h6>Bukti Pekerjaan</h6>
                                 <img src="{{ asset('bukti_kerja/' . $pe->bukti_kerja) }}" alt="Bukti Kerja" class="img-fluid mb-3">
                             </div>
                         </div>

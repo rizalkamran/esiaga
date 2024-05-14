@@ -35,6 +35,7 @@ class RegistrasiController extends Controller
         $selectedCabor = $request->input('cabor');
         $selectedPeran = $request->input('peran'); // New input for nama_peran filter
         $searchQuery = $request->input('search');
+        $perPage = $request->input('per_page', 50);
 
         // Filter by acara if selected
         if ($selectedAcara) {
@@ -76,7 +77,7 @@ class RegistrasiController extends Controller
             });
         }
 
-        $anggota = $query->paginate(10);
+        $anggota = $query->paginate($perPage);
 
         // Calculate the total counts outside of the paginated query
         $totalFoto = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
@@ -104,6 +105,7 @@ class RegistrasiController extends Controller
             'totalFoto' => $totalFoto,
             'totalKTP' => $totalKTP,
             'totalNPWP' => $totalNPWP,
+            'perPage' => $perPage,
         ]);
     }
 

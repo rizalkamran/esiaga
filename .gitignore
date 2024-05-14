@@ -7,6 +7,7 @@
 /public/qrcodes/*
 /public/file_bukti_prestasi/*
 /public/ijazah/*
+/public/pekerjaan/*
 /public/mandat
 /public/storage
 /storage/*.key

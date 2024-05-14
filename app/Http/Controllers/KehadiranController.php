@@ -30,6 +30,7 @@ class KehadiranController extends Controller
             // Retrieve the selected session and cabor from the request
             $selectedSesi = $request->input('sesi');
             $selectedCabor = $request->input('cabor');
+            $perPage = $request->input('per_page', 50);
 
             // Create base query
             $query = AnggotaKehadiranRegistrasi::query();
@@ -62,12 +63,21 @@ class KehadiranController extends Controller
             }
 
             // Paginate the results
-            $kehadiran = $query->paginate(10);
+            $kehadiran = $query->paginate($perPage);
 
             $sesiAcara = SesiAcara::all();
 
-            // Pass the attendance data and other necessary data to the view
-            return view('kehadiran.index', compact('kehadiran', 'sesiOptions', 'selectedSesi', 'selectedCabor', 'caborOptions', 'acara', 'sesiAcara'));
+            // Return the view with data and options
+            return view('kehadiran.index', [
+                'kehadiran' => $kehadiran,
+                'sesiOptions' => $sesiOptions,
+                'selectedSesi' => $selectedSesi,
+                'selectedCabor' => $selectedCabor,
+                'caborOptions' => $caborOptions,
+                'acara' => $acara,
+                'sesiAcara' => $sesiAcara,
+                'perPage' => $perPage,
+            ]);
         }
 
         // If the user is not authorized, return a 403 Forbidden error

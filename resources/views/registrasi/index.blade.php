@@ -10,7 +10,7 @@
 
             @can('is-admin')
                 <div class="row mb-3">
-                    <div class="col-md-7">
+                    <div class="col-md-4">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
                             <a class="btn btn-secondary me-2" href="{{ route('registrasi.index') }}">Reset</a>
@@ -31,10 +31,24 @@
                         </div>
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-8">
                         <div class="float-end">
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                                <div class="form-group" style="margin-bottom: 0;">
+                                    <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
+                                        <option selected disabled>Per Page</option>
+                                        <option value="50" {{ $perPage == 50 ? 'selected' : '' }}>50</option>
+                                        <option value="75" {{ $perPage == 75 ? 'selected' : '' }}>75</option>
+                                        <option value="100" {{ $perPage == 100 ? 'selected' : '' }}>100</option>
+                                        <option value="150" {{ $perPage == 150 ? 'selected' : '' }}>150</option>
+                                        <option value="200" {{ $perPage == 200 ? 'selected' : '' }}>200</option>
+                                        <option value="250" {{ $perPage == 250 ? 'selected' : '' }}>250</option>
+                                    </select>
+                                </div>
+                            </form>
+                            <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <input type="hidden" name="per_page" value="{{ $perPage }}">
                                     <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
                                 </div>
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
@@ -238,7 +252,7 @@
             </div>
             @endif
 
-            {{ $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara, 'peran' => $selectedPeran])->links() }}
+            {{ $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara, 'peran' => $selectedPeran, 'per_page' => $perPage])->links() }}
 
             <div>
                 <div class="row">
