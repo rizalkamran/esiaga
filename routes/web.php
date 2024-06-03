@@ -20,6 +20,7 @@ use App\Http\Controllers\PendidikanUserController;
 use App\Http\Controllers\PrestasiAdminController;
 use App\Http\Controllers\PrestasiUserController;
 use App\Http\Controllers\PekerjaanAdminController;
+use App\Http\Controllers\PekerjaanUserController;
 use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\ReffPendidikanController;
@@ -231,6 +232,9 @@ Route::post('/mobile/prestasi', [PrestasiUserController::class, 'store'])->name(
 // pekerjaan
 Route::resource('/pekerjaan', PekerjaanAdminController::class);
 Route::get('/pekerjaan', [PekerjaanAdminController::class, 'index'])->name('pekerjaan.index');
+Route::get('/mobile/pekerjaan', [PekerjaanUserController::class, 'index'])->name('mobile.pekerjaan.index');
+Route::get('/mobile/pekerjaan/create', [PekerjaanUserController::class, 'create'])->name('mobile.pekerjaan.create');
+Route::post('/mobile/pekerjaan', [PekerjaanUserController::class, 'store'])->name('mobile.pekerjaan.store');
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);

@@ -92,7 +92,7 @@
                     <div class="card-title">
                         <h6>Halaman Dashboard</h6>
                     </div>
-                    <div class="mt-2">
+                    <div class="mt-1">
                         <p>Selamat datang di aplikasi E-SIAGA</p>
                     </div>
                 </div>
@@ -118,6 +118,10 @@
                         <li>
                             <a class="single-profile-wrap" href="{{ route('mobile.prestasi.index') }}"><i class="fa fa-pen"></i>
                                 Prestasi <i class="ri-arrow-right-s-line"></i></a>
+                        </li>
+                        <li>
+                            <a class="single-profile-wrap" href="{{ route('mobile.pekerjaan.index') }}"><i class="fa fa-user-tie"></i>
+                                Pekerjaan <i class="ri-arrow-right-s-line"></i></a>
                         </li>
                     @endcan
                 </ul>
