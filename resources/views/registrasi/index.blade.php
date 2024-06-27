@@ -118,7 +118,7 @@
                                 <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
 
                                 <!-- Modal Button -->
-                                <button type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
+                                <button type="button" class="btn btn-sm {{ $ag->mandat ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
                                     Lihat
                                 </button>
 

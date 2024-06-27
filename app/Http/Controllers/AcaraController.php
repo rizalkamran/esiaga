@@ -63,7 +63,7 @@ class AcaraController extends Controller
     public function admin()
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')){
-            $acaras = Acara::paginate(5); // Paginate with * records per page
+            $acaras = Acara::paginate(10); // Paginate with * records per page
             return view('acara.index', ['acaras' => $acaras]);
         }
 

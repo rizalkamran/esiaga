@@ -2,6 +2,14 @@
 
 @section('content')
 
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('web-landing') }}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('biodata_admin.index') }}">Biodata User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        </ol>
+    </nav>
+
     <div class="card shadow mt-3">
         <div class="card-header">
             Buat Biodata

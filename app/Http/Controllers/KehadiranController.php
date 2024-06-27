@@ -99,7 +99,7 @@ class KehadiranController extends Controller
 
             // Retrieve all sessions to populate dropdown/select
             $sesiAcara = SesiAcara::all();
-            $acara = Acara::all();
+            $acara = Acara::where('status_acara', 1)->get(); // Retrieve only active Acara records
 
             // Pass the users and sessions data to the view
             return view('kehadiran.create', compact('users', 'sesiAcara', 'acara'));

@@ -36,8 +36,8 @@
             <div class="row">
                 <div class="col-md-4">
                     <label for="user_id" class="form-label">Data User</label>
-                    <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
-                        <option selected>Pilih User</option>
+                    <select id="testSelect" name="user_id">
+                        <option value="">Pilih User</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}">{{ $user->nama_lengkap }}</option>
                         @endforeach
@@ -46,7 +46,7 @@
                 <div class="col-md-4">
                     <!-- Event dropdown/select -->
                     <label for="acara_id" class="form-label">Pilih Acara</label>
-                    <select name="acara_id" class="form-control form-control-sm" id="acara_id">
+                    <select name="acara_id" class="form-control" id="acara_id">
                         <option value="">Pilih Acara</option>
                         @foreach($acara as $ac)
                             <option value="{{ $ac->id }}">{{ $ac->nama_acara }}</option>
@@ -56,7 +56,7 @@
                 <div class="col-md-4">
                     <!-- Session dropdown/select -->
                     <label for="sesi_acara_id" class="form-label">Pilih Sesi Acara</label>
-                    <select name="sesi_acara_id" class="form-control form-control-sm" id="sesi_acara_id">
+                    <select name="sesi_acara_id" class="form-control" id="sesi_acara_id">
                         <option value="">Pilih Sesi Acara</option>
                         <!-- Populate all session options -->
                         @foreach($sesiAcara as $session)
@@ -71,6 +71,19 @@
         </form>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new TomSelect("#testSelect",{
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        });
+</script>
 
 <script>
     // Get references to the event and session select elements
