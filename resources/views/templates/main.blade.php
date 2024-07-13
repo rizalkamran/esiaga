@@ -139,6 +139,7 @@
                                 <li><a class="dropdown-item" href="{{ route('staf.registrasi.index') }}">Data Registrasi Peserta</a></li>
                                 @endcan
                                 <li><a class="dropdown-item" href="{{ route('kehadiran.index') }}">Data Kehadiran Peserta</a></li>
+                                <li><a class="dropdown-item" href="{{ route('daftar_juara.index') }}">Daftar Pemenang</a></li>
                             </ul>
                         </li>
                         @endcan

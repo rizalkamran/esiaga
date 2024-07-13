@@ -29,6 +29,7 @@ use App\Http\Controllers\RegistrasiStafController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\TandaTerimaAdminController;
 use App\Http\Controllers\KategoriAdminController;
+use App\Http\Controllers\DaftarJuaraAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -236,6 +237,10 @@ Route::get('/pekerjaan', [PekerjaanAdminController::class, 'index'])->name('peke
 Route::get('/mobile/pekerjaan', [PekerjaanUserController::class, 'index'])->name('mobile.pekerjaan.index');
 Route::get('/mobile/pekerjaan/create', [PekerjaanUserController::class, 'create'])->name('mobile.pekerjaan.create');
 Route::post('/mobile/pekerjaan', [PekerjaanUserController::class, 'store'])->name('mobile.pekerjaan.store');
+
+// daftar_juara
+Route::resource('/daftar_juara', DaftarJuaraAdminController::class);
+Route::get('/daftar_juara', [DaftarJuaraAdminController::class, 'index'])->name('daftar_juara.index');
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);

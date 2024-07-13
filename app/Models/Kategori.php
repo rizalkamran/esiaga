@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Acara;
+use App\Models\DaftarJuara;
 
 class Kategori extends Model
 {
@@ -22,5 +23,10 @@ class Kategori extends Model
     public function acara()
     {
         return $this->belongsTo(Acara::class);
+    }
+
+    public function daftarjuara()
+    {
+        return $this->hasMany(DaftarJuara::class, 'kategori_id');
     }
 }

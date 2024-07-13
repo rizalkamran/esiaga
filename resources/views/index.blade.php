@@ -152,11 +152,11 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="#">
-                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                <a href="{{ route('daftar_juara.index') }}">
+                                    <img src="{{ asset('icon/winning.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Menu belum tersedia
+                                        Daftar Pemenang
                                     </p>
                                 </a>
                             </div>
@@ -384,13 +384,20 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="#">
+                                <a href="{{ route('daftar_juara.index') }}">
+                                    <img src="{{ asset('icon/winning.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Daftar Pemenang
+                                    </p>
+                                </a>
+                               {{--  <a href="#">
                                     <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
                                         Menu belum tersedia
                                     </p>
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>

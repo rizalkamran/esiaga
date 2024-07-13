@@ -3,19 +3,18 @@
 @section('content')
 <div class="card shadow mt-3">
     <div class="card-header">
-        Data Kategori
+        Daftar Pemenang
     </div>
     <div class="card-body">
         @can('is-admin')
             <div class="row">
                 <div class="col">
-                    <a class="btn btn-sm btn-primary mb-3" href="{{ route('kategori.create') }}" role="button">Create</a>
-                    <a class="btn btn-sm btn-secondary mb-3" href="{{ route('kategori.index') }}">Reset</a>
+                    <a class="btn btn-sm btn-primary mb-3" href="{{ route('daftar_juara.create') }}" role="button">Create</a>
+                    <a class="btn btn-sm btn-secondary mb-3" href="{{ route('daftar_juara.index') }}">Reset</a>
                 </div>
                 <div class="col">
-                    <form action="{{ route('kategori.index') }}" method="GET">
+                    <form action="{{ route('daftar_juara.index') }}" method="GET">
                         <div class="input-group mb-3">
-                            {{-- <input type="text" class="form-control form-control-sm" placeholder="Search..." name="search" value="{{ request('search') }}"> --}}
                             <select class="form-select form-select-sm" name="acara_id">
                                 <option value="">Pilih Acara</option>
                                 @foreach($acara as $a)
@@ -35,26 +34,27 @@
                 <thead>
                     <tr>
                         <th scope="col">No</th>
+                        <th scope="col">Nama</th>
                         <th scope="col">Acara</th>
-                        <th scope="col">Nama Kategori</th>
-                        <th scope="col">Deskripsi</th>
+                        <th scope="col">Kategori</th>
+                        <th scope="col">Status</th>
                         @can('is-admin')
                             <th scope="col">Aksi</th>
                         @endcan
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($kategori as $index => $kat)
+                    @foreach ($daftarjuara as $index => $daftar)
                         <tr>
-                            <td>{{ $index + $kategori->firstItem() }}</td>
-                            <td>{{ Illuminate\Support\Str::limit($kat->acara->nama_acara, 40) }}</td>
-                            <td>{{ $kat->nama_kategori }}</td>
-                            <td>{{ $kat->desk_tambahan }}</td>
+                            <td>{{ $index + $daftarjuara->firstItem() }}</td>
+                            <td>{{ $daftar->user->nama_lengkap }}</td>
+                            <td>{{ Illuminate\Support\Str::limit($daftar->kategori->acara->nama_acara, 40) }}</td>
+                            <td>{{ $daftar->kategori->nama_kategori }} {{ $daftar->kategori->desk_tambahan }}</td>
+                            <td>{{ $daftar->status_juara }}</td>
                             @can('is-admin')
                                 <td>
-                                    {{-- <a href="{{ route('kategori.edit', $kat->id) }}" class="btn btn-sm btn-primary">Edit</a> --}}
-                                    <button type="button" class="btn btn-sm btn-danger" disabled onclick="event.preventDefault(); document.getElementById('delete-user-form-{{ $kat->id }}').submit()">Delete</button>
-                                    <form id="delete-user-form-{{ $kat->id }}" action="{{ route('kategori.destroy', $kat->id) }}" method="POST" style="display: none">
+                                    <button type="button" class="btn btn-sm btn-danger" disabled onclick="event.preventDefault(); document.getElementById('delete-user-form-{{ $daftar->id }}').submit()">Delete</button>
+                                    <form id="delete-user-form-{{ $daftar->id }}" action="{{ route('daftar_juara.destroy', $daftar->id) }}" method="POST" style="display: none">
                                         @csrf
                                         @method("DELETE")
                                     </form>
@@ -66,16 +66,13 @@
             </table>
         </div>
 
-        {{ $kategori->appends(request()->query())->links() }}
+        {{ $daftarjuara->appends(request()->query())->links() }}
 
         <div>
             <div class="row">
-                {{-- <div class="col">
-                    <p class="btn btn-sm btn-secondary">Total Data: {{ $reffCabors->total() }}</p>
-                </div> --}}
                 <div class="col">
                     <div class="float-start">
-                        <p class="btn btn-sm btn-secondary">Data/Page: {{ $kategori->count() }} / {{ $kategori->currentPage() }}</p>
+                        <p class="btn btn-sm btn-secondary">Data/Page: {{ $daftarjuara->count() }} / {{ $daftarjuara->currentPage() }}</p>
                     </div>
                 </div>
             </div>
