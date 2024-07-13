@@ -28,6 +28,7 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\RegistrasiStafController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\TandaTerimaAdminController;
+use App\Http\Controllers\KategoriAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -242,6 +243,7 @@ Route::resource('peran', ReffPeranController::class);
 Route::resource('data-provinsi', ReffProvinsiController::class);
 Route::resource('data-kota', ReffKotaController::class);
 Route::resource('reffdidik', ReffPendidikanController::class);
+Route::resource('kategori', KategoriAdminController::class);
 
 
 

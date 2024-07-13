@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\AnggotaKehadiranRegistrasi;
 use App\Models\Acara;
 use App\Models\ReffCabor;
@@ -150,6 +151,23 @@ class KehadiranController extends Controller
         // If there is an existing attendance record, return with an error message
         if ($existingAttendance) {
             return redirect()->back()->withErrors(['user_id' => 'Sudah melakukan absensi untuk sesi ini.']);
+        }
+
+        // Fetch the event ID associated with the session
+        $sesiAcara = SesiAcara::find($request->sesi_acara_id);
+
+        if (!$sesiAcara) {
+            return redirect()->back()->withErrors(['sesi_acara_id' => 'Sesi acara tidak ditemukan.']);
+        }
+
+        // Check if the user is registered for the event
+        $isRegistered = AnggotaAcaraRegistrasi::where('user_id', $request->user_id)
+            ->where('acara_id', $sesiAcara->acara_id)
+            ->exists();
+
+        // If the user is not registered for the event, return with an error message
+        if (!$isRegistered) {
+            return redirect()->back()->withErrors(['user_id' => 'Anda tidak terdaftar pada acara ini.']);
         }
 
         // Create a new attendance record

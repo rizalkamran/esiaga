@@ -38,7 +38,7 @@
                             <th>No</th>
                             <th>Nama Lengkap</th>
                             <th>L/P</th>
-                            <th>Tipe</th>
+                            <th>Tipe - Cabor</th>
                             <th>Prestasi</th>
                             <th>Tahun</th>
                             <th>Aksi</th>
@@ -56,7 +56,7 @@
                                         P
                                     @endif
                                 </td>
-                                <td>{{ $pre->tipe_prestasi }}</td>
+                                <td>{{ $pre->tipe_prestasi }} - {{ $pre->cabor->nama_cabor }}</td>
                                 <td>{{ $pre->prestasi }}</td>
                                 <td>{{ $pre->tahun }}</td>
                                 <td>

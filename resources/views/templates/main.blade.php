@@ -72,6 +72,7 @@
                               <li><a class="dropdown-item" href="{{ route('data-provinsi.index') }}">Data Provinsi</a></li>
                               <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
                               <li><a class="dropdown-item" href="{{ route('reffdidik.index') }}">Data Tingkat Pendidikan</a></li>
+                              <li><a class="dropdown-item" href="{{ route('kategori.index') }}">Data Kategori Kejuaraan</a></li>
                             </ul>
                         </li>
 
@@ -102,6 +103,7 @@
                               <li><a class="dropdown-item" href="{{ route('data-provinsi.index') }}">Data Provinsi</a></li>
                               <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
                               <li><a class="dropdown-item" href="{{ route('reffdidik.index') }}">Data Tingkat Pendidikan</a></li>
+                              <li><a class="dropdown-item" href="{{ route('kategori.index') }}">Data Kategori Kejuaraan</a></li>
                             </ul>
                         </li>
 

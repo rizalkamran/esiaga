@@ -52,8 +52,8 @@
                             <input type="text" value="{{ $user->first()->nama_lengkap }}" class="form-control form-control-sm" disabled>
                         @else
                         <label for="user_id" class="form-label">Nama</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" name="user_id">
-                            <option selected disabled>Pilih user</option>
+                        <select id="testSelect" name="user_id">
+                            <option value="">Pilih User</option>
                             @foreach ($user as $u)
                                 <option value="{{ $u->id }}" {{ old('user_id') == $u->id ? 'selected' : '' }}>{{ $u->nama_lengkap }}</option>
                             @endforeach
@@ -62,8 +62,8 @@
                     </div>
                     <div class="col-md-4">
                         <label for="cabor_id" class="form-label">Cabang Olahraga</label>
-                        <select class="form-select form-select-sm" aria-label="Small select example" name="cabor_id">
-                            <option selected disabled>Pilih Cabor</option>
+                        <select id="testSelect2" name="cabor_id">
+                            <option value="">Pilih Cabor</option>
                             @foreach ($cabor as $c)
                                 <option value="{{ $c->id }}" {{ old('cabor_id') == $c->id ? 'selected' : '' }}>{{ $c->nama_cabor }}</option>
                             @endforeach
@@ -124,6 +124,31 @@
             </form>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new TomSelect("#testSelect",{
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new TomSelect("#testSelect2",{
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        });
+    </script>
 
     @include('templates.footer')
 
