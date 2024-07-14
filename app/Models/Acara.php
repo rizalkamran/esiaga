@@ -25,6 +25,7 @@ class Acara extends Model
         'deskripsi_acara',
         'status_acara',
         'tingkat_wilayah_acara',
+        'tipe',
     ];
 
     public function anggotaAcaraRegistrasi()

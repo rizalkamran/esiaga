@@ -100,6 +100,7 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date',
             'deskripsi_acara' => 'required',
             'tingkat_wilayah_acara' => 'required',
+            'tipe' => 'nullable',
         ]);
 
        // Set status_acara to true (1) explicitly
@@ -224,6 +225,7 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date|after_or_equal:tanggal_awal_acara',
             'deskripsi_acara' => 'required|string',
             'tingkat_wilayah_acara' => 'required',
+            'tipe' => 'nullable',
             // Add other validation rules for additional fields...
         ]);
 
@@ -235,6 +237,7 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => $validatedData['tanggal_akhir_acara'],
             'deskripsi_acara' => $validatedData['deskripsi_acara'],
             'tingkat_wilayah_acara' => $validatedData['tingkat_wilayah_acara'],
+            'tipe' => $validatedData['tipe'],
             // Add other fields as needed...
         ];
 

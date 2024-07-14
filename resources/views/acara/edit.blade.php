@@ -52,12 +52,15 @@
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="security_pass" class="form-label">Security Pass</label>
-                        <input type="text" class="form-control @error('security_pass') is-invalid @enderror"
-                            id="security_pass" name="security_pass" value="{{ old('security_pass', $acara->security_pass) }}">
-                        @error('security_pass')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                        <label class="form-label">Status Acara</label>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="status_acara_active" name="status_acara" value="1" {{ $acara->status_acara == 1 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="status_acara_active">Active</label>
+                        </div>
+                        <div class="form-check">
+                            <input type="radio" class="form-check-input" id="status_acara_inactive" name="status_acara" value="0" {{ $acara->status_acara == 0 ? 'checked' : '' }}>
+                            <label class="form-check-label" for="status_acara_inactive">Inactive</label>
+                        </div>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -99,13 +102,20 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="status_acara_active" name="status_acara" value="1" {{ $acara->status_acara == 1 ? 'checked' : '' }}>
-                            <label class="form-check-label" for="status_acara_active">Active</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="radio" class="form-check-input" id="status_acara_inactive" name="status_acara" value="0" {{ $acara->status_acara == 0 ? 'checked' : '' }}>
-                            <label class="form-check-label" for="status_acara_inactive">Inactive</label>
+                        <label class="form-label">Tipe Acara</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="tingkat_provinsi"
+                                    name="tipe" value="1"
+                                    {{ old('tipe', $acara->tipe) == '1' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="Pelatihan">Pelatihan/Workshop</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="tingkat_provinsi"
+                                    name="tipe" value="2"
+                                    {{ old('tipe', $acara->tipe) == '2' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="Kejuaraan">Kejuaraan</label>
+                            </div>
                         </div>
                     </div>
                 </div>

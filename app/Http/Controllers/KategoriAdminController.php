@@ -19,14 +19,21 @@ class KategoriAdminController extends Controller
     public function index(Request $request)
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
-            $acara = Acara::all();
+            $acara = Acara::where('tipe', 2)->get();
             $query = Kategori::query();
 
             if ($request->has('acara_id') && $request->acara_id != '') {
+                // Apply filter by acara_id
                 $query->where('acara_id', $request->acara_id);
+            } else {
+                // Apply default condition to filter by status_acara
+                $query->whereHas('acara', function ($subQuery) {
+                    $subQuery->where('status_acara', 1);
+                });
             }
 
-            $kategori = $query->paginate(10);
+            $kategori = $query->with('acara')->paginate(25);
+
             return view('kategori.index', [
                 'kategori' => $kategori,
                 'acara' => $acara,
@@ -36,7 +43,6 @@ class KategoriAdminController extends Controller
         abort(403, 'Unauthorized action');
     }
 
-
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +50,7 @@ class KategoriAdminController extends Controller
      */
     public function create()
     {
-        $acara = Acara::all();
+        $acara = Acara::where('tipe', 2)->get();
         return view('kategori.create', [
             'acara' => $acara,
         ]);

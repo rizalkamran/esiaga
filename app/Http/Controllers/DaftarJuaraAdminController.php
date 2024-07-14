@@ -20,16 +20,23 @@ class DaftarJuaraAdminController extends Controller
     public function index(Request $request)
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
-            $acara = Acara::all();
+            $acara = Acara::where('tipe', 2)->get();
             $query = DaftarJuara::query();
 
             if ($request->has('acara_id') && $request->acara_id != '') {
+                // Apply filter by acara_id
                 $query->whereHas('kategori.acara', function($q) use ($request) {
                     $q->where('id', $request->acara_id);
+                });
+            } else {
+                // Apply default condition to filter by status_acara
+                $query->whereHas('kategori.acara', function ($subQuery) {
+                    $subQuery->where('status_acara', 1);
                 });
             }
 
             $daftarjuara = $query->paginate(10);
+
             return view('daftar_juara.index', [
                 'daftarjuara' => $daftarjuara,
                 'acara' => $acara,
@@ -38,7 +45,6 @@ class DaftarJuaraAdminController extends Controller
 
         abort(403, 'Unauthorized action');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -51,8 +57,7 @@ class DaftarJuaraAdminController extends Controller
 
         // Retrieve all Kategori to populate dropdown/select
         $kategori = Kategori::all();
-        $acara = Acara::all();
-
+        $acara = Acara::where('tipe', 2)->get();
 
         return view('daftar_juara.create', [
             'users' => $users,

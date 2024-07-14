@@ -72,6 +72,20 @@
                     </div>
                 </div>
 
+                <div class="mb-3">
+                    <label class="form-label">Tipe Acara</label>
+                    <div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="Pelatihan" name="tipe" value="1" @if(old('tipe') == '1') checked @endif>
+                            <label class="form-check-label" for="Pelatihan">Pelatihan/Workshop</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" id="Kejuaraan" name="tipe" value="2" @if(old('tipe') == '2') checked @endif>
+                            <label class="form-check-label" for="Kejuaraan">Kejuaraan</label>
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-sm btn-primary">Create</button>
                 <a href="{{ route('acara.index') }}" class="btn btn-sm btn-secondary">Cancel</a>
             </form>
