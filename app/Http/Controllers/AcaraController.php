@@ -261,7 +261,7 @@ class AcaraController extends Controller
     {
         Acara::destroy($id);
 
-        return redirect()->route('acara.index')->with('danger', 'Data Acara berhasil dihapus');;
+        return redirect()->route('acara.index')->with('danger', 'Data Acara berhasil dihapus');
     }
 
 }

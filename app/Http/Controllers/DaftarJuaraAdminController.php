@@ -109,9 +109,20 @@ class DaftarJuaraAdminController extends Controller
      * @param  \App\Models\DaftarJuara  $daftarJuara
      * @return \Illuminate\Http\Response
      */
-    public function edit(DaftarJuara $daftarJuara)
+    public function edit($id)
     {
-        //
+        $users = User::all();
+        $kategori = Kategori::all();
+        $acara = Acara::where('tipe', 2)->get();
+
+        $daftarjuara = DaftarJuara::findOrFail($id);
+
+        return view('daftar_juara.edit', [
+            'users' => $users,
+            'kategori' => $kategori,
+            'acara' => $acara,
+            'daftarjuara' => $daftarjuara,
+        ]);
     }
 
     /**
@@ -121,9 +132,24 @@ class DaftarJuaraAdminController extends Controller
      * @param  \App\Models\DaftarJuara  $daftarJuara
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DaftarJuara $daftarJuara)
+    public function update(Request $request, $id)
     {
-        //
+
+        // Validate the request data
+        $request->validate([
+            'user_id' => 'required',
+            'kategori_id' => 'required',
+            'status_juara' => 'required',
+        ]);
+
+        $daftarjuara = DaftarJuara::findOrFail($id);
+        // Update the lisensi entry with the validated data from the request
+        $daftarjuara->update($request->all());
+
+        $request->session()->flash('success', 'Data kategori diupdate');
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('daftar_juara.index');
     }
 
     /**
@@ -132,8 +158,10 @@ class DaftarJuaraAdminController extends Controller
      * @param  \App\Models\DaftarJuara  $daftarJuara
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DaftarJuara $daftarJuara)
+    public function destroy($id)
     {
-        //
+        DaftarJuara::destroy($id);
+
+        return redirect()->route('daftar_juara.index')->with('danger', 'Data Acara berhasil dihapus');
     }
 }

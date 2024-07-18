@@ -99,9 +99,16 @@ class KategoriAdminController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function edit(Kategori $kategori)
+    public function edit($id)
     {
-        //
+        $acara = Acara::where('tipe', 2)->get();
+
+        $kategori = Kategori::findOrFail($id);
+
+            return view('kategori.edit', [
+                'kategori' => $kategori,
+                'acara' => $acara,
+            ]);
     }
 
     /**
@@ -111,9 +118,24 @@ class KategoriAdminController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Kategori $kategori)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the request data
+        $request->validate([
+            'acara_id' => 'required',
+            'parent' => 'nullable',
+            'nama_kategori' => 'required',
+            'desk_tambahan' => 'nullable',
+        ]);
+
+        $kategori = Kategori::findOrFail($id);
+        // Update the lisensi entry with the validated data from the request
+        $kategori->update($request->all());
+
+        $request->session()->flash('success', 'Data kategori diupdate');
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('kategori.index');
     }
 
     /**
@@ -122,8 +144,10 @@ class KategoriAdminController extends Controller
      * @param  \App\Models\Kategori  $kategori
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Kategori $kategori)
+    public function destroy($id)
     {
-        //
+        Kategori::destroy($id);
+
+        return redirect()->route('kategori.index')->with('danger', 'Data Acara berhasil dihapus');
     }
 }

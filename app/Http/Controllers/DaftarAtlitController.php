@@ -107,9 +107,20 @@ class DaftarAtlitController extends Controller
      * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function edit(DaftarAtlit $daftarAtlit)
+    public function edit($id)
     {
-        //
+        $users = User::all();
+        $kategori = Kategori::all();
+        $acara = Acara::where('tipe', 2)->get();
+
+        $daftaratlit = DaftarAtlit::findOrFail($id);
+
+        return view('daftar_atlit.edit', [
+            'users' => $users,
+            'kategori' => $kategori,
+            'acara' => $acara,
+            'daftaratlit' => $daftaratlit,
+        ]);
     }
 
     /**
@@ -119,9 +130,22 @@ class DaftarAtlitController extends Controller
      * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DaftarAtlit $daftarAtlit)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the request data
+        $request->validate([
+            'user_id' => 'required',
+            'kategori_id' => 'required',
+        ]);
+
+        $daftaratlit = DaftarAtlit::findOrFail($id);
+        // Update the lisensi entry with the validated data from the request
+        $daftaratlit->update($request->all());
+
+        $request->session()->flash('success', 'Data kategori diupdate');
+
+        // Redirect the user to the index page or any other appropriate page
+        return redirect()->route('daftar_atlit.index');
     }
 
     /**
@@ -130,8 +154,10 @@ class DaftarAtlitController extends Controller
      * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DaftarAtlit $daftarAtlit)
+    public function destroy($id)
     {
-        //
+        DaftarAtlit::destroy($id);
+
+        return redirect()->route('daftar_atlit.index')->with('danger', 'Data Acara berhasil dihapus');
     }
 }

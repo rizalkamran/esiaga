@@ -50,6 +50,7 @@
                             <td>{{ $daftar->status_juara }}</td>
                             @can('is-admin')
                                 <td>
+                                    <a href="{{ route('daftar_juara.edit', $daftar->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                     <button type="button" class="btn btn-sm btn-danger" disabled onclick="event.preventDefault(); document.getElementById('delete-user-form-{{ $daftar->id }}').submit()">Delete</button>
                                     <form id="delete-user-form-{{ $daftar->id }}" action="{{ route('daftar_juara.destroy', $daftar->id) }}" method="POST" style="display: none">
                                         @csrf

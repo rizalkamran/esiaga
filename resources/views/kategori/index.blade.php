@@ -48,7 +48,7 @@
                             <td>{{ $kat->desk_tambahan }}</td>
                             @can('is-admin')
                                 <td>
-                                    {{-- <a href="{{ route('kategori.edit', $kat->id) }}" class="btn btn-sm btn-primary">Edit</a> --}}
+                                    <a href="{{ route('kategori.edit', $kat->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                     <button type="button" class="btn btn-sm btn-danger" disabled onclick="event.preventDefault(); document.getElementById('delete-user-form-{{ $kat->id }}').submit()">Delete</button>
                                     <form id="delete-user-form-{{ $kat->id }}" action="{{ route('kategori.destroy', $kat->id) }}" method="POST" style="display: none">
                                         @csrf
