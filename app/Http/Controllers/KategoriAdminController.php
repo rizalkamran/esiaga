@@ -20,6 +20,8 @@ class KategoriAdminController extends Controller
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             $acara = Acara::where('tipe', 2)->get();
+            $activeAcara = Acara::where('status_acara', 1)->first();
+
             $query = Kategori::query();
 
             if ($request->has('acara_id') && $request->acara_id != '') {
@@ -37,6 +39,7 @@ class KategoriAdminController extends Controller
             return view('kategori.index', [
                 'kategori' => $kategori,
                 'acara' => $acara,
+                'activeAcara' => $activeAcara,
             ]);
         }
 

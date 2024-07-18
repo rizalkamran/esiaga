@@ -6,20 +6,20 @@
             Data Baru
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('acara.store') }}">
+            <form method="POST" action="{{ route('acara2.store') }}">
                 @csrf
 
-                <input type="hidden" name="tipe" value="1">
+                <input type="hidden" name="tipe" value="2">
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="nama_acara" class="form-label">Nama Pelatihan</label>
+                        <label for="nama_acara" class="form-label">Nama Kejuaraan</label>
                         <input type="text" class="form-control @error('nama_acara') is-invalid @enderror" id="nama_acara" name="nama_acara" value="{{ old('nama_acara') }}">
                         @error('nama_acara')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="lokasi_acara" class="form-label">Lokasi Pelatihan</label>
+                        <label for="lokasi_acara" class="form-label">Lokasi Kejuaraan</label>
                         <input type="text" class="form-control @error('lokasi_acara') is-invalid @enderror" id="lokasi_acara" name="lokasi_acara" value="{{ old('lokasi_acara') }}">
                         @error('lokasi_acara')
                         <div class="invalid-feedback">{{ $message }}</div>
@@ -28,7 +28,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="tanggal_awal_acara" class="form-label">Tanggal Awal Pelatihan</label>
+                        <label for="tanggal_awal_acara" class="form-label">Tanggal Awal Kejuaraan</label>
                         <input type="date" class="form-control @error('tanggal_awal_acara') is-invalid @enderror" id="tanggal_awal_acara" name="tanggal_awal_acara" value="{{ old('tanggal_awal_acara') }}">
                         <span id="formatted_start_date" class="badge bg-primary"></span>
                         @error('tanggal_awal_acara')
@@ -36,7 +36,7 @@
                         @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="tanggal_akhir_acara" class="form-label">Tanggal Akhir Pelatihan</label>
+                        <label for="tanggal_akhir_acara" class="form-label">Tanggal Akhir Kejuaraan</label>
                         <input type="date" class="form-control @error('tanggal_akhir_acara') is-invalid @enderror" id="tanggal_akhir_acara" name="tanggal_akhir_acara" value="{{ old('tanggal_akhir_acara') }}">
                         <span id="formatted_end_date" class="badge bg-primary"></span>
                         @error('tanggal_akhir_acara')
@@ -45,14 +45,14 @@
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="deskripsi_acara" class="form-label">Deskripsi Pelatihan</label>
+                    <label for="deskripsi_acara" class="form-label">Deskripsi Kejuaraan</label>
                     <textarea class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara" name="deskripsi_acara">{{ old('deskripsi_acara') }}</textarea>
                     @error('deskripsi_acara')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="mb-3">
-                    <label class="form-label">Tingkat Wilayah Pelatihan</label>
+                    <label class="form-label">Tingkat Wilayah Kejuaraan</label>
                     <div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" id="tingkat_kecamatan" name="tingkat_wilayah_acara" value="kecamatan" @if(old('tingkat_wilayah_acara') == 'kecamatan') checked @endif>
@@ -73,22 +73,8 @@
                     </div>
                 </div>
 
-                {{-- <div class="mb-3">
-                    <label class="form-label">Tipe Acara</label>
-                    <div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="Pelatihan" name="tipe" value="1" @if(old('tipe') == '1') checked @endif>
-                            <label class="form-check-label" for="Pelatihan">Pelatihan/Workshop</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" id="Kejuaraan" name="tipe" value="2" @if(old('tipe') == '2') checked @endif>
-                            <label class="form-check-label" for="Kejuaraan">Kejuaraan</label>
-                        </div>
-                    </div>
-                </div> --}}
-
                 <button type="submit" class="btn btn-sm btn-primary">Create</button>
-                <a href="{{ route('acara.index') }}" class="btn btn-sm btn-secondary">Cancel</a>
+                <a href="{{ route('acara2.index') }}" class="btn btn-sm btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

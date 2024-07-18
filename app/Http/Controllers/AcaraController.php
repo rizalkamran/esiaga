@@ -63,7 +63,7 @@ class AcaraController extends Controller
     public function admin()
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')){
-            $acaras = Acara::paginate(10); // Paginate with * records per page
+            $acaras = Acara::where('tipe', 1)->paginate(10); // Paginate with * records per page
             return view('acara.index', ['acaras' => $acaras]);
         }
 
@@ -225,7 +225,6 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => 'required|date|after_or_equal:tanggal_awal_acara',
             'deskripsi_acara' => 'required|string',
             'tingkat_wilayah_acara' => 'required',
-            'tipe' => 'nullable',
             // Add other validation rules for additional fields...
         ]);
 
@@ -237,7 +236,6 @@ class AcaraController extends Controller
             'tanggal_akhir_acara' => $validatedData['tanggal_akhir_acara'],
             'deskripsi_acara' => $validatedData['deskripsi_acara'],
             'tingkat_wilayah_acara' => $validatedData['tingkat_wilayah_acara'],
-            'tipe' => $validatedData['tipe'],
             // Add other fields as needed...
         ];
 

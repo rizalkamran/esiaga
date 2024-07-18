@@ -3,26 +3,26 @@
 @section('content')
     <div class="card shadow mt-3">
         <div class="card-header">
-            Update Pelatihan
+            Update Kejuaraan
         </div>
         <div class="card-body">
-            <form method="POST" action="{{ route('acara.update', $acara->id) }}">
+            <form method="POST" action="{{ route('acara2.update', $acara2->id) }}">
                 @csrf
                 @method('PUT')
 
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label for="nama_acara" class="form-label">Nama Pelatihan</label>
+                        <label for="nama_acara" class="form-label">Nama Kejuaraan</label>
                         <input type="text" class="form-control @error('nama_acara') is-invalid @enderror" id="nama_acara"
-                            name="nama_acara" value="{{ old('nama_acara', $acara->nama_acara) }}">
+                            name="nama_acara" value="{{ old('nama_acara', $acara2->nama_acara) }}">
                         @error('nama_acara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-6">
-                        <label for="lokasi_acara" class="form-label">Lokasi Pelatihan</label>
+                        <label for="lokasi_acara" class="form-label">Lokasi Kejuaraan</label>
                         <input type="text" class="form-control @error('lokasi_acara') is-invalid @enderror"
-                            id="lokasi_acara" name="lokasi_acara" value="{{ old('lokasi_acara', $acara->lokasi_acara) }}">
+                            id="lokasi_acara" name="lokasi_acara" value="{{ old('lokasi_acara', $acara2->lokasi_acara) }}">
                         @error('lokasi_acara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -30,81 +30,98 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <label for="tanggal_awal_acara" class="form-label">Tanggal Awal Pelatihan</label>
+                        <label for="tanggal_awal_acara" class="form-label">Tanggal Awal Kejuaraan</label>
                         <input type="date" class="form-control @error('tanggal_awal_acara') is-invalid @enderror"
                             id="tanggal_awal_acara" name="tanggal_awal_acara"
-                            value="{{ old('tanggal_awal_acara', $acara->tanggal_awal_acara) }}">
+                            value="{{ old('tanggal_awal_acara', $acara2->tanggal_awal_acara) }}">
                         <span id="formatted_start_date"
-                            class="badge bg-primary">{{ \Carbon\Carbon::parse($acara->tanggal_awal_acara)->format('d-m-Y') }}</span>
+                            class="badge bg-primary">{{ \Carbon\Carbon::parse($acara2->tanggal_awal_acara)->format('d-m-Y') }}</span>
                         @error('tanggal_awal_acara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label for="tanggal_akhir_acara" class="form-label">Tanggal Akhir Pelatihan</label>
+                        <label for="tanggal_akhir_acara" class="form-label">Tanggal Akhir Kejuaraan</label>
                         <input type="date" class="form-control @error('tanggal_akhir_acara') is-invalid @enderror"
                             id="tanggal_akhir_acara" name="tanggal_akhir_acara"
-                            value="{{ old('tanggal_akhir_acara', $acara->tanggal_akhir_acara) }}">
+                            value="{{ old('tanggal_akhir_acara', $acara2->tanggal_akhir_acara) }}">
                         <span id="formatted_end_date"
-                            class="badge bg-primary">{{ \Carbon\Carbon::parse($acara->tanggal_akhir_acara)->format('d-m-Y') }}</span>
+                            class="badge bg-primary">{{ \Carbon\Carbon::parse($acara2->tanggal_akhir_acara)->format('d-m-Y') }}</span>
                         @error('tanggal_akhir_acara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="col-md-4">
-                        <label class="form-label">Status Pelatihan</label>
+                        <label class="form-label">Status Kejuaraan</label>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" id="status_acara_active" name="status_acara" value="1" {{ $acara->status_acara == 1 ? 'checked' : '' }}>
+                            <input type="radio" class="form-check-input" id="status_acara_active" name="status_acara" value="1" {{ $acara2->status_acara == 1 ? 'checked' : '' }}>
                             <label class="form-check-label" for="status_acara_active">Active</label>
                         </div>
                         <div class="form-check">
-                            <input type="radio" class="form-check-input" id="status_acara_inactive" name="status_acara" value="0" {{ $acara->status_acara == 0 ? 'checked' : '' }}>
+                            <input type="radio" class="form-check-input" id="status_acara_inactive" name="status_acara" value="0" {{ $acara2->status_acara == 0 ? 'checked' : '' }}>
                             <label class="form-check-label" for="status_acara_inactive">Inactive</label>
                         </div>
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="deskripsi_acara" class="form-label">Deskripsi Pelatihan</label>
+                    <label for="deskripsi_acara" class="form-label">Deskripsi Kejuaraan</label>
                     <textarea class="form-control @error('deskripsi_acara') is-invalid @enderror" id="deskripsi_acara"
-                        name="deskripsi_acara">{{ old('deskripsi_acara', $acara->deskripsi_acara) }}</textarea>
+                        name="deskripsi_acara">{{ old('deskripsi_acara', $acara2->deskripsi_acara) }}</textarea>
                     @error('deskripsi_acara')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-6">
-                        <label class="form-label">Tingkat Wilayah Pelatihan</label>
+                        <label class="form-label">Tingkat Wilayah Kejuaraan</label>
                         <div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" id="tingkat_kecamatan"
                                     name="tingkat_wilayah_acara" value="kecamatan"
-                                    {{ old('tingkat_wilayah_acara', $acara->tingkat_wilayah_acara) == 'kecamatan' ? 'checked' : '' }}>
+                                    {{ old('tingkat_wilayah_acara', $acara2->tingkat_wilayah_acara) == 'kecamatan' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="tingkat_kecamatan">Kecamatan</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" id="tingkat_kota_kab"
                                     name="tingkat_wilayah_acara" value="kota"
-                                    {{ old('tingkat_wilayah_acara', $acara->tingkat_wilayah_acara) == 'kota' ? 'checked' : '' }}>
+                                    {{ old('tingkat_wilayah_acara', $acara2->tingkat_wilayah_acara) == 'kota' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="tingkat_kota_kab">Kota/Kabupaten</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" id="tingkat_provinsi"
                                     name="tingkat_wilayah_acara" value="provinsi"
-                                    {{ old('tingkat_wilayah_acara', $acara->tingkat_wilayah_acara) == 'provinsi' ? 'checked' : '' }}>
+                                    {{ old('tingkat_wilayah_acara', $acara2->tingkat_wilayah_acara) == 'provinsi' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="tingkat_provinsi">Provinsi</label>
                             </div>
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" id="tingkat_nasional"
                                     name="tingkat_wilayah_acara" value="nasional"
-                                    {{ old('tingkat_wilayah_acara', $acara->tingkat_wilayah_acara) == 'nasional' ? 'checked' : '' }}>
+                                    {{ old('tingkat_wilayah_acara', $acara2->tingkat_wilayah_acara) == 'nasional' ? 'checked' : '' }}>
                                 <label class="form-check-label" for="tingkat_nasional">Nasional</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Tipe Kejuaraan</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="tingkat_provinsi"
+                                    name="tipe" value="1"
+                                    {{ old('tipe', $acara2->tipe) == '1' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="Pelatihan">Pelatihan/Workshop</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="tingkat_provinsi"
+                                    name="tipe" value="2"
+                                    {{ old('tipe', $acara2->tipe) == '2' ? 'checked' : '' }}>
+                                <label class="form-check-label" for="Kejuaraan">Kejuaraan</label>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Update</button>
-                <a href="{{ route('acara.index') }}" class="btn btn-secondary">Cancel</a>
+                <a href="{{ route('acara2.index') }}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>

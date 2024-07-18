@@ -8,7 +8,8 @@
         <div class="card-header">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">User</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Acara</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Pelatihan</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-juara" type="button" role="tab" aria-controls="nav-juara" aria-selected="false">Kejuaraan</button>
                 <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Referensi</button>
               </div>
         </div>
@@ -103,13 +104,13 @@
                 <div class="card shadow mt-3">
                     <div class="card-body">
                         <div class="row mt-1 text-center">
-                            <h5 class="text-secondary">Pengaturan Acara</h5>
+                            <h5 class="text-secondary">Pengaturan Pelatihan</h5>
                             <div class="col-md-4">
                                 <a href="{{ route('acara.index') }}">
                                     <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                        Daftar Acara
+                                        Daftar Pelatihan
                                     </p>
                                 </a>
                             </div>
@@ -152,6 +153,52 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
+                                <a href="#">
+                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Menu belum tersedia
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="nav-juara" role="tabpanel" aria-labelledby="nav-juara-tab" tabindex="0">
+                <div class="card shadow mt-3">
+                    <div class="card-body">
+                        <div class="row mt-1 text-center">
+                            <h5 class="text-secondary">Pengaturan Kejuaraan</h5>
+                            <div class="col-md-3">
+                                <a href="{{ route('acara2.index') }}">
+                                    <img src="{{ asset('icon/event.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                        Daftar Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('kategori.index') }}">
+                                    <img src="{{ asset('icon/options.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Kategori Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('daftar_atlit.index') }}">
+                                    <img src="{{ asset('icon/team2.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Daftar Atlit
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
                                 <a href="{{ route('daftar_juara.index') }}">
                                     <img src="{{ asset('icon/winning.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -170,7 +217,7 @@
                     <div class="card-body">
                         <div class="row mt-1 text-center">
                             <h5 class="text-secondary">Data Referensi</h5>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <a href="{{ route('peran.index') }}">
                                     <img src="{{ asset('icon/teacher.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -179,7 +226,7 @@
                                     </p>
                                 </a>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <a href="{{ route('data-provinsi.index') }}">
                                     <img src="{{ asset('icon/geo.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -188,7 +235,7 @@
                                     </p>
                                 </a>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <a href="{{ route('data-kota.index') }}">
                                     <img src="{{ asset('icon/city.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -197,18 +244,7 @@
                                     </p>
                                 </a>
                             </div>
-                        </div>
-                        <div class="row mt-3 text-center">
-                            <div class="col-md-4">
-                                <a href="{{ route('cabor.index') }}">
-                                    <img src="{{ asset('icon/sports.png') }}" style="width:20%;border:none;"
-                                        class="img-thumbnail">
-                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                        Cabang Olahraga
-                                    </p>
-                                </a>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <a href="{{ route('reffdidik.index') }}">
                                     <img src="{{ asset('icon/edu.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -217,12 +253,41 @@
                                     </p>
                                 </a>
                             </div>
-                            <div class="col-md-4">
-                                <a href="{{ route('kategori.index') }}">
-                                    <img src="{{ asset('icon/options.png') }}" style="width:20%;border:none;"
+                        </div>
+                        <div class="row mt-3 text-center">
+                            <div class="col-md-3">
+                                <a href="{{ route('cabor.index') }}">
+                                    <img src="{{ asset('icon/sports.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                        Cabang Olahraga
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('reff_atlit.index') }}">
+                                    <img src="{{ asset('icon/hurdle.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                        Referensi Atlit
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('reff_pemenang.index') }}">
+                                    <img src="{{ asset('icon/medal.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                        Referensi Juara
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Kategori Kejuaraan
+                                        Menu belum tersedia
                                     </p>
                                 </a>
                             </div>
@@ -240,7 +305,8 @@
         <div class="card-header">
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">User</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Acara</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Pelatihan</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-juara" type="button" role="tab" aria-controls="nav-juara" aria-selected="false">Kejuaraan</button>
                 <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Referensi</button>
               </div>
         </div>
@@ -335,13 +401,13 @@
                 <div class="card shadow mt-3">
                     <div class="card-body">
                         <div class="row mt-1 text-center">
-                            <h5 class="text-secondary">Pengaturan Acara</h5>
+                            <h5 class="text-secondary">Pengaturan Pelatihan</h5>
                             <div class="col-md-4">
                                 <a href="{{ route('acara.index') }}">
                                     <img src="{{ asset('icon/confer.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                        Daftar Acara
+                                        Daftar Pelatihan
                                     </p>
                                 </a>
                             </div>
@@ -350,7 +416,7 @@
                                     <img src="{{ asset('icon/session.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                        Data Sesi Acara
+                                        Data Sesi Pelatihan
                                     </p>
                                 </a>
                             </div>
@@ -384,6 +450,52 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
+                                <a href="#">
+                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Menu belum tersedia
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="nav-juara" role="tabpanel" aria-labelledby="nav-juara-tab" tabindex="0">
+                <div class="card shadow mt-3">
+                    <div class="card-body">
+                        <div class="row mt-1 text-center">
+                            <h5 class="text-secondary">Pengaturan Kejuaraan</h5>
+                            <div class="col-md-3">
+                                <a href="{{ route('acara2.index') }}">
+                                    <img src="{{ asset('icon/event.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                        Daftar Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('kategori.index') }}">
+                                    <img src="{{ asset('icon/options.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Kategori Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('daftar_atlit.index') }}">
+                                    <img src="{{ asset('icon/team2.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Daftar Atlit
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
                                 <a href="{{ route('daftar_juara.index') }}">
                                     <img src="{{ asset('icon/winning.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -391,13 +503,6 @@
                                         Daftar Pemenang
                                     </p>
                                 </a>
-                               {{--  <a href="#">
-                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
-                                        class="img-thumbnail">
-                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Menu belum tersedia
-                                    </p>
-                                </a> --}}
                             </div>
                         </div>
                     </div>
@@ -457,11 +562,11 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="{{ route('kategori.index') }}">
-                                    <img src="{{ asset('icon/options.png') }}" style="width:20%;border:none;"
+                                <a href="#">
+                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Kategori Kejuaraan
+                                        Menu belum tersedia
                                     </p>
                                 </a>
                             </div>

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\DaftarJuara;
+use App\Models\DaftarAtlit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +10,7 @@ use App\Models\Acara;
 use App\Models\Kategori;
 use App\Models\User;
 
-class DaftarJuaraAdminController extends Controller
+class DaftarAtlitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class DaftarJuaraAdminController extends Controller
             $acara = Acara::where('tipe', 2)->get();
             $activeAcara = Acara::where('status_acara', 1)->first();
 
-            $query = DaftarJuara::query();
+            $query = Daftaratlit::query();
 
             if ($request->has('acara_id') && $request->acara_id != '') {
                 // Apply filter by acara_id
@@ -37,10 +37,10 @@ class DaftarJuaraAdminController extends Controller
                 });
             }
 
-            $daftarjuara = $query->paginate(25);
+            $daftaratlit = $query->paginate(25);
 
-            return view('daftar_juara.index', [
-                'daftarjuara' => $daftarjuara,
+            return view('daftar_atlit.index', [
+                'daftaratlit' => $daftaratlit,
                 'acara' => $acara,
                 'activeAcara' => $activeAcara,
             ]);
@@ -62,13 +62,12 @@ class DaftarJuaraAdminController extends Controller
         $kategori = Kategori::all();
         $acara = Acara::where('tipe', 2)->get();
 
-        return view('daftar_juara.create', [
+        return view('daftar_atlit.create', [
             'users' => $users,
             'kategori' => $kategori,
             'acara' => $acara,
         ]);
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -82,11 +81,10 @@ class DaftarJuaraAdminController extends Controller
         $request->validate([
             'user_id' => 'required',
             'kategori_id' => 'required',
-            'status_juara' => 'required',
         ]);
 
         // Create a new attendance record
-        DaftarJuara::create($request->all());
+        DaftarAtlit::create($request->all());
 
         // Redirect back with success message
         return redirect()->back()->with('success', 'Data Berhasil dibuat');
@@ -95,10 +93,10 @@ class DaftarJuaraAdminController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\DaftarJuara  $daftarJuara
+     * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function show(DaftarJuara $daftarJuara)
+    public function show(DaftarAtlit $daftarAtlit)
     {
         //
     }
@@ -106,10 +104,10 @@ class DaftarJuaraAdminController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\DaftarJuara  $daftarJuara
+     * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function edit(DaftarJuara $daftarJuara)
+    public function edit(DaftarAtlit $daftarAtlit)
     {
         //
     }
@@ -118,10 +116,10 @@ class DaftarJuaraAdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\DaftarJuara  $daftarJuara
+     * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, DaftarJuara $daftarJuara)
+    public function update(Request $request, DaftarAtlit $daftarAtlit)
     {
         //
     }
@@ -129,10 +127,10 @@ class DaftarJuaraAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\DaftarJuara  $daftarJuara
+     * @param  \App\Models\DaftarAtlit  $daftarAtlit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(DaftarJuara $daftarJuara)
+    public function destroy(DaftarAtlit $daftarAtlit)
     {
         //
     }

@@ -22,7 +22,7 @@
             @csrf
 
             <div class="row mb-3">
-                <div class="col-md-8">
+                <div class="col-md-12">
                     <label for="acara_id" class="form-label">Pilih Acara</label>
                     <select id="testSelect" name="acara_id">
                         <option value="">Pilih Acara</option>
@@ -30,11 +30,6 @@
                             <option value="{{ $ac->id }}">{{ $ac->nama_acara  }}</option>
                         @endforeach
                     </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="parent" class="form-label">Parent</label>
-                    <input type="number" class="form-control" id="parent" name="parent"
-                    value="{{ old('parent') }}">
                 </div>
             </div>
 

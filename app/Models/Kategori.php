@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Acara;
 use App\Models\DaftarJuara;
+use App\Models\DaftarAtlit;
 
 class Kategori extends Model
 {
@@ -28,5 +29,10 @@ class Kategori extends Model
     public function daftarjuara()
     {
         return $this->hasMany(DaftarJuara::class, 'kategori_id');
+    }
+
+    public function daftaratlit()
+    {
+        return $this->hasMany(DaftarAtlit::class, 'kategori_id');
     }
 }

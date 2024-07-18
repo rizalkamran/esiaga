@@ -72,7 +72,8 @@
                               <li><a class="dropdown-item" href="{{ route('data-provinsi.index') }}">Data Provinsi</a></li>
                               <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
                               <li><a class="dropdown-item" href="{{ route('reffdidik.index') }}">Data Tingkat Pendidikan</a></li>
-                              <li><a class="dropdown-item" href="{{ route('kategori.index') }}">Data Kategori Kejuaraan</a></li>
+                              <li><a class="dropdown-item" href="{{ route('reff_atlit.index') }}">Data Referensi Atlit</a></li>
+                              <li><a class="dropdown-item" href="{{ route('reff_pemenang.index') }}">Data Referensi Pemenang</a></li>
                             </ul>
                         </li>
 
@@ -103,7 +104,6 @@
                               <li><a class="dropdown-item" href="{{ route('data-provinsi.index') }}">Data Provinsi</a></li>
                               <li><a class="dropdown-item" href="{{ route('data-kota.index') }}">Data Kota</a></li>
                               <li><a class="dropdown-item" href="{{ route('reffdidik.index') }}">Data Tingkat Pendidikan</a></li>
-                              <li><a class="dropdown-item" href="{{ route('kategori.index') }}">Data Kategori Kejuaraan</a></li>
                             </ul>
                         </li>
 
@@ -126,12 +126,12 @@
                         @can('logged-in')
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                              Acara
+                              Pelatihan
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="{{ route('acara.index') }}">Daftar Acara</a></li>
+                                <li><a class="dropdown-item" href="{{ route('acara.index') }}">Daftar Pelatihan</a></li>
                                 <li><a class="dropdown-item" href="{{ route('sesi_acara.index') }}">Daftar Sesi Acara</a></li>
-                                <li><a class="dropdown-item" href="{{ route('tanda_terima.index') }}">Data Tanda Terima</a></li>
+
                                 @can('is-admin')
                                 <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Peserta</a></li>
                                 @endcan
@@ -139,6 +139,20 @@
                                 <li><a class="dropdown-item" href="{{ route('staf.registrasi.index') }}">Data Registrasi Peserta</a></li>
                                 @endcan
                                 <li><a class="dropdown-item" href="{{ route('kehadiran.index') }}">Data Kehadiran Peserta</a></li>
+                                <li><a class="dropdown-item" href="{{ route('tanda_terima.index') }}">Data Tanda Terima</a></li>
+                            </ul>
+                        </li>
+                        @endcan
+
+                        @can('logged-in')
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              Kejuaraan
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="{{ route('acara2.index') }}">Daftar Kejuaraan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('kategori.index') }}">Data Kategori Kejuaraan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('daftar_atlit.index') }}">Data Atlit</a></li>
                                 <li><a class="dropdown-item" href="{{ route('daftar_juara.index') }}">Daftar Pemenang</a></li>
                             </ul>
                         </li>

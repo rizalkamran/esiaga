@@ -1,11 +1,14 @@
 <?php
 
 use App\Http\Controllers\AcaraController;
+use App\Http\Controllers\Acara2Controller;
 use App\Http\Controllers\SesiAcaraController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UserStafController;
 use App\Http\Controllers\ReffCaborController;
 use App\Http\Controllers\ReffPeranController;
+use App\Http\Controllers\ReffAtlitController;
+use App\Http\Controllers\ReffPemenangController;
 use App\Http\Controllers\AnggotaPeranController;
 use App\Http\Controllers\AnggotaPeranAdminController;
 use App\Http\Controllers\BiodataController;
@@ -30,6 +33,7 @@ use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\TandaTerimaAdminController;
 use App\Http\Controllers\KategoriAdminController;
 use App\Http\Controllers\DaftarJuaraAdminController;
+use App\Http\Controllers\DaftarAtlitController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -142,6 +146,8 @@ Route::get('/mobile/acara', [AcaraController::class, 'index'])->name('mobile.aca
 Route::get('/acara', [AcaraController::class, 'admin'])->name('acara.index')->middleware('auth');
 //Route::post('/mobile/acara/kehadiran', [AcaraController::class, 'kehadiran'])->name('mobile.acara.kehadiran'); // New route for recording attendance
 
+Route::resource('/acara2', Acara2Controller::class);
+
 //Sesi Acara
 Route::resource('/sesi_acara', SesiAcaraController::class);
 
@@ -242,6 +248,10 @@ Route::post('/mobile/pekerjaan', [PekerjaanUserController::class, 'store'])->nam
 Route::resource('/daftar_juara', DaftarJuaraAdminController::class);
 Route::get('/daftar_juara', [DaftarJuaraAdminController::class, 'index'])->name('daftar_juara.index');
 
+// daftar_atlit
+Route::resource('/daftar_atlit', DaftarAtlitController::class);
+Route::get('/daftar_atlit', [DaftarAtlitController::class, 'index'])->name('daftar_atlit.index');
+
 //Referensi
 Route::resource('cabor', ReffCaborController::class);
 Route::resource('peran', ReffPeranController::class);
@@ -249,6 +259,8 @@ Route::resource('data-provinsi', ReffProvinsiController::class);
 Route::resource('data-kota', ReffKotaController::class);
 Route::resource('reffdidik', ReffPendidikanController::class);
 Route::resource('kategori', KategoriAdminController::class);
+Route::resource('reff_atlit', ReffAtlitController::class);
+Route::resource('reff_pemenang', ReffPemenangController::class);
 
 
 

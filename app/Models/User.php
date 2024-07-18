@@ -19,6 +19,7 @@ use App\Models\Pendidikan;
 use App\Models\Prestasi;
 use App\Models\Pekerjaan;
 use App\Models\TandaTerima;
+use App\Models\ReffAtlit;
 
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -145,5 +146,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tandaTerima()
     {
         return $this->hasMany(TandaTerima::class);
+    }
+
+    public function reffAtlit()
+    {
+        return $this->hasMany(ReffAtlit::class);
     }
 }
