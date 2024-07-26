@@ -27,7 +27,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="acara_id" class="form-label">Daftar Acara</label>
-                            <select class="form-select form-select-sm" aria-label="Default select example" name="acara_id">
+                            <select class="form-select" aria-label="Default select example" name="acara_id">
                                 <option selected disabled>Pilih acara</option>
                                 @foreach ($acara as $ac)
                                     <option value="{{ $ac->id }}" {{ old('acara_id') == $ac->id ? 'selected' : '' }}>{{ $ac->nama_acara }}</option>
@@ -37,11 +37,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="user_id" class="form-label">Daftar Peserta</label>
-                            <select class="form-select form-select-sm" aria-label="Default select example" name="user_id">
-                                <option selected disabled>Pilih Peserta</option>
-                                @foreach ($users as $us)
-                                    <option value="{{ $us->id }}" {{ old('user_id') == $us->id ? 'selected' : '' }}>{{ $us->nama_lengkap }}</option>
+                            <label for="user_id" class="form-label">Pilih Peserta/Atlit</label>
+                            <select id="testSelect" name="user_id">
+                                <option value="">Peserta/Atlit</option>
+                                @foreach($users as $u)
+                                    <option value="{{ $u->id }}">{{ $u->nama_lengkap  }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -68,14 +68,11 @@
                             value="1" {{ old('status_idcard') == '1' ? 'checked' : '' }}>
                             <label class="form-check-label" for="status_idcard">ID Card</label>
                         </div>
-                        <div class="alert alert-danger mt-2" role="alert">
-                            A simple danger alert—check it out!
-                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="tgl_terima" class="form-label">Tanggal Terima</label>
-                            <input type="date" class="form-control form-control-sm" id="tgl_terima" name="tgl_terima" value="{{ old('tgl_terima') }}">
+                            <input type="date" class="form-control" id="tgl_terima" name="tgl_terima" value="{{ old('tgl_terima') }}">
                         </div>
                     </div>
                 </div>
@@ -87,3 +84,16 @@
     </div>
 
 @endsection
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/js/tom-select.complete.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new TomSelect("#testSelect",{
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        });
+</script>

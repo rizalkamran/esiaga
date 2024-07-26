@@ -7,7 +7,7 @@
         </div>
         <div class="card-body">
             <div class="row mb-3">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     @can('is-admin')
                         <a class="btn btn-sm btn-primary mb-3" href="{{ route('tanda_terima.create') }}" role="button">Create</a>
                     @endcan
@@ -15,15 +15,22 @@
                         <button type="submit" class="btn btn-sm btn-secondary">Reset</button>
                     </form> --}}
                 </div>
-                <div class="col-md-6">
-                    {{-- <div class="float-end">
-                        <form action="#" method="GET" class="flex-grow-1"> <!-- flex-grow-1 to expand the form -->
-                            <div class="input-group">
-                                <input type="text" name="search" class="form-control form-control-sm" placeholder="Search by Acara" value="{{ request()->query('search') }}">
-                                <button type="submit" class="btn btn-sm btn-primary">Search</button>
-                            </div>
-                        </form>
-                    </div> --}}
+                <div class="col-md-7">
+                    <div class="float-end">
+                        <form action="{{ route('tandaterima.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
+                                <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <select class="form-control form-control-sm" id="acara" name="acara">
+                                        <option value="">All/Semua</option>
+                                        @foreach($acaraOptions as $acaraOption)
+                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </button>
+                            </form>
+                    </div>
                 </div>
             </div>
 
@@ -44,7 +51,7 @@
                             <tr>
                                 <td class="align-middle">{{ $index + $tandaterima->firstItem() }}</td>
                                 <td class="align-middle"> <!-- Add class align-middle for vertical alignment -->
-                                    <div>{{ $tanda->user->nama_lengkap }} // {{ $tanda->user->biodata->cabor->nama_cabor }}</div>
+                                    <div>{{ $tanda->user->nama_lengkap }} // {{ $tanda->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</div>
                                     <div>{{ $tanda->user->nomor_ktp }} </div>
                                     <div>{{ Illuminate\Support\Str::limit($tanda->acara->nama_acara, 40) }}</div>
                                 </td>

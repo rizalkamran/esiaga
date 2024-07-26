@@ -37,6 +37,13 @@ class DaftarJuaraAdminController extends Controller
                 });
             }
 
+            if ($request->has('nama_lengkap') && $request->nama_lengkap != '') {
+                // Apply filter by nama_lengkap
+                $query->whereHas('user', function ($q) use ($request) {
+                    $q->where('nama_lengkap', 'like', '%' . $request->nama_lengkap . '%');
+                });
+            }
+
             $daftarjuara = $query->paginate(25);
 
             return view('daftar_juara.index', [

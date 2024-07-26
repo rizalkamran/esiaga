@@ -15,6 +15,7 @@
                 <div class="col">
                     <form action="{{ route('daftar_atlit.index') }}" method="GET">
                         <div class="input-group mb-3">
+                            <input type="text" class="form-control form-control-sm" name="nama_lengkap" placeholder="Cari ..." value="{{ request('nama_lengkap') }}">
                             <select class="form-select form-select-sm" name="acara_id">
                                 @foreach($acara as $a)
                                     <option value="{{ $a->id }}" {{ request('acara_id', $activeAcara->id ?? '') == $a->id ? 'selected' : '' }}>{{ $a->nama_acara }}</option>

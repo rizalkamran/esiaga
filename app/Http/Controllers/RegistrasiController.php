@@ -285,8 +285,9 @@ class RegistrasiController extends Controller
     public function exportPDF(Request $request)
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
-            // Retrieve the 'acara' parameter from the request
+            // Retrieve the 'acara' and 'peran' parameters from the request
             $selectedAcara = $request->input('acara');
+            $selectedPeran = $request->input('peran'); // New input for peran_id filter
 
             // Build your query based on conditions
             $query = AnggotaAcaraRegistrasi::query();
@@ -296,13 +297,19 @@ class RegistrasiController extends Controller
                 $query->where('acara_id', $selectedAcara);
             }
 
+            // Apply the condition for 'peran_id'
+            if ($selectedPeran) {
+                $query->where('peran_id', $selectedPeran);
+            }
+
             // Fetch data from the database based on the query
             $anggota = $query->get();
 
-            // Pass $selectedAcara to the view along with $anggota
+            // Pass $selectedAcara and $selectedPeran to the view along with $anggota
             $viewData = [
                 'anggota' => $anggota,
-                'selectedAcara' => $selectedAcara, // Add this line
+                'selectedAcara' => $selectedAcara,
+                'selectedPeran' => $selectedPeran,
             ];
 
             // Load the view and pass data to it, including the QR code URL and image
@@ -322,6 +329,7 @@ class RegistrasiController extends Controller
     {
         // Retrieve the 'acara' parameter from the request
         $selectedAcara = $request->input('acara');
+        $selectedPeran = $request->input('peran');
 
         // Build your query based on conditions
         $query = AnggotaAcaraRegistrasi::query();
@@ -331,6 +339,11 @@ class RegistrasiController extends Controller
             $query->where('acara_id', $selectedAcara);
         }
 
+        // Apply the condition for 'peran_id'
+        if ($selectedPeran) {
+            $query->where('peran_id', $selectedPeran);
+        }
+
         // Fetch data from the database based on the query
         $anggota = $query->get();
 
@@ -338,6 +351,7 @@ class RegistrasiController extends Controller
         $viewData = [
             'anggota' => $anggota,
             'selectedAcara' => $selectedAcara,
+            'selectedPeran' => $selectedPeran,
         ];
 
         // Load the view and pass data to it, including the QR code URL and image

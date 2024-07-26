@@ -153,6 +153,7 @@ Route::resource('/sesi_acara', SesiAcaraController::class);
 
 //Tanda Terima
 Route::resource('/tanda_terima', TandaTerimaAdminController::class);
+Route::get('/export-pdf-tandaterima', [TandaTerimaAdminController::class, 'exportPDF'])->name('tandaterima.export-pdf');
 
 // Kode Acara
 //Route::resource('/kode-acara', KodeAcaraController::class);

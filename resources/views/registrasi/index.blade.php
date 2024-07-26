@@ -10,29 +10,11 @@
 
             @can('is-admin')
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
                             <a class="btn btn-secondary me-2" href="{{ route('registrasi.index') }}">Reset</a>
 
-                            <form action="{{ route('regis.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">All/Semua</option>
-                                        @foreach($acaraOptions as $acaraOption)
-                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
-                                    <i class="fa-solid fa-file-pdf"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="col-md-8">
-                        <div class="float-end">
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
@@ -46,6 +28,43 @@
                                     </select>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="float-end">
+                            <form action="{{ route('regis.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
+                                <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <select class="form-control form-control-sm" id="acara" name="acara">
+                                        <option value="">All/Semua</option>
+                                        @foreach($acaraOptions as $acaraOption)
+                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                                {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mr-2" style="margin-bottom: 0;">
+                                    <select class="form-control form-control-sm" id="peran" name="peran">
+                                        <option value="">Pilih Peran</option>
+                                        @foreach($peranOptions as $peranOption)
+                                            <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
+                                                {{ $peranOption->nama_peran }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="float-end">
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <input type="hidden" name="per_page" value="{{ $perPage }}">
@@ -55,7 +74,9 @@
                                     <select class="form-control form-control-sm" id="acara" name="acara">
                                         <option selected disabled>Pilih Acara</option>
                                         @foreach($acaraOptions as $acaraOption)
-                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>{{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}</option>
+                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                                {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -63,7 +84,9 @@
                                     <select class="form-control form-control-sm" id="peran" name="peran">
                                         <option value="" selected>Pilih Peran</option>
                                         @foreach($peranOptions as $peranOption)
-                                            <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>{{ $peranOption->nama_peran }}</option>
+                                            <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
+                                                {{ $peranOption->nama_peran }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -10,6 +10,7 @@ use App\Models\Acara;
 use LaravelQRCode\Facades\QRCode;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
+use PDF;
 
 class TandaTerimaAdminController extends Controller
 {
@@ -18,11 +19,17 @@ class TandaTerimaAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (Gate::allows('is-admin')) {
-            $tandaterima = TandaTerima::paginate(5);
-            return view('tanda_terima.index', ['tandaterima' => $tandaterima]);
+            $tandaterima = TandaTerima::paginate(25);
+            $acaraOptions = Acara::all();
+            $selectedAcara = $request->input('acara');
+            return view('tanda_terima.index', [
+                'tandaterima' => $tandaterima,
+                'acaraOptions' => $acaraOptions,
+                'selectedAcara' => $selectedAcara,
+            ]);
         }
 
         abort(403, 'Unauthorized action');
@@ -57,7 +64,7 @@ class TandaTerimaAdminController extends Controller
 
         // Validate the request data
         $request->validate([
-            'user_id' => 'required',
+            'user_id' => 'required|exists:users,id',
             'acara_id' => 'required|exists:acara,id|not_registered_for_event',
             'status_baju' => 'nullable',
             'status_sertifikat' => 'nullable',
@@ -77,7 +84,7 @@ class TandaTerimaAdminController extends Controller
         }
 
         // Get the authenticated user's data
-        $user = auth()->user();
+        $user = User::findOrFail($request->user_id);
 
         // Convert the request tgl_terima input to a Carbon instance and format it
         $tgl_terima_formatted = Carbon::createFromFormat('Y-m-d', $request->tgl_terima)->locale('id')->translatedFormat('j F Y');
@@ -88,8 +95,6 @@ class TandaTerimaAdminController extends Controller
             'Nama' => $user->nama_lengkap,
             'NIK' => $user->nomor_ktp,
             'Tanggal Terima' => $tgl_terima_formatted,
-            'Tanggal QR dibuat' => now()->locale('id')->translatedFormat('j F Y H:i:s'),
-            'Closing' => 'Perlihatkan QR ini ke Panitia sebagai bukti',
         ];
 
         // Generate a unique filename
@@ -163,4 +168,41 @@ class TandaTerimaAdminController extends Controller
     {
         //
     }
+
+    public function exportPDF(Request $request)
+    {
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            // Retrieve the 'acara' parameter from the request
+            $selectedAcara = $request->input('acara');
+
+            // Build your query based on conditions
+            $query = TandaTerima::query();
+
+            // Apply the condition for 'acara_id'
+            if ($selectedAcara) {
+                $query->where('acara_id', $selectedAcara);
+            }
+
+            // Fetch data from the database based on the query
+            $tandaterima = $query->get();
+
+            // Pass $selectedAcara to the view along with $tandaterima
+            $viewData = [
+                'tandaterima' => $tandaterima,
+                'selectedAcara' => $selectedAcara,
+            ];
+
+            // Load the view and pass data to it, including the QR code URL and image
+            $pdf = PDF::loadView('tanda_terima.export-pdf', $viewData);
+
+            // Set paper orientation to landscape
+            $pdf->setPaper('a4', 'landscape');
+
+            // Stream the PDF to the browser
+            return $pdf->stream('tanda_terima.pdf');
+        }
+
+        abort(403, 'Unauthorized action');
+    }
+
 }
