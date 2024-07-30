@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Acara;
 use App\Models\Kategori;
 use App\Models\User;
+use PDF;
 
 class DaftarJuaraAdminController extends Controller
 {
@@ -21,6 +22,8 @@ class DaftarJuaraAdminController extends Controller
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             $acara = Acara::where('tipe', 2)->get();
+            $acaraOptions = Acara::where('tipe', 2)->get();
+            $selectedAcara = $request->input('acara');
             $activeAcara = Acara::where('status_acara', 1)->first();
 
             $query = DaftarJuara::query();
@@ -49,6 +52,8 @@ class DaftarJuaraAdminController extends Controller
             return view('daftar_juara.index', [
                 'daftarjuara' => $daftarjuara,
                 'acara' => $acara,
+                'acaraOptions' => $acaraOptions,
+                'selectedAcara' => $selectedAcara,
                 'activeAcara' => $activeAcara,
             ]);
         }
@@ -171,4 +176,51 @@ class DaftarJuaraAdminController extends Controller
 
         return redirect()->route('daftar_juara.index')->with('danger', 'Data Acara berhasil dihapus');
     }
+
+    public function exportPDF(Request $request)
+    {
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            // Retrieve the 'acara' parameter from the request
+            $selectedAcara = $request->input('acara');
+
+            // Build your query based on conditions
+            $query = DaftarJuara::with(['user', 'kategori.acara']); // Eager load relationships
+
+            // Apply the condition for 'acara_id'
+            if ($selectedAcara) {
+                $query->whereHas('kategori.acara', function($q) use ($selectedAcara) {
+                    $q->where('id', $selectedAcara);
+                });
+            }
+
+            // Fetch data from the database based on the query
+            $anggota = $query->get();
+
+            // Count the total data based on jenis_kelamin
+            $totalL = $anggota->where('user.jenis_kelamin', 'L')->count();
+            $totalP = $anggota->where('user.jenis_kelamin', 'P')->count();
+            $total = $totalL + $totalP;
+
+            // Pass $selectedAcara to the view along with $anggota and counts
+            $viewData = [
+                'anggota' => $anggota,
+                'selectedAcara' => $selectedAcara,
+                'totalL' => $totalL,
+                'totalP' => $totalP,
+                'total' => $total,
+            ];
+
+            // Load the view and pass data to it
+            $pdf = PDF::loadView('daftar_juara.export-pdf', $viewData);
+
+            // Set paper orientation to landscape
+            $pdf->setPaper('a4', 'landscape');
+
+            // Stream the PDF to the browser
+            return $pdf->stream('daftarpemenang.pdf');
+        }
+
+        abort(403, 'Unauthorized action');
+    }
+
 }

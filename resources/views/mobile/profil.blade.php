@@ -57,6 +57,14 @@
                     <a class="single-profile-wrap" href="{{ route('mobile-setting') }}"><i class="fa fa-wrench"></i>
                         Pengaturan <i class="ri-arrow-right-s-line"></i></a>
                 </li>
+                <li>
+                    <a class="single-profile-wrap" href="{{ route('logout') }}" onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i>Logout/Keluar <i class="ri-arrow-right-s-line"></i></a>
+
+                    <form method="POST" id="logout-form" action="{{ route('logout') }}" style="display: none">
+                        @csrf
+                    </form>
+                </li>
             </ul>
         </div>
 

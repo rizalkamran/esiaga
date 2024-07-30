@@ -28,6 +28,28 @@
                     </form>
                 </div>
             </div>
+
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="float-end">
+                        <form action="{{ route('daftar_juara.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
+                            <div class="form-group mr-2" style="margin-bottom: 0;">
+                                <select class="form-control form-control-sm" id="acara" name="acara">
+                                    <option value="">All/Semua</option>
+                                    @foreach($acara as $acaraOption)
+                                        <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                            {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
+                                <i class="fa-solid fa-file-pdf"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         @endcan
         <div class="table-responsive-md">
             <table class="table table-sm table-hover">
@@ -35,6 +57,7 @@
                     <tr>
                         <th scope="col">No</th>
                         <th scope="col">Nama</th>
+                        <th scope="col">L/P</th>
                         <th scope="col">Kategori</th>
                         <th scope="col">Status</th>
                         @can('is-admin')
@@ -47,6 +70,7 @@
                         <tr>
                             <td>{{ $index + $daftarjuara->firstItem() }}</td>
                             <td>{{ $daftar->user->nama_lengkap }}</td>
+                            <td>{{ $daftar->user->jenis_kelamin}}</td>
                             <td>{{ $daftar->kategori->nama_kategori }} {{ $daftar->kategori->desk_tambahan }}</td>
                             <td>{{ $daftar->status_juara }}</td>
                             @can('is-admin')

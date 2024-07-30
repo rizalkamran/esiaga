@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrasi Data</title>
+    <title>Data Pemenang</title>
     <!--fivicon icon-->
     <link href="{{ asset('image/mobile/favicon-esiaga.png') }}" rel="icon" type="image/png">
 
@@ -32,20 +32,26 @@
 
     <div style="text-align:center">
         <h5>
-            REGISTRASI PESERTA ONLINE
+            DAFTAR PEMENANG
         </h5>
         <h5>
             BERDASARKAN DATA PADA APLIKASI E-SIAGA
         </h5>
     </div>
 
-    @foreach ($anggota->unique('acara_id') as $ag)
+    @foreach ($anggota->unique('kategori.acara.id') as $ag)
     <p style="font-size: 14px;"> <!-- Adjust font size as needed -->
-        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Acara</span> : {{ $ag->acara->nama_acara }} <br>
+        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Acara</span> : {{ $ag->kategori->acara ? $ag->kategori->acara->nama_acara : 'N/A' }} <br>
         <!-- Adjust width and add ellipsis for long text -->
-        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Lokasi/Tingkat</span> : {{ $ag->acara->lokasi_acara }} - {{ $ag->acara->tingkat_wilayah_acara }} <br>
+        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Lokasi/Tingkat</span> : {{ $ag->kategori->acara ? $ag->kategori->acara->lokasi_acara : 'N/A' }} - {{ $ag->kategori->acara ? $ag->kategori->acara->tingkat_wilayah_acara : 'N/A' }} <br>
         <!-- Adjust width and add ellipsis for long text -->
-        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Tanggal Acara</span> : {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_awal_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_akhir_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} <br>
+        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Tanggal Acara</span> :
+        @if ($ag->kategori->acara)
+            {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->kategori->acara->tanggal_awal_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->kategori->acara->tanggal_akhir_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }}
+        @else
+            N/A
+        @endif
+        <br>
     </p>
     @endforeach
 
@@ -53,16 +59,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>Nama Lengkap</th>
-                    <th>L/P</th>
-                    <th>Afiliasi</th>
-                    <th>Peran</th>
-                    <th>NIK</th>
-                    <th>NPWP</th>
-                    <th>Kota Domisili</th>
-                    <th>Telepon</th>
-                    <th>Waktu Daftar</th>
+                    <th scope="col">No</th>
+                    <th scope="col">Nama</th>
+                    <th scope="col">L/P</th>
+                    <th scope="col">Kategori</th>
+                    <th scope="col">Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -70,18 +71,19 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $ag->user->nama_lengkap }}</td>
-                        <td>{{ $ag->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
-                        <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
-                        <td>{{ $ag->peran?->nama_peran ?? 'Data belum diisi' }}</td>
-                        <td>{{ $ag->user->nomor_ktp }}</td>
-                        <td>{{ $ag->user->biodata?->npwp ?? 'Data belum diisi'}}</td>
-                        <td>{{ $ag->user->biodata?->kota?->nama_kota ?? 'Data belum diisi'}}</td>
-                        <td>{{ $ag->user->telepon }}</td>
-                        <td>{{ \Carbon\Carbon::parse($ag->created_at)->locale('id_ID')->isoFormat('D MMMM YYYY H:m:s') }}</td>
+                        <td>{{ $ag->user->jenis_kelamin}}</td>
+                        <td>{{ $ag->kategori ? $ag->kategori->nama_kategori : 'N/A' }} {{ $ag->kategori ? $ag->kategori->desk_tambahan : '' }}</td>
+                        <td>{{ $ag->status_juara }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <p style="font-size: 16px; margin-top: 20px;">
+            Total Pemenang Atlit Laki-laki: {{ $totalL }} <br>
+            Total Pemenang Atlit Perempuan: {{ $totalP }} <br>
+            Total Seluruh Pemenang: {{ $total }}
+        </p>
 
         {{-- <p>
             Print Details <br>

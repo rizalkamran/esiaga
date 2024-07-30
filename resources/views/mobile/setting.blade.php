@@ -38,6 +38,33 @@
             @endif
 
             <ul class="profile-list-inner">
+                @can('is-non-publik')
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.anggota.index') }}"><i class="fa fa-list"></i>
+                            Peran Anggota <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.diklat.index') }}"><i class="fa fa-tag"></i>
+                            Diklat <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.lisensi.index') }}"><i class="fa fa-stamp"></i>
+                            Sertifikat/Lisensi <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.pendidikan.index') }}"><i class="fa fa-book"></i>
+                            Pendidikan Formal <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.prestasi.index') }}"><i class="fa fa-pen"></i>
+                            Prestasi <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                    <li>
+                        <a class="single-profile-wrap" href="{{ route('mobile.pekerjaan.index') }}"><i class="fa fa-user-tie"></i>
+                            Pekerjaan <i class="ri-arrow-right-s-line"></i></a>
+                    </li>
+                @endcan
+
                 <li>
                     <div class="single-profile-wrap">
                         <i class="fas fa-cloud-moon"></i>
@@ -49,14 +76,6 @@
                             </label>
                         </div>
                     </div>
-                </li>
-                <li>
-                    <a class="single-profile-wrap" href="{{ route('logout') }}" onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();"><i class="fas fa-sign-out-alt"></i>Logout/Keluar <i class="ri-arrow-right-s-line"></i></a>
-
-                    <form method="POST" id="logout-form" action="{{ route('logout') }}" style="display: none">
-                        @csrf
-                    </form>
                 </li>
             </ul>
         </div>

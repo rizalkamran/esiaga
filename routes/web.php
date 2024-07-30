@@ -248,6 +248,7 @@ Route::post('/mobile/pekerjaan', [PekerjaanUserController::class, 'store'])->nam
 // daftar_juara
 Route::resource('/daftar_juara', DaftarJuaraAdminController::class);
 Route::get('/daftar_juara', [DaftarJuaraAdminController::class, 'index'])->name('daftar_juara.index');
+Route::get('/export-pdf-juara', [DaftarJuaraAdminController::class, 'exportPDF'])->name('daftar_juara.export-pdf');
 
 // daftar_atlit
 Route::resource('/daftar_atlit', DaftarAtlitController::class);
