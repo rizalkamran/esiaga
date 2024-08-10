@@ -119,7 +119,7 @@
                                     <img src="{{ asset('icon/session.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text" style="font-weight:bold;color:#0356b6;">
-                                        Data Sesi Acara
+                                        Data Sesi Pelatihan
                                     </p>
                                 </a>
                             </div>
@@ -204,6 +204,44 @@
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
                                         Daftar Pemenang
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row mt-3 text-center">
+                            <div class="col-md-3">
+                                <a href="{{ route('registrasi2.index') }}">
+                                    <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Data Registrasi Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('sesi_acara2.index') }}">
+                                    <img src="{{ asset('icon/session.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text" style="font-weight:bold;color:#0356b6;">
+                                        Data Sesi Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Menu belum tersedia
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#">
+                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Menu belum tersedia
                                     </p>
                                 </a>
                             </div>

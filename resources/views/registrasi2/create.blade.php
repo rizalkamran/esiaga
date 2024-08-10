@@ -4,7 +4,7 @@
 
 <div class="card shadow mt-3">
     <div class="card-header">
-        Registrasi Peserta - Pelatihan
+        Registrasi Peserta - Kejuaraan
     </div>
     <div class="card-body">
 
@@ -25,7 +25,7 @@
             </div>
         @endif
 
-        <form method="POST" action="{{ route('registrasi.store.admin') }}">
+        <form method="POST" action="{{ route('registrasi2.store') }}">
             @csrf
 
             <div class="row">
@@ -34,7 +34,7 @@
                     <select id="testSelect" name="user_id">
                         <option value="">Pilih User</option>
                         @foreach ($user as $u)
-                            <option value="{{ $u->id }}">{{ $u->id }} - {{ $u->nama_lengkap }}</option>
+                            <option value="{{ $u->id }}">{{ $u->nama_lengkap }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -51,9 +51,9 @@
 
                 <div class="col-md-4">
                     <!-- Event dropdown/select -->
-                    <label for="acara_id" class="form-label">Pilih Pelatihan</label>
+                    <label for="acara_id" class="form-label">Pilih Kejuaraan</label>
                     <select class="form-select" name="acara_id">
-                        <option value="">Pilih Pelatihan</option>
+                        <option value="">Pilih Kejuaraan</option>
                         @foreach($acara as $ac)
                             <option value="{{ $ac->id }}">{{ Illuminate\Support\Str::limit($ac->nama_acara, 40)  }}</option>
                         @endforeach
@@ -62,7 +62,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-sm mt-3">Create</button>
-            <a href="{{ route('registrasi.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
+            <a href="{{ route('registrasi2.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
         </form>
     </div>
 </div>

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Acara;
 
-class SesiAcaraController extends Controller
+class SesiAcara2Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +18,7 @@ class SesiAcaraController extends Controller
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             // Fetch all Acara for the dropdown where tipe is 1
-            $acaraList = Acara::where('tipe', 1)->get();
+            $acaraList = Acara::where('tipe', 2)->get();
 
             $query = SesiAcara::query();
 
@@ -30,18 +30,17 @@ class SesiAcaraController extends Controller
                 // Ensure only SesiAcara with Acara.status_acara = 1 and Acara.tipe = 1 are shown when no filter is applied
                 $query->whereHas('acara', function ($subQuery) {
                     $subQuery->where('status_acara', 1)
-                            ->where('tipe', 1);
+                            ->where('tipe', 2);
                 });
             }
 
             $sesi = $query->with('acara')->paginate(25);
 
-            return view('sesi_acara.index', ['sesi' => $sesi, 'acaraList' => $acaraList]);
+            return view('sesi_acara2.index', ['sesi' => $sesi, 'acaraList' => $acaraList]);
         }
 
         abort(403, 'Unauthorized action');
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -51,9 +50,9 @@ class SesiAcaraController extends Controller
     public function create()
     {
         if (Gate::allows('is-admin')) {
-            $acara = Acara::where('tipe', 1)->get();
+            $acara = Acara::all();
 
-            return view('sesi_acara.create', [
+            return view('sesi_acara2.create', [
                 'acara' => $acara,
             ]);
         }
@@ -76,7 +75,7 @@ class SesiAcaraController extends Controller
 
         SesiAcara::create($validatedData);
 
-        return redirect()->route('sesi_acara.index')->with('success', 'Data Acara berhasil dibuat');
+        return redirect()->route('sesi_acara2.index')->with('success', 'Data Acara berhasil dibuat');
     }
 
     /**

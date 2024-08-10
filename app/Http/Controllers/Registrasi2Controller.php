@@ -15,7 +15,8 @@ use Illuminate\Support\Str;
 use LaravelQRCode\Facades\QRCode;
 use Illuminate\Support\Facades\File;
 
-class RegistrasiController extends Controller
+
+class Registrasi2Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +27,7 @@ class RegistrasiController extends Controller
     {
         // Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
-        $acaraOptions = Acara::where('tipe', 1)->get();
+        $acaraOptions = Acara::where('tipe', 2)->get();
         $caborOptions = ReffCabor::all();
         $peranOptions = ReffPeran::all();
 
@@ -79,7 +80,7 @@ class RegistrasiController extends Controller
         if (!$searchQuery && !$selectedAcara && !$selectedCabor) {
             $query->whereHas('acara', function ($q) {
                 $q->where('status_acara', 1)
-                ->where('tipe', 1);
+                ->where('tipe', 2);
             });
         }
 
@@ -99,7 +100,7 @@ class RegistrasiController extends Controller
         })->count();
 
         // Return the view with data and options
-        return view('registrasi.index', [
+        return view('registrasi2.index', [
             'anggota' => $anggota,
             'acaraOptions' => $acaraOptions,
             'caborOptions' => $caborOptions,
@@ -116,34 +117,30 @@ class RegistrasiController extends Controller
         ]);
     }
 
-    public function showUserEvents()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        if (Gate::allows('is-non-publik')) {
-            $regis = AnggotaAcaraRegistrasi::where('user_id', auth()->user()->id)->get(); // Change 10 to the desired number of items per page
-            return view('mobile.acara.detail', ['regis' => $regis]);
+        if (Gate::allows('is-admin')) {
+            $user = User::all();
+            $peran = ReffPeran::all();
+            $acara = Acara::where('tipe', 2)->where('status_acara', 1)->get(); // Retrieve only active Acara records
+            return view('registrasi2.create', ['acara' => $acara, 'user' => $user, 'peran' => $peran]);
         }
 
         abort(403, 'Unauthorized action.');
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created resource in storage.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function createAdmin()
-    {
-        if (Gate::allows('is-admin')) {
-            $user = User::all();
-            $peran = ReffPeran::all();
-            $acara = Acara::where('tipe', 1)->where('status_acara', 1)->get(); // Retrieve only active Acara records
-            return view('registrasi.create', ['acara' => $acara, 'user' => $user, 'peran' => $peran]);
-        }
-
-        abort(403, 'Unauthorized action.');
-    }
-
-    public function storeAdmin(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'user_id' => 'required',
@@ -196,7 +193,7 @@ class RegistrasiController extends Controller
         $anggotaAcaraRegistrasi->save();
 
         // Optionally, you can redirect the user to a different page after successful submission
-        return redirect()->route('registrasi.index')->with('success', 'Registration successful.');
+        return redirect()->route('registrasi2.index')->with('success', 'Registration successful.');
     }
 
     /**
@@ -219,9 +216,8 @@ class RegistrasiController extends Controller
     public function edit($id)
     {
         $anggotaAcaraRegistrasi = AnggotaAcaraRegistrasi::findOrFail($id);
-        return view('registrasi.edit', compact('anggotaAcaraRegistrasi'));
+        return view('registrasi2.edit', compact('anggotaAcaraRegistrasi'));
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -230,13 +226,6 @@ class RegistrasiController extends Controller
      * @param  \App\Models\AnggotaAcaraRegistrasi  $anggotaAcaraRegistrasi
      * @return \Illuminate\Http\Response
      */
-    /**
- * Update the specified resource in storage.
- *
- * @param  \Illuminate\Http\Request  $request
- * @param  \App\Models\AnggotaAcaraRegistrasi  $anggotaAcaraRegistrasi
- * @return \Illuminate\Http\Response
- */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -273,10 +262,8 @@ class RegistrasiController extends Controller
         $anggotaAcaraRegistrasi->save();
 
         // Redirect the user to the index page or any other appropriate page
-        return redirect()->route('registrasi.index')->with('success', 'Mandat updated successfully.');
+        return redirect()->route('registrasi2.index')->with('success', 'Mandat updated successfully.');
     }
-
-
 
     /**
      * Remove the specified resource from storage.
@@ -320,13 +307,13 @@ class RegistrasiController extends Controller
             ];
 
             // Load the view and pass data to it, including the QR code URL and image
-            $pdf = PDF::loadView('registrasi.export-pdf', $viewData);
+            $pdf = PDF::loadView('registrasi2.export-pdf', $viewData);
 
             // Set paper orientation to landscape
             $pdf->setPaper('a4', 'landscape');
 
             // Stream the PDF to the browser
-            return $pdf->stream('registrasi_pelatihan.pdf');
+            return $pdf->stream('registrasi_kejuaraan.pdf');
         }
 
         abort(403, 'Unauthorized action');
@@ -362,13 +349,13 @@ class RegistrasiController extends Controller
         ];
 
         // Load the view and pass data to it, including the QR code URL and image
-        $pdf = PDF::loadView('registrasi.export-pdf', $viewData);
+        $pdf = PDF::loadView('registrasi2.export-pdf', $viewData);
 
         // Set paper orientation to landscape
         $pdf->setPaper('a4', 'landscape');
 
         // Stream the PDF to the browser
-        return $pdf->stream('pelatihan_public_access.pdf');
+        return $pdf->stream('kejuaraan_public_access.pdf');
     }
 
     public function exportUser($id)
@@ -378,13 +365,13 @@ class RegistrasiController extends Controller
             $anggota = AnggotaAcaraRegistrasi::findOrFail($id);
 
             // Load the view and pass data to it
-            $pdf = PDF::loadView('registrasi.export-user-pdf', compact('anggota'));
+            $pdf = PDF::loadView('registrasi2.export-user-pdf', compact('anggota'));
 
             // Set paper orientation to landscape
             $pdf->setPaper('a4', 'portrait');
 
             // Generate a unique filename for the PDF
-            $filename = 'pelatihan_' . $anggota->user->name . '.pdf';
+            $filename = 'kejuaraan_' . $anggota->user->name . '.pdf';
 
             // Stream the PDF to the browser with the given filename
             return $pdf->stream($filename);
@@ -392,5 +379,4 @@ class RegistrasiController extends Controller
 
         abort(403, 'Unauthorized action');
     }
-
 }

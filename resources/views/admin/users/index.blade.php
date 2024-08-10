@@ -117,6 +117,11 @@
                                                 Pekerjaan
                                             </a>
                                         </li>
+                                        <li>
+                                            <a class="dropdown-item" target="_blank" href="{{ route('registrasi.index', ['user_id' => $user->id]) }}">
+                                                Pelatihan/Kejuaraan
+                                            </a>
+                                        </li>
                                     </ul>
                                     @if(auth()->user() && $user->id !== auth()->user()->id)
                                         @if(!$user->hasAnyRole('admin'))

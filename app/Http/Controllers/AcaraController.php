@@ -60,11 +60,21 @@ class AcaraController extends Controller
         abort(403, 'Unauthorized action');
     }
 
-    public function admin()
+    public function admin(Request $request)
     {
-        if (Gate::allows('is-admin') || Gate::allows('is-staf')){
-            $acaras = Acara::where('tipe', 1)->paginate(10); // Paginate with * records per page
-            return view('acara.index', ['acaras' => $acaras]);
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            $query = Acara::where('tipe', 1);
+
+            if ($request->has('year')) {
+                $year = $request->input('year');
+                $query->where(function($q) use ($year) {
+                    $q->whereYear('tanggal_awal_acara', $year)
+                    ->orWhereYear('tanggal_akhir_acara', $year);
+                });
+            }
+
+            $acaras = $query->paginate(25);
+            return view('acara.index', ['acaras' => $acaras, 'year' => $year ?? '']);
         }
 
         abort(403, 'Unauthorized action');

@@ -39,7 +39,7 @@
                     <select id="testSelect" name="user_id">
                         <option value="">Pilih User</option>
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->nama_lengkap }}</option>
+                            <option value="{{ $user->id }}">{{ $user->id }} - {{ $user->nama_lengkap }}</option>
                         @endforeach
                     </select>
                 </div>

@@ -21,11 +21,21 @@ class Acara2Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        if (Gate::allows('is-admin') || Gate::allows('is-staf')){
-            $acara2 = Acara::where('tipe', 2)->paginate(10); // Paginate with * records per page
-            return view('acara2.index', ['acara2' => $acara2]);
+        if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
+            $query = Acara::where('tipe', 2);
+
+            if ($request->has('year')) {
+                $year = $request->input('year');
+                $query->where(function($q) use ($year) {
+                    $q->whereYear('tanggal_awal_acara', $year)
+                    ->orWhereYear('tanggal_akhir_acara', $year);
+                });
+            }
+
+            $acara2 = $query->paginate(25);
+            return view('acara2.index', ['acara2' => $acara2, 'year' => $year ?? '']);
         }
 
         abort(403, 'Unauthorized action');

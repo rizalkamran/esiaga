@@ -102,11 +102,11 @@
             </tbody>
         </table>
 
-        <p>
+        {{-- <p>
             Print Details <br>
             User: {{ Auth::check() ? Auth::user()->nama_lengkap : 'Guest' }} <br>
             Date/Time: {{ \Carbon\Carbon::now()->locale('id_ID')->isoFormat('dddd, D MMMM YYYY, HH:mm:ss') }} <br>
-        </p>
+        </p> --}}
     @else
         <h4>No Events Found</h4>
     @endif

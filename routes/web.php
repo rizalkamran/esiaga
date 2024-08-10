@@ -3,6 +3,7 @@
 use App\Http\Controllers\AcaraController;
 use App\Http\Controllers\Acara2Controller;
 use App\Http\Controllers\SesiAcaraController;
+use App\Http\Controllers\SesiAcara2Controller;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\UserStafController;
 use App\Http\Controllers\ReffCaborController;
@@ -28,6 +29,7 @@ use App\Http\Controllers\ReffKotaController;
 use App\Http\Controllers\ReffProvinsiController;
 use App\Http\Controllers\ReffPendidikanController;
 use App\Http\Controllers\RegistrasiController;
+use App\Http\Controllers\Registrasi2Controller;
 use App\Http\Controllers\RegistrasiStafController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\TandaTerimaAdminController;
@@ -150,6 +152,7 @@ Route::resource('/acara2', Acara2Controller::class);
 
 //Sesi Acara
 Route::resource('/sesi_acara', SesiAcaraController::class);
+Route::resource('/sesi_acara2', SesiAcara2Controller::class);
 
 //Tanda Terima
 Route::resource('/tanda_terima', TandaTerimaAdminController::class);
@@ -185,6 +188,11 @@ Route::get('/registrasi/{id}/edit', [RegistrasiController::class, 'edit'])->midd
 // Update Registrasi
 Route::put('/registrasi/{id}', [RegistrasiController::class, 'update'])->middleware('can:is-admin')->name('registrasi.update');
 
+// Registrasi
+Route::resource('/registrasi2', Registrasi2Controller::class)->middleware('can:is-admin');
+Route::get('/export-pdf-regis2', [Registrasi2Controller::class, 'exportPDF'])->name('regis2.export-pdf');
+Route::get('/export-pdf-public2', [Registrasi2Controller::class, 'exportPDFPublic'])->name('export2.pdf.public');
+Route::get('/export-user-pdf-regis2/{id}', [Registras2Controller::class, 'exportUser'])->name('regis2.export-user-pdf');
 
 // Kehadiran
 Route::resource('/kehadiran', KehadiranController::class);

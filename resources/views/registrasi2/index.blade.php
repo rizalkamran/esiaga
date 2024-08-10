@@ -4,7 +4,7 @@
 
     <div class="card shadow mt-3">
         <div class="card-header">
-            Data Registrasi - Pelatihan
+            Data Registrasi - Kejuaraan
         </div>
         <div class="card-body">
 
@@ -12,10 +12,10 @@
                 <div class="row mb-3">
                     <div class="col-md-5">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
-                            <a class="btn btn-secondary me-2" href="{{ route('registrasi.index') }}">Reset</a>
+                            <a class="btn btn-primary" href="{{ route('registrasi2.create') }}">Create</a>
+                            <a class="btn btn-secondary me-2" href="{{ route('registrasi2.index') }}">Reset</a>
 
-                            <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                            <form action="{{ route('registrasi2.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group" style="margin-bottom: 0;">
                                     <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
                                         <option selected disabled>Per Page</option>
@@ -33,7 +33,7 @@
 
                     <div class="col-md-7">
                         <div class="float-end">
-                            <form action="{{ route('regis.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
+                            <form action="{{ route('regis2.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <select class="form-control form-control-sm" id="acara" name="acara">
                                         <option value="">All/Semua</option>
@@ -65,7 +65,7 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="float-end">
-                            <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                            <form action="{{ route('registrasi2.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group mr-2" style="margin-bottom: 0;">
                                     <input type="hidden" name="per_page" value="{{ $perPage }}">
                                     <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
@@ -138,14 +138,14 @@
                             </td>
 
                             <td>
-                                <a href="{{ route('registrasi.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
+                                <a href="{{ route('registrasi2.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
 
                                 <!-- Modal Button -->
                                 <button type="button" class="btn btn-sm {{ $ag->mandat ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
                                     Lihat
                                 </button>
 
-                                <a href="{{ route('regis.export-user-pdf', $ag->id) }}" class="btn btn-sm btn-danger" target="_blank">
+                                <a href="{{ route('regis2.export-user-pdf', $ag->id) }}" class="btn btn-sm btn-danger" target="_blank">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </a>
 

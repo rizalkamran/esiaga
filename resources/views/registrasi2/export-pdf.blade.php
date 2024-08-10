@@ -32,7 +32,7 @@
 
     <div style="text-align:center">
         <h5>
-            REGISTRASI PESERTA ONLINE - PELATIHAN
+            REGISTRASI PESERTA ONLINE - KEJUARAAN
         </h5>
         <h5>
             BERDASARKAN DATA PADA APLIKASI E-SIAGA
@@ -41,11 +41,11 @@
 
     @foreach ($anggota->unique('acara_id') as $ag)
     <p style="font-size: 14px;"> <!-- Adjust font size as needed -->
-        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Pelatihan</span> : {{ $ag->acara->nama_acara }} <br>
+        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Kejuaraan</span> : {{ $ag->acara->nama_acara }} <br>
         <!-- Adjust width and add ellipsis for long text -->
         <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Lokasi/Tingkat</span> : {{ $ag->acara->lokasi_acara }} - {{ $ag->acara->tingkat_wilayah_acara }} <br>
         <!-- Adjust width and add ellipsis for long text -->
-        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Tanggal Pelatihan</span> : {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_awal_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_akhir_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} <br>
+        <span style="display: inline-block; width: 120px; overflow: hidden; text-overflow: ellipsis;">Tanggal Kejuaraan</span> : {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_awal_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} - {{ \Carbon\Carbon::createFromFormat('Y-m-d', $ag->acara->tanggal_akhir_acara)->locale('id_ID')->isoFormat('D MMMM YYYY') }} <br>
     </p>
     @endforeach
 

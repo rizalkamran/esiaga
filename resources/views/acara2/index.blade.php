@@ -7,7 +7,30 @@
         </div>
         <div class="card-body">
 
-            <a class="btn btn-sm btn-primary mb-3" href="{{ route('acara2.create') }}" role="button">Create</a>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a class="btn btn-sm btn-primary" href="{{ route('acara2.create') }}" role="button">Create</a>
+                        <a class="btn btn-secondary" href="{{ route('acara2.index') }}">Reset</a>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+                    <div class="float-end">
+                        <form action="{{ route('acara2.index') }}" method="GET" class="mb-3">
+                            <div class="input-group">
+                                <select name="year" class="form-select form-select-sm">
+                                    <option value="">Pilih Tahun</option>
+                                    @foreach(range(date('Y'), 2020) as $year)
+                                        <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <div class="table-responsive-md">
                 <table class="table table-sm table-hover">
