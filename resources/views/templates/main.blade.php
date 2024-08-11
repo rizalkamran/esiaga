@@ -133,7 +133,7 @@
                                 <li><a class="dropdown-item" href="{{ route('sesi_acara.index') }}">Daftar Sesi Pelatihan</a></li>
 
                                 @can('is-admin')
-                                <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Pelatihan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('registrasi.index') }}">Data Registrasi Peserta</a></li>
                                 @endcan
                                 @can('is-staf')
                                 <li><a class="dropdown-item" href="{{ route('staf.registrasi.index') }}">Data Registrasi Peserta</a></li>
@@ -154,6 +154,7 @@
                                 <li><a class="dropdown-item" href="{{ route('sesi_acara2.index') }}">Daftar Sesi Kejuaraan</a></li>
                                 <li><a class="dropdown-item" href="{{ route('kategori.index') }}">Data Kategori Kejuaraan</a></li>
                                 <li><a class="dropdown-item" href="{{ route('registrasi2.index') }}">Data Registrasi Kejuaraan</a></li>
+                                <li><a class="dropdown-item" href="{{ route('kehadiran2.index') }}">Data Kehadiran/Absen</a></li>
                                 <li><a class="dropdown-item" href="{{ route('daftar_atlit.index') }}">Data Atlit</a></li>
                                 <li><a class="dropdown-item" href="{{ route('daftar_juara.index') }}">Daftar Pemenang</a></li>
                             </ul>

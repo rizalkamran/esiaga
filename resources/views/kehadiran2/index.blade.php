@@ -4,7 +4,7 @@
 
     <div class="card shadow mt-3">
         <div class="card-header">
-            Data Kehadiran - Pelatihan
+            Data Kehadiran - Kejuaraan
         </div>
         <div class="card-body">
 
@@ -13,10 +13,10 @@
                     <div class="col-md-3">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             @can('is-admin')
-                                <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
+                                <a class="btn btn-primary" href="{{ route('kehadiran2.create') }}">Buat</a>
                             @endcan
-                            <a class="btn btn-secondary" href="{{ route('kehadiran.index') }}">Reset</a>
-                            <form action="{{ route('kehadiran.index') }}" method="GET" style="display: inline-flex; align-items: center;">
+                            <a class="btn btn-secondary" href="{{ route('kehadiran2.index') }}">Reset</a>
+                            <form action="{{ route('kehadiran2.index') }}" method="GET" style="display: inline-flex; align-items: center;">
                                 <div class="form-group ms-2" style="margin-bottom: 0;">
                                     <select name="per_page" class="form-select form-select-sm" id="perPage" onchange="this.form.submit()">
                                         <option selected disabled>Per Page</option>
@@ -35,7 +35,7 @@
 
                     <div class="col-md-9">
                         <div class="float-end">
-                            <form action="{{ route('absen.export-pdf') }}" method="get" target="_blank"
+                            <form action="{{ route('absen2.export-pdf') }}" method="get" target="_blank"
                                 style="display: inline-flex; align-items: center;">
                                 <select name="acara_id" class="form-control form-control-sm" id="acara_id_export">
                                     <option selected disabled>Pilih Acara</option>
@@ -64,7 +64,7 @@
 
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                        <form method="GET" action="{{ route('kehadiran2.index') }}" class="d-flex">
                             <div class="form-group">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="text" name="cabor" id="cabor" class="form-control form-control-sm" placeholder="Cari ..." value="{{ $selectedCabor ?? '' }}">
@@ -77,7 +77,7 @@
 
                     <div class="col-md-8">
                         <div class="float-end">
-                            <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                            <form method="GET" action="{{ route('kehadiran2.index') }}" class="d-flex">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
                                     <option selected disabled>Pilih Acara</option>
@@ -128,7 +128,7 @@
                                     <td>{{  Illuminate\Support\Str::limit($k->sesiAcara->acara->nama_acara, 25) }} - {{ $k->sesiAcara->sesi }}</td>
                                     <td>{{ \Carbon\Carbon::parse($k->created_at)->locale('id_ID')->format('H:i:s') }}</td>
                                     <td>
-                                        <a href="{{ route('kehadiran.edit', ['kehadiran' => $k->id]) }}" class="btn btn-sm btn-primary">
+                                        <a href="{{ route('kehadiran2.edit', ['kehadiran2' => $k->id]) }}" class="btn btn-sm btn-primary">
                                             Edit
                                         </a>
                                     </td>

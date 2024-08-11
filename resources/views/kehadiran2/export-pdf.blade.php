@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kehadiran Data - Pelatihan</title>
+    <title>Kehadiran Data - Kejuaraan</title>
     <!--favicon icon-->
     <link href="{{ asset('image/mobile/favicon-esiaga.png') }}" rel="icon" type="image/png">
 
@@ -31,7 +31,7 @@
 <body>
     <div style="text-align:center">
         <h5>
-            ABSENSI PESERTA ONLINE - PELATIHAN
+            ABSENSI PESERTA ONLINE - KEJUARAAN
         </h5>
         <h5>
             BERDASARKAN DATA PADA APLIKASI E-SIAGA
@@ -41,7 +41,7 @@
     @if ($kehadiran->isNotEmpty())
         @foreach ($kehadiran->unique('sesi_acara_id') as $k)
             <p style="font-size: 14px;"> <!-- Adjust font size as needed -->
-                <span style="display: inline-block; width: 100px;">Pelatihan</span> : {{ $k->sesiAcara->acara->nama_acara }} <br>
+                <span style="display: inline-block; width: 100px;">Kejuaraan</span> : {{ $k->sesiAcara->acara->nama_acara }} <br>
                 <span style="display: inline-block; width: 100px;">Lokasi</span> : {{ $k->sesiAcara->acara->lokasi_acara }} <br>
                 <span style="display: inline-block; width: 100px;">Sesi</span> : {{ $k->sesiAcara->sesi }}
             </p>

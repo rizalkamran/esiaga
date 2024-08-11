@@ -18,7 +18,7 @@
         </div>
         @endif
 
-        <form method="POST" action="{{ route('kehadiran.store') }}">
+        <form method="POST" action="{{ route('kehadiran2.store') }}">
             @csrf
 
             {{-- <div class="row">
@@ -45,9 +45,9 @@
                 </div>
                 <div class="col-md-4">
                     <!-- Event dropdown/select -->
-                    <label for="acara_id" class="form-label">Pilih Pelatihan</label>
+                    <label for="acara_id" class="form-label">Pilih Kejuaraan</label>
                     <select name="acara_id" class="form-control" id="acara_id">
-                        <option value="">Pilih Pelatihan</option>
+                        <option value="">Pilih Kejuaraan</option>
                         @foreach($acara as $ac)
                             <option value="{{ $ac->id }}">{{ $ac->nama_acara }}</option>
                         @endforeach
@@ -55,9 +55,9 @@
                 </div>
                 <div class="col-md-4">
                     <!-- Session dropdown/select -->
-                    <label for="sesi_acara_id" class="form-label">Pilih Sesi Pelatihan</label>
+                    <label for="sesi_acara_id" class="form-label">Pilih Sesi Kejuaraan</label>
                     <select name="sesi_acara_id" class="form-control" id="sesi_acara_id">
-                        <option value="">Pilih Sesi Pelatihan</option>
+                        <option value="">Pilih Sesi Kejuaraan</option>
                         <!-- Populate all session options -->
                         @foreach($sesiAcara as $session)
                             <option value="{{ $session->id }}" class="sesi-option sesi-acara-{{ $session->acara_id }}">{{ $session->sesi }}</option>
@@ -67,7 +67,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-sm mt-3">Create</button>
-            <a href="{{ route('kehadiran.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
+            <a href="{{ route('kehadiran2.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
         </form>
     </div>
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\AnggotaAcaraRegistrasi;
 use App\Models\AnggotaKehadiranRegistrasi;
 use App\Models\Acara;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Redirect;
 use PDF;
 use Carbon\Carbon;
 
-class KehadiranController extends Controller
+class Kehadiran2Controller extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,12 +27,12 @@ class KehadiranController extends Controller
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             $caborOptions = ReffCabor::all();
 
-            // Get all acara with tipe 1
-            $acara = Acara::where('tipe', 1)->get();
+            // Get all acara with tipe 2
+            $acara = Acara::where('tipe', 2)->get();
 
-            // Filter sesi_acara based on acara with tipe 1
+            // Filter sesi_acara based on acara with tipe 2
             $sesiOptions = SesiAcara::whereHas('acara', function ($query) {
-                $query->where('tipe', 1);
+                $query->where('tipe', 2);
             })->get();
 
             // Retrieve the selected session and cabor from the request
@@ -50,7 +51,7 @@ class KehadiranController extends Controller
                 $query->where('sesi_acara_id', $selectedSesi);
             } else {
                 // Get the first session of the active event (where status_acara is 1)
-                $activeEvent = Acara::where('status_acara', 1)->where('tipe', 1)->first();
+                $activeEvent = Acara::where('status_acara', 1)->where('tipe', 2)->first();
                 if ($activeEvent) {
                     $firstSession = $activeEvent->sesiAcara()->orderBy('created_at', 'asc')->first();
                     if ($firstSession) {
@@ -75,7 +76,7 @@ class KehadiranController extends Controller
             $sesiAcara = SesiAcara::all();
 
             // Return the view with data and options
-            return view('kehadiran.index', [
+            return view('kehadiran2.index', [
                 'kehadiran' => $kehadiran,
                 'sesiOptions' => $sesiOptions,
                 'selectedSesi' => $selectedSesi,
@@ -91,8 +92,6 @@ class KehadiranController extends Controller
         abort(403, 'Unauthorized action');
     }
 
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -106,34 +105,12 @@ class KehadiranController extends Controller
 
             // Retrieve all sessions to populate dropdown/select
             $sesiAcara = SesiAcara::all();
-            $acara = Acara::where('status_acara', 1)->where('tipe', 1)->get(); // Retrieve only active Acara records
+            $acara = Acara::where('status_acara', 1)->where('tipe', 2)->get(); // Retrieve only active Acara records
 
             // Pass the users and sessions data to the view
-            return view('kehadiran.create', compact('users', 'sesiAcara', 'acara'));
+            return view('kehadiran2.create', compact('users', 'sesiAcara', 'acara'));
         }
     }
-
-    public function absen(Request $request)
-    {
-        // Retrieve user_id and acara_id from the request
-        $user_id = $request->query('user_id');
-        $acara_id = $request->query('acara_id');
-
-        // Retrieve all users to populate dropdown/select
-        $users = User::all();
-
-        // Retrieve all sessions to populate dropdown/select
-        $sesiAcara = SesiAcara::all();
-
-        // Retrieve the specific event based on the provided acara_id
-        $acara = Acara::findOrFail($acara_id);
-
-        // Retrieve the specific user based on the provided user_id
-        $user = User::findOrFail($user_id);
-
-        return view('absen.index', compact('users', 'sesiAcara', 'acara', 'user_id', 'user'));
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -183,47 +160,21 @@ class KehadiranController extends Controller
         return redirect()->back()->with('success', 'Absensi Berhasil');
     }
 
-    public function storeAbsen(Request $request)
-    {
-        // Retrieve the necessary parameters from the request (user_id and sesi_acara_id)
-        $user_id = $request->input('user_id');
-        $sesi_acara_id = $request->input('sesi_acara_id');
-
-        // Check if there is already an attendance record for the selected user and session
-        $existingAttendance = AnggotaKehadiranRegistrasi::where('user_id', $user_id)
-            ->where('sesi_acara_id', $sesi_acara_id)
-            ->exists();
-
-        // If there is an existing attendance record, redirect back with an error message
-        if ($existingAttendance) {
-            return Redirect::back()->withErrors(['user_id' => 'Sudah melakukan absensi untuk sesi ini.']);
-        }
-
-        // Create a new attendance record
-        AnggotaKehadiranRegistrasi::create([
-            'user_id' => $user_id,
-            'sesi_acara_id' => $sesi_acara_id,
-        ]);
-
-        // Redirect back with success message
-        return Redirect::back()->with('success', 'Absensi Berhasil');
-    }
-
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\AnggotaKehadiranRegistrasi  $anggotaKehadiranRegistrasi
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(AnggotaKehadiranRegistrasi $anggotaKehadiranRegistrasi)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\AnggotaKehadiranRegistrasi  $anggotaKehadiranRegistrasi
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -235,7 +186,7 @@ class KehadiranController extends Controller
             // Convert the created_at timestamp to the desired timezone
             $localizedDateTime = Carbon::parse($kehadiran->created_at)->timezone('Asia/Makassar');
 
-            return view('kehadiran.edit', compact('kehadiran', 'localizedDateTime'));
+            return view('kehadiran2.edit', compact('kehadiran', 'localizedDateTime'));
         }
 
         abort(403, 'Unauthorized action');
@@ -245,7 +196,7 @@ class KehadiranController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\AnggotaKehadiranRegistrasi  $anggotaKehadiranRegistrasi
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -267,17 +218,6 @@ class KehadiranController extends Controller
         return redirect()->route('kehadiran.index')->with('success', 'Kehadiran updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
-
     public function exportPDF(Request $request)
     {
         // Retrieve the selected session from the request
@@ -293,13 +233,23 @@ class KehadiranController extends Controller
         $kehadiran = $query->get();
 
         // Generate PDF
-        $pdf = PDF::loadView('kehadiran.export-pdf', compact('kehadiran'));
+        $pdf = PDF::loadView('kehadiran2.export-pdf', compact('kehadiran'));
 
         // Set paper orientation to landscape
         $pdf->setPaper('a4', 'landscape');
 
         // You can customize the filename if needed
-        return $pdf->stream('Kehadiran_pelatihan.pdf');
+        return $pdf->stream('Kehadiran_kejuaraan.pdf');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\AnggotaKehadiranRegistrasi  $anggotaKehadiranRegistrasi
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(AnggotaKehadiranRegistrasi $anggotaKehadiranRegistrasi)
+    {
+        //
+    }
 }

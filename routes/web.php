@@ -32,6 +32,7 @@ use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\Registrasi2Controller;
 use App\Http\Controllers\RegistrasiStafController;
 use App\Http\Controllers\KehadiranController;
+use App\Http\Controllers\Kehadiran2Controller;
 use App\Http\Controllers\TandaTerimaAdminController;
 use App\Http\Controllers\KategoriAdminController;
 use App\Http\Controllers\DaftarJuaraAdminController;
@@ -171,7 +172,7 @@ Route::get('/mobile/anggota/{anggotaPeran}/edit', [AnggotaPeranController::class
 Route::put('/mobile/anggota/{anggotaPeran}', [AnggotaPeranController::class, 'update'])->name('mobile.anggota.update');
 
 
-// Registrasi
+// Registrasi - pelatih
 Route::resource('/registrasi', RegistrasiController::class)->middleware('can:is-admin');
 Route::get('/registrasi/create', [RegistrasiController::class, 'createAdmin'])->middleware('can:is-admin')->name('registrasi.create');
 // Store Registrasi by Admin
@@ -188,19 +189,23 @@ Route::get('/registrasi/{id}/edit', [RegistrasiController::class, 'edit'])->midd
 // Update Registrasi
 Route::put('/registrasi/{id}', [RegistrasiController::class, 'update'])->middleware('can:is-admin')->name('registrasi.update');
 
-// Registrasi
+// Registrasi - juara
 Route::resource('/registrasi2', Registrasi2Controller::class)->middleware('can:is-admin');
 Route::get('/export-pdf-regis2', [Registrasi2Controller::class, 'exportPDF'])->name('regis2.export-pdf');
 Route::get('/export-pdf-public2', [Registrasi2Controller::class, 'exportPDFPublic'])->name('export2.pdf.public');
 Route::get('/export-user-pdf-regis2/{id}', [Registras2Controller::class, 'exportUser'])->name('regis2.export-user-pdf');
 
-// Kehadiran
+// Kehadiran - pelatih
 Route::resource('/kehadiran', KehadiranController::class);
 // Route for displaying the absen form
 Route::get('/absen', [KehadiranController::class, 'absen'])->name('absen.index');
 // Route for storing absen data
 Route::post('/absen', [KehadiranController::class, 'storeAbsen'])->name('absen.store');
 Route::get('/export-pdf-absen', [KehadiranController::class, 'exportPDF'])->middleware('can:is-admin')->name('absen.export-pdf');
+
+// Kehadiran - pelatih
+Route::resource('/kehadiran2', Kehadiran2Controller::class);
+Route::get('/export-pdf-absen2', [Kehadiran2Controller::class, 'exportPDF'])->middleware('can:is-admin')->name('absen2.export-pdf');
 
 // Biodata Admin
 Route::resource('/biodata_admin', BiodataAdminController::class);

@@ -210,15 +210,6 @@
                         </div>
                         <div class="row mt-3 text-center">
                             <div class="col-md-3">
-                                <a href="{{ route('registrasi2.index') }}">
-                                    <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
-                                        class="img-thumbnail">
-                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Data Registrasi Kejuaraan
-                                    </p>
-                                </a>
-                            </div>
-                            <div class="col-md-3">
                                 <a href="{{ route('sesi_acara2.index') }}">
                                     <img src="{{ asset('icon/session.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
@@ -228,11 +219,20 @@
                                 </a>
                             </div>
                             <div class="col-md-3">
-                                <a href="#">
-                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                <a href="{{ route('registrasi2.index') }}">
+                                    <img src="{{ asset('icon/regis.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Menu belum tersedia
+                                        Data Registrasi Kejuaraan
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="{{ route('kehadiran2.index') }}">
+                                    <img src="{{ asset('icon/absent.png') }}" style="width:20%;border:none;"
+                                        class="img-thumbnail">
+                                    <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
+                                        Data Kehadiran/Absen
                                     </p>
                                 </a>
                             </div>
