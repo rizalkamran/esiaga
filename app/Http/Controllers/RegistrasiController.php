@@ -26,6 +26,7 @@ class RegistrasiController extends Controller
     {
         // Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
+        $activeAcara = Acara::where('status_acara', 1)->where('tipe', 1)->first();
 
         // Retrieve the selected filters from the request
         $userId = $request->input('user_id');
@@ -35,6 +36,11 @@ class RegistrasiController extends Controller
         $searchQuery = $request->input('search');
         $selectedYear = $request->input('year');
         $perPage = $request->input('per_page', 50);
+
+        // If no year is selected, set the year based on the activeAcara
+        if (!$selectedYear && $activeAcara) {
+            $selectedYear = $activeAcara->tanggal_awal_acara ? date('Y', strtotime($activeAcara->tanggal_awal_acara)) : null;
+        }
 
         // Filter acaraOptions by selected year and tipe if provided
         $acaraOptions = Acara::where(function($query) use ($selectedYear) {
@@ -86,24 +92,28 @@ class RegistrasiController extends Controller
 
         // If no search query and acara/cabor filters, apply only status_acara filter
         if (!$searchQuery && !$selectedAcara && !$selectedCabor) {
-            $query->whereHas('acara', function ($q) {
-                $q->where('status_acara', 1)
-                ->where('tipe', 1);
+            $query->whereHas('acara', function ($subQuery) use ($selectedYear) {
+                $subQuery->where('status_acara', 1)
+                    ->where('tipe', 1)
+                    ->whereYear('tanggal_awal_acara', $selectedYear);
             });
         }
 
         $anggota = $query->paginate($perPage);
 
-        // Calculate the total counts outside of the paginated query
-        $totalFoto = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+        // Duplicate the query to apply filters for counting
+        $countQuery = clone $query;
+
+        // Calculate the total counts based on the filtered query
+        $totalFoto = $countQuery->whereHas('user.biodata', function ($q) {
             $q->whereNotNull('foto_diri');
         })->count();
 
-        $totalKTP = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+        $totalKTP = $countQuery->whereHas('user.biodata', function ($q) {
             $q->whereNotNull('foto_ktp');
         })->count();
 
-        $totalNPWP = AnggotaAcaraRegistrasi::whereHas('user.biodata', function ($q) {
+        $totalNPWP = $countQuery->whereHas('user.biodata', function ($q) {
             $q->whereNotNull('foto_npwp');
         })->count();
 
@@ -123,6 +133,7 @@ class RegistrasiController extends Controller
             'totalNPWP' => $totalNPWP,
             'perPage' => $perPage,
             'user_id' => $userId,
+            'activeAcara' => $activeAcara,
         ]);
     }
 

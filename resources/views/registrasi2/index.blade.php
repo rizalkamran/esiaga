@@ -56,7 +56,7 @@
                                 <select class="form-control form-control-sm mr-2" id="acara" name="acara">
                                     <option value="">Pilih Acara</option>
                                     @foreach($acaraOptions as $acaraOption)
-                                        <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                        <option value="{{ $acaraOption->id }}" {{ request('acara_id', $activeAcara->id ?? '') == $acaraOption->id ? 'selected' : '' }}>
                                             {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
                                         </option>
                                     @endforeach
@@ -69,7 +69,7 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-danger">
+                                <button type="submit" class="btn btn-sm btn-danger ms-2">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </button>
                             </form>
@@ -102,7 +102,7 @@
                                 <select class="form-control form-control-sm mr-2" id="acara" name="acara">
                                     <option value="">Pilih Acara</option>
                                     @foreach($acaraOptions as $acaraOption)
-                                        <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                        <option value="{{ $acaraOption->id }}" {{ request('acara_id', $activeAcara->id ?? '') == $acaraOption->id ? 'selected' : '' }}>
                                             {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
                                         </option>
                                     @endforeach
@@ -117,7 +117,7 @@
                                 </select>
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="text" class="form-control form-control-sm mr-2" name="search" placeholder="Cari ...">
-                                <button type="submit" class="btn btn-sm btn-primary">
+                                <button type="submit" class="btn btn-sm btn-primary ms-2">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                             </form>
@@ -151,16 +151,36 @@
                             <td>
                                 {{ Illuminate\Support\Str::limit($ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi', 20) }}
                             </td>
+
                             <td>
+                                <!-- Foto Button -->
                                 <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_diri ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#Modal1{{$ag->id}}">
-                                    Foto
+                                    @if($ag->user->biodata && $ag->user->biodata->foto_diri)
+                                        Foto
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
                                 </button>
+
+                                <!-- KTP Button -->
                                 <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_ktp ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#Modal2{{$ag->id}}">
-                                    KTP
+                                    @if($ag->user->biodata && $ag->user->biodata->foto_ktp)
+                                        KTP
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
                                 </button>
+
+                                <!-- NPWP Button -->
                                 <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_npwp ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#Modal3{{$ag->id}}">
-                                    NPWP
+                                    @if($ag->user->biodata && $ag->user->biodata->foto_npwp)
+                                        NPWP
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
                                 </button>
+
+                                <!-- Link Button -->
                                 <a href="{{ route('biodata_admin.index', ['user_id' => $ag->user->id]) }}" class="btn btn-sm btn-primary" target="_blank">
                                     Link
                                 </a>
@@ -171,7 +191,11 @@
 
                                 <!-- Modal Button -->
                                 <button type="button" class="btn btn-sm {{ $ag->mandat ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
-                                    Lihat
+                                    @if($ag->mandat)
+                                        Lihat
+                                    @else
+                                        <i class="fa-solid fa-xmark"></i>
+                                    @endif
                                 </button>
 
                                 <a href="{{ route('regis2.export-user-pdf', $ag->id) }}" class="btn btn-sm btn-danger" target="_blank">
@@ -304,7 +328,7 @@
             </div>
             @endif
 
-            {{ $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara, 'peran' => $selectedPeran, 'per_page' => $perPage])->links() }}
+            {{ $anggota->appends(['search' => $searchQuery, 'acara' => $selectedAcara, 'peran' => $selectedPeran, 'per_page' => $perPage, 'year' => $selectedYear])->links() }}
 
             <div>
                 <div class="row">

@@ -20,7 +20,7 @@ class KategoriAdminController extends Controller
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             $acara = Acara::where('tipe', 2)->get();
-            $activeAcara = Acara::where('status_acara', 1)->first();
+            $activeAcara = Acara::where('status_acara', 1)->where('tipe', 2)->first();
 
             $query = Kategori::query();
 
@@ -30,7 +30,7 @@ class KategoriAdminController extends Controller
             } else {
                 // Apply default condition to filter by status_acara
                 $query->whereHas('acara', function ($subQuery) {
-                    $subQuery->where('status_acara', 1);
+                    $subQuery->where('status_acara', 1)->where('tipe', 2);
                 });
             }
 
