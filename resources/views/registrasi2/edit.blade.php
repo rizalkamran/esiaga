@@ -31,7 +31,7 @@
 
             <!-- Mandat File Upload -->
             <div class="mb-3">
-                <label for="mandat" class="form-label">Mandat File (PDF)</label>
+                <label for="mandat" class="form-label">Mandat File (Image)</label>
                 <input type="file" class="form-control form-control-sm" id="mandat" name="mandat">
             </div>
 

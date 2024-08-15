@@ -10,7 +10,7 @@
 
             @can('logged-in')
                 <div class="row mb-3">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             @can('is-admin')
                                 <a class="btn btn-primary" href="{{ route('kehadiran2.create') }}">Buat</a>
@@ -30,10 +30,25 @@
                                 </div>
                             </form>
                         </div>
-
                     </div>
 
-                    <div class="col-md-9">
+                    <div class="col-md-8">
+                        <div class="float-end">
+                            <form method="GET" action="{{ route('kehadiran2.index') }}" class="d-flex">
+                                <div class="form-group">
+                                    <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                    <input type="text" name="cabor" id="cabor" class="form-control form-control-sm" placeholder="Cari ..." value="{{ $selectedCabor ?? '' }}">
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary ms-2">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-12">
                         <div class="float-end">
                             <form action="{{ route('absen2.export-pdf') }}" method="get" target="_blank"
                                 style="display: inline-flex; align-items: center;">
@@ -63,40 +78,49 @@
                 </div>
 
                 <div class="row mb-3">
-                    <div class="col-md-4">
-                        <form method="GET" action="{{ route('kehadiran2.index') }}" class="d-flex">
-                            <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <form action="{{ route('kehadiran2.index') }}" method="GET" class="me-2">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
-                                <input type="text" name="cabor" id="cabor" class="form-control form-control-sm" placeholder="Cari ..." value="{{ $selectedCabor ?? '' }}">
-                            </div>
-                            <button type="submit" class="btn btn-sm btn-primary ms-2">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </button>
-                        </form>
-                    </div>
+                                <select class="form-control form-control-sm" id="year" name="year" onchange="this.form.submit()">
+                                    <option value="" selected>Pilih Tahun</option>
+                                    @foreach(range(date('Y'), 2022) as $year)
+                                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
 
-                    <div class="col-md-8">
-                        <div class="float-end">
                             <form method="GET" action="{{ route('kehadiran2.index') }}" class="d-flex">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
-                                <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
+                                <input type="hidden" name="year" value="{{ $selectedYear }}"> <!-- Keep the selected year -->
+                                <select name="acara_id" class="form-control form-control-sm">
                                     <option selected disabled>Pilih Acara</option>
                                     @foreach ($acara as $ac)
                                         <option value="{{ $ac->id }}">
-                                            {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
+                                            {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}
+                                        </option>
                                     @endforeach
                                 </select>
-                                <select name="sesi" id="sesi_filter" class="form-control form-control-sm">
+                                <select name="sesi" class="form-control form-control-sm">
                                     <option selected disabled>Filter per sesi</option>
                                     <option value="">Semua Sesi</option>
                                     @foreach ($sesiOptions as $sesi)
-                                        <option value="{{ $sesi->id }}"
-                                            {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
+                                        <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
                                             {{ $sesi->sesi }}
                                         </option>
                                     @endforeach
                                 </select>
-                                <button type="submit" class="btn btn-sm btn-primary ms-2">
+                                <select name="cabor" class="form-control form-control-sm me-2">
+                                    <option selected disabled>Pilih Cabor</option>
+                                    @foreach ($caborOptions as $cabor)
+                                        <option value="{{ $cabor->nama_cabor }}" {{ $cabor->nama_cabor == $selectedCabor ? 'selected' : '' }}>
+                                            {{ $cabor->nama_cabor }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                             </form>

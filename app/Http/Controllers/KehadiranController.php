@@ -25,21 +25,33 @@ class KehadiranController extends Controller
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             $caborOptions = ReffCabor::all();
+            $selectedYear = $request->input('year'); // Retrieve the selected year from the request
 
-            // Get all acara with tipe 1
-            $acara = Acara::where('tipe', 1)->get();
+            // Filter Acara by year if a year is selected, and ensure tipe = 1
+            $acaraQuery = Acara::where('tipe', 1);
+            if ($selectedYear) {
+                $acaraQuery->where(function($query) use ($selectedYear) {
+                    $query->whereYear('tanggal_awal_acara', $selectedYear)
+                        ->orWhereYear('tanggal_akhir_acara', $selectedYear); // Assuming 'tanggal_awal_acara' and 'tanggal_akhir_acara' are the event date fields
+                });
+            }
+            $acara = $acaraQuery->get();
 
-            // Filter sesi_acara based on acara with tipe 1
-            $sesiOptions = SesiAcara::whereHas('acara', function ($query) {
+            // Filter SesiAcara based on the filtered acara and ensure tipe = 1
+            $sesiOptions = SesiAcara::whereHas('acara', function ($query) use ($selectedYear) {
                 $query->where('tipe', 1);
+                if ($selectedYear) {
+                    $query->where(function($subQuery) use ($selectedYear) {
+                        $subQuery->whereYear('tanggal_awal_acara', $selectedYear)
+                                ->orWhereYear('tanggal_akhir_acara', $selectedYear);
+                    });
+                }
             })->get();
 
-            // Retrieve the selected session and cabor from the request
             $selectedSesi = $request->input('sesi');
             $selectedCabor = $request->input('cabor');
             $perPage = $request->input('per_page', 50);
 
-            // Create base query
             $query = AnggotaKehadiranRegistrasi::query();
 
             // Order by the newest date (created_at) first
@@ -49,7 +61,7 @@ class KehadiranController extends Controller
             if ($selectedSesi) {
                 $query->where('sesi_acara_id', $selectedSesi);
             } else {
-                // Get the first session of the active event (where status_acara is 1)
+                // Get the first session of the active event (where status_acara is 1 and tipe = 1)
                 $activeEvent = Acara::where('status_acara', 1)->where('tipe', 1)->first();
                 if ($activeEvent) {
                     $firstSession = $activeEvent->sesiAcara()->orderBy('created_at', 'asc')->first();
@@ -69,12 +81,10 @@ class KehadiranController extends Controller
                 });
             }
 
-            // Paginate the results
             $kehadiran = $query->paginate($perPage);
 
             $sesiAcara = SesiAcara::all();
 
-            // Return the view with data and options
             return view('kehadiran.index', [
                 'kehadiran' => $kehadiran,
                 'sesiOptions' => $sesiOptions,
@@ -83,14 +93,13 @@ class KehadiranController extends Controller
                 'caborOptions' => $caborOptions,
                 'acara' => $acara,
                 'sesiAcara' => $sesiAcara,
+                'selectedYear' => $selectedYear, // Pass the selected year to the view
                 'perPage' => $perPage,
             ]);
         }
 
-        // If the user is not authorized, return a 403 Forbidden error
         abort(403, 'Unauthorized action');
     }
-
 
 
     /**

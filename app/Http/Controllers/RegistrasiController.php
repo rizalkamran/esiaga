@@ -26,17 +26,26 @@ class RegistrasiController extends Controller
     {
         // Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
-        $acaraOptions = Acara::where('tipe', 1)->get();
-        $caborOptions = ReffCabor::all();
-        $peranOptions = ReffPeran::all();
 
-        // Retrieve the selected acara, cabor, nama_peran, and search query from the request
+        // Retrieve the selected filters from the request
         $userId = $request->input('user_id');
         $selectedAcara = $request->input('acara');
         $selectedCabor = $request->input('cabor');
-        $selectedPeran = $request->input('peran'); // New input for nama_peran filter
+        $selectedPeran = $request->input('peran');
         $searchQuery = $request->input('search');
+        $selectedYear = $request->input('year');
         $perPage = $request->input('per_page', 50);
+
+        // Filter acaraOptions by selected year and tipe if provided
+        $acaraOptions = Acara::where(function($query) use ($selectedYear) {
+            if ($selectedYear) {
+                $query->whereYear('tanggal_awal_acara', $selectedYear)
+                    ->orWhereYear('tanggal_akhir_acara', $selectedYear);
+            }
+        })->where('tipe', 1)->get();
+
+        $caborOptions = ReffCabor::all();
+        $peranOptions = ReffPeran::all();
 
         if ($userId) {
             $query->where('user_id', $userId);
@@ -103,11 +112,12 @@ class RegistrasiController extends Controller
             'anggota' => $anggota,
             'acaraOptions' => $acaraOptions,
             'caborOptions' => $caborOptions,
-            'peranOptions' => $peranOptions, // Add peranOptions here
+            'peranOptions' => $peranOptions,
             'selectedAcara' => $selectedAcara,
             'selectedCabor' => $selectedCabor,
-            'selectedPeran' => $selectedPeran, // Pass selectedPeran to the view
+            'selectedPeran' => $selectedPeran,
             'searchQuery' => $searchQuery,
+            'selectedYear' => $selectedYear, // Pass selectedYear to the view
             'totalFoto' => $totalFoto,
             'totalKTP' => $totalKTP,
             'totalNPWP' => $totalNPWP,
@@ -240,7 +250,7 @@ class RegistrasiController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'mandat' => 'nullable|file|max:2048',
+            'mandat' => 'nullable|file|image|max:2048',
             // Add other validation rules as needed
         ]);
 
@@ -292,12 +302,22 @@ class RegistrasiController extends Controller
     public function exportPDF(Request $request)
     {
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
-            // Retrieve the 'acara' and 'peran' parameters from the request
             $selectedAcara = $request->input('acara');
-            $selectedPeran = $request->input('peran'); // New input for peran_id filter
+            $selectedPeran = $request->input('peran');
+            $selectedYear = $request->input('year');
 
             // Build your query based on conditions
             $query = AnggotaAcaraRegistrasi::query();
+
+            // Filter acaraOptions by selected year if provided
+            $acaraOptions = Acara::where('tipe', 1);
+
+            if ($selectedYear) {
+                $acaraOptions->whereYear('tanggal_awal_acara', $selectedYear)
+                            ->orWhereYear('tanggal_akhir_acara', $selectedYear);
+            }
+
+            $acaraOptions = $acaraOptions->get();
 
             // Apply the condition for 'acara_id'
             if ($selectedAcara) {
@@ -312,20 +332,18 @@ class RegistrasiController extends Controller
             // Fetch data from the database based on the query
             $anggota = $query->get();
 
-            // Pass $selectedAcara and $selectedPeran to the view along with $anggota
             $viewData = [
                 'anggota' => $anggota,
+                'acaraOptions' => $acaraOptions,
                 'selectedAcara' => $selectedAcara,
                 'selectedPeran' => $selectedPeran,
+                'selectedYear' => $selectedYear,
             ];
 
-            // Load the view and pass data to it, including the QR code URL and image
+            // Load the view and pass data to it
             $pdf = PDF::loadView('registrasi.export-pdf', $viewData);
-
-            // Set paper orientation to landscape
             $pdf->setPaper('a4', 'landscape');
 
-            // Stream the PDF to the browser
             return $pdf->stream('registrasi_pelatihan.pdf');
         }
 

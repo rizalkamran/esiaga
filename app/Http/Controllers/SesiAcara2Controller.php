@@ -50,7 +50,7 @@ class SesiAcara2Controller extends Controller
     public function create()
     {
         if (Gate::allows('is-admin')) {
-            $acara = Acara::all();
+            $acara = Acara::where('tipe', 2)->get();
 
             return view('sesi_acara2.create', [
                 'acara' => $acara,

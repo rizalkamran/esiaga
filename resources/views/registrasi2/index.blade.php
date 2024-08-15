@@ -10,7 +10,7 @@
 
             @can('is-admin')
                 <div class="row mb-3">
-                    <div class="col-md-5">
+                    <div class="col-md-12">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             <a class="btn btn-primary" href="{{ route('registrasi2.create') }}">Create</a>
                             <a class="btn btn-secondary me-2" href="{{ route('registrasi2.index') }}">Reset</a>
@@ -30,31 +30,46 @@
                             </form>
                         </div>
                     </div>
+                </div>
 
-                    <div class="col-md-7">
-                        <div class="float-end">
-                            <form action="{{ route('regis2.export-pdf') }}" method="get" target="_blank" style="display: inline-flex; align-items: center;">
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option value="">All/Semua</option>
-                                        @foreach($acaraOptions as $acaraOption)
-                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
-                                                {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="peran" name="peran">
-                                        <option value="">Pilih Peran</option>
-                                        @foreach($peranOptions as $peranOption)
-                                            <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
-                                                {{ $peranOption->nama_peran }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-danger" style="margin-left: 5px;">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="d-flex align-items-center">
+                            <!-- Text for Print PDF -->
+                            <span class="badge rounded-pill text-bg-info mr-3" style="min-width: 100px; text-align: center;">Print PDF</span>
+
+                            <!-- Year Filter Form -->
+                            <form action="{{ route('registrasi2.index') }}" method="GET" class="d-flex align-items-center mx-2">
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                <select class="form-control form-control-sm" id="year" name="year" onchange="this.form.submit()">
+                                    <option value="" selected>Pilih Tahun</option>
+                                    @foreach(range(date('Y'), 2022) as $year)
+                                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+
+                            <!-- PDF Export Form -->
+                            <form action="{{ route('regis2.export-pdf') }}" method="get" target="_blank" class="d-flex align-items-center mx-2">
+                                <select class="form-control form-control-sm mr-2" id="acara" name="acara">
+                                    <option value="">Pilih Acara</option>
+                                    @foreach($acaraOptions as $acaraOption)
+                                        <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                            {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <select class="form-control form-control-sm mr-2" id="peran" name="peran">
+                                    <option value="">Pilih Peran</option>
+                                    @foreach($peranOptions as $peranOption)
+                                        <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
+                                            {{ $peranOption->nama_peran }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-sm btn-danger">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </button>
                             </form>
@@ -64,33 +79,45 @@
 
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <div class="float-end">
-                            <form action="{{ route('registrasi2.index') }}" method="GET" style="display: inline-flex; align-items: center;">
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <input type="hidden" name="per_page" value="{{ $perPage }}">
-                                    <input type="text" class="form-control form-control-sm" name="search" placeholder="Cari ...">
-                                </div>
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="acara" name="acara">
-                                        <option selected disabled>Pilih Acara</option>
-                                        @foreach($acaraOptions as $acaraOption)
-                                            <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
-                                                {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group mr-2" style="margin-bottom: 0;">
-                                    <select class="form-control form-control-sm" id="peran" name="peran">
-                                        <option value="" selected>Pilih Peran</option>
-                                        @foreach($peranOptions as $peranOption)
-                                            <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
-                                                {{ $peranOption->nama_peran }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <button type="submit" class="btn btn-sm btn-primary" style="margin-left: 5px;">
+                        <div class="d-flex align-items-center">
+                            <!-- Text for Filter Data -->
+                            <span class="badge rounded-pill text-bg-info mr-3" style="min-width: 100px; text-align: center;">Filter Data</span>
+
+                            <!-- Year Filter Form -->
+                            <form action="{{ route('registrasi2.index') }}" method="GET" class="d-flex align-items-center mx-2">
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                <select class="form-control form-control-sm" id="year" name="year" onchange="this.form.submit()">
+                                    <option value="" selected>Pilih Tahun</option>
+                                    @foreach(range(date('Y'), 2022) as $year)
+                                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+
+                            <!-- Filter Data Form -->
+                            <form action="{{ route('registrasi2.index') }}" method="GET" class="d-flex align-items-center mx-2">
+                                <input type="hidden" name="year" value="{{ request('year') }}"> <!-- Preserve selected year -->
+                                <select class="form-control form-control-sm mr-2" id="acara" name="acara">
+                                    <option value="">Pilih Acara</option>
+                                    @foreach($acaraOptions as $acaraOption)
+                                        <option value="{{ $acaraOption->id }}" {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
+                                            {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <select class="form-control form-control-sm mr-2" id="peran" name="peran">
+                                    <option value="">Pilih Peran</option>
+                                    @foreach($peranOptions as $peranOption)
+                                        <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
+                                            {{ $peranOption->nama_peran }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                <input type="text" class="form-control form-control-sm mr-2" name="search" placeholder="Cari ...">
+                                <button type="submit" class="btn btn-sm btn-primary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>
                             </form>
@@ -107,7 +134,7 @@
                         <tr>
                             <th scope="col">Nomor</th>
                             <th scope="col">Nama Lengkap</th>
-                            <th scope="col">Jenis Kelamin</th>
+                            <th scope="col">L/P</th>
                             <th scope="col">Peran</th>
                             <th scope="col">Cabor / Afliliasi</th>
                             <th scope="col">Lampiran</th>
@@ -119,17 +146,19 @@
                         <tr>
                             <td>{{ ($anggota->currentPage() - 1) * $anggota->perPage() + $loop->iteration }}</td>
                             <td>{{ $ag->user->nama_lengkap }}</td>
-                            <td>{{ $ag->user->jenis_kelamin === 'P' ? 'Perempuan' : 'Laki-laki' }}</td>
+                            <td>{{ $ag->user->jenis_kelamin}}</td>
                             <td>{{ $ag->peran?->nama_peran ?? 'Data belum diisi' }}</td>
-                            <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
                             <td>
-                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_diri ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#Modal1{{$ag->id}}">
+                                {{ Illuminate\Support\Str::limit($ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi', 20) }}
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_diri ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#Modal1{{$ag->id}}">
                                     Foto
                                 </button>
-                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_ktp ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#Modal2{{$ag->id}}">
+                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_ktp ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#Modal2{{$ag->id}}">
                                     KTP
                                 </button>
-                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_npwp ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#Modal3{{$ag->id}}">
+                                <button type="button" class="btn btn-sm {{ $ag->user->biodata && $ag->user->biodata->foto_npwp ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#Modal3{{$ag->id}}">
                                     NPWP
                                 </button>
                                 <a href="{{ route('biodata_admin.index', ['user_id' => $ag->user->id]) }}" class="btn btn-sm btn-primary" target="_blank">
@@ -141,7 +170,7 @@
                                 <a href="{{ route('registrasi2.edit', $ag) }}" class="btn btn-sm btn-primary">Upload</a>
 
                                 <!-- Modal Button -->
-                                <button type="button" class="btn btn-sm {{ $ag->mandat ? 'btn-success' : 'btn-secondary' }}" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
+                                <button type="button" class="btn btn-sm {{ $ag->mandat ? 'btn-success' : 'btn-secondary disabled' }}" data-bs-toggle="modal" data-bs-target="#exampleModal{{$ag->id}}">
                                     Lihat
                                 </button>
 

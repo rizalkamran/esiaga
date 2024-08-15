@@ -56,7 +56,7 @@
                     <th>No</th>
                     <th>Nama Lengkap</th>
                     <th>L/P</th>
-                    <th>Afiliasi</th>
+                    {{-- <th>Afiliasi</th> --}}
                     <th>Peran</th>
                     <th>NIK</th>
                     <th>NPWP</th>
@@ -70,8 +70,8 @@
                     <tr>
                         <td>{{ $index + 1 }}</td>
                         <td>{{ $ag->user->nama_lengkap }}</td>
-                        <td>{{ $ag->user->jenis_kelamin === 'P' ? 'P' : 'L' }}</td>
-                        <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td>
+                        <td>{{ $ag->user->jenis_kelamin }}</td>
+                        {{-- <td>{{ $ag->user->biodata?->cabor?->nama_cabor ?? 'Data belum diisi' }}</td> --}}
                         <td>{{ $ag->peran?->nama_peran ?? 'Data belum diisi' }}</td>
                         <td>{{ $ag->user->nomor_ktp }}</td>
                         <td>{{ $ag->user->biodata?->npwp ?? 'Data belum diisi'}}</td>

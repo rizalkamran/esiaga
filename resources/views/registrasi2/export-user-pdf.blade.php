@@ -15,9 +15,9 @@
             font-size: 14px; /* Adjust the font size to make the table smaller */
         }
         th, td {
-            border: 1px solid #000;
             padding: 6px; /* Adjust the padding to make the cells smaller */
             text-align: left;
+            border: none; /* Remove the border */
         }
         th {
             background-color: #f2f2f2;
@@ -27,8 +27,14 @@
         }
         /* Style for larger image */
         .large-image {
-            max-width: 600px; /* Adjust the maximum width as needed */
-            margin: 20px auto; /* Center the image horizontally */
+            max-width: 250px; /* Adjust the maximum width as needed */
+            margin: 0 auto; /* Center the image horizontally */
+            display: block; /* Ensure the image is displayed as a block element */
+        }
+        /* Style for smaller QR Code */
+        .small-qr-code {
+            max-width: 35%; /* Scale QR Code to 75% of its original size */
+            margin: 0 auto; /* Center the image horizontally */
             display: block; /* Ensure the image is displayed as a block element */
         }
     </style>
@@ -65,17 +71,19 @@
         </tbody>
     </table>
 
-     <!-- Mandat -->
-     <div style="text-align: center;">
-        <p>Mandat</p>
-        <img src="{{ asset('mandat/' . $anggota->mandat) }}" class="large-image" alt="Mandat">
-    </div>
-
-    <!-- QR Code Image -->
-    <div style="text-align: center; margin-top: 20px;">
-        <p>QR Code</p>
-        <img src="{{ asset('qrcodes/registrasi/' . $anggota->qrcode_registrasi) }}" class="img-fluid" style="max-width: 300px;">
-    </div>
+    <!-- Mandat and QR Code Images in a Borderless Table -->
+    <table style="width: 100%; margin-top: 20px; border: none;">
+        <tr>
+            <td style="text-align: center; border: none;">
+                <p>Mandat</p>
+                <img src="{{ asset('mandat/' . $anggota->mandat) }}" class="large-image" alt="Mandat">
+            </td>
+            <td style="text-align: center; border: none;">
+                <p>QR Code</p>
+                <img src="{{ asset('qrcodes/registrasi/' . $anggota->qrcode_registrasi) }}" class="small-qr-code" alt="QR Code">
+            </td>
+        </tr>
+    </table>
 
     @else
     <h4>No Registrasi Data Found</h4>
