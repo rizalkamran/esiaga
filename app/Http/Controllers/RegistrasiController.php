@@ -24,25 +24,21 @@ class RegistrasiController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with the base query
         $query = AnggotaAcaraRegistrasi::query();
         $activeAcara = Acara::where('status_acara', 1)->where('tipe', 1)->first();
 
-        // Retrieve the selected filters from the request
         $userId = $request->input('user_id');
-        $selectedAcara = $request->input('acara');
+        $selectedAcara = $request->input('acara', $activeAcara ? $activeAcara->id : null);
         $selectedCabor = $request->input('cabor');
         $selectedPeran = $request->input('peran');
         $searchQuery = $request->input('search');
         $selectedYear = $request->input('year');
         $perPage = $request->input('per_page', 50);
 
-        // If no year is selected, set the year based on the activeAcara
         if (!$selectedYear && $activeAcara) {
             $selectedYear = $activeAcara->tanggal_awal_acara ? date('Y', strtotime($activeAcara->tanggal_awal_acara)) : null;
         }
 
-        // Filter acaraOptions by selected year and tipe if provided
         $acaraOptions = Acara::where(function($query) use ($selectedYear) {
             if ($selectedYear) {
                 $query->whereYear('tanggal_awal_acara', $selectedYear)
@@ -57,28 +53,24 @@ class RegistrasiController extends Controller
             $query->where('user_id', $userId);
         }
 
-        // Filter by acara if selected
         if ($selectedAcara) {
             $query->whereHas('acara', function ($q) use ($selectedAcara) {
                 $q->where('id', $selectedAcara);
             });
         }
 
-        // Filter by cabor if selected
         if ($selectedCabor) {
             $query->whereHas('user.biodata.cabor', function ($q) use ($selectedCabor) {
                 $q->where('nama_cabor', 'like', '%' . $selectedCabor . '%');
             });
         }
 
-        // Filter by nama_peran if selected
         if ($selectedPeran) {
             $query->whereHas('peran', function ($q) use ($selectedPeran) {
                 $q->where('id', $selectedPeran);
             });
         }
 
-        // Filter by search query
         if ($searchQuery) {
             $query->whereHas('user', function ($q) use ($searchQuery) {
                 $q->where('nama_lengkap', 'like', '%' . $searchQuery . '%')
@@ -90,7 +82,6 @@ class RegistrasiController extends Controller
             });
         }
 
-        // If no search query and acara/cabor filters, apply only status_acara filter
         if (!$searchQuery && !$selectedAcara && !$selectedCabor) {
             $query->whereHas('acara', function ($subQuery) use ($selectedYear) {
                 $subQuery->where('status_acara', 1)
@@ -101,10 +92,8 @@ class RegistrasiController extends Controller
 
         $anggota = $query->paginate($perPage);
 
-        // Duplicate the query to apply filters for counting
         $countQuery = clone $query;
 
-        // Calculate the total counts based on the filtered query
         $totalFoto = $countQuery->whereHas('user.biodata', function ($q) {
             $q->whereNotNull('foto_diri');
         })->count();
@@ -117,7 +106,6 @@ class RegistrasiController extends Controller
             $q->whereNotNull('foto_npwp');
         })->count();
 
-        // Return the view with data and options
         return view('registrasi.index', [
             'anggota' => $anggota,
             'acaraOptions' => $acaraOptions,
@@ -127,7 +115,7 @@ class RegistrasiController extends Controller
             'selectedCabor' => $selectedCabor,
             'selectedPeran' => $selectedPeran,
             'searchQuery' => $searchQuery,
-            'selectedYear' => $selectedYear, // Pass selectedYear to the view
+            'selectedYear' => $selectedYear,
             'totalFoto' => $totalFoto,
             'totalKTP' => $totalKTP,
             'totalNPWP' => $totalNPWP,

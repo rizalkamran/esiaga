@@ -10,7 +10,7 @@
 
             @can('logged-in')
                 <div class="row mb-3">
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                             @can('is-admin')
                                 <a class="btn btn-primary" href="{{ route('kehadiran.create') }}">Buat</a>
@@ -32,7 +32,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-8">
+                    {{-- <div class="col-md-8">
                         <div class="float-end">
                             <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
                                 <div class="form-group">
@@ -44,24 +44,40 @@
                                 </button>
                             </form>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <div class="float-end">
+                        <div class="float-start">
+
+                            <!-- Text for Print PDF -->
+                            <span class="badge rounded-pill text-bg-info me-1" style="min-width: 100px; text-align: center;">Print PDF</span>
+
+                            <form action="{{ route('kehadiran.index') }}" method="get" style="display: inline-flex; align-items: center;">
+                                <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                <select class="form-control form-control-sm me-2" id="year" name="year" onchange="this.form.submit()">
+                                    <option value="" selected>Pilih Tahun</option>
+                                    @foreach(range(date('Y'), 2022) as $year)
+                                        <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                            {{ $year }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+
                             <form action="{{ route('absen.export-pdf') }}" method="get" target="_blank"
                                 style="display: inline-flex; align-items: center;">
                                 <select name="acara_id" class="form-control form-control-sm" id="acara_id_export">
                                     <option selected disabled>Pilih Acara</option>
                                     @foreach ($acara as $ac)
-                                        <option value="{{ $ac->id }}">
-                                            {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}</option>
+                                        <option value="{{ $ac->id }}" {{ $ac->id == $selectedAcara ? 'selected' : '' }}>
+                                            {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}
+                                        </option>
                                     @endforeach
                                 </select>
                                 <select name="sesi" id="sesi_export" class="form-control form-control-sm">
                                     <option selected disabled>Filter per sesi</option>
-                                    <option value="">Semua Sesi</option>
                                     <!-- Populate session options -->
                                     @foreach ($sesiOptions as $sesi)
                                         <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
@@ -79,10 +95,13 @@
 
                 <div class="row mb-3">
                     <div class="col-md-12">
-                        <div class="d-flex justify-content-end align-items-center">
+                        <div class="d-flex justify-content-start align-items-center">
+                            <!-- Text for Print PDF -->
+                            <span class="badge rounded-pill text-bg-info me-2" style="min-width: 100px; text-align: center;">Filter Data</span>
+
                             <form action="{{ route('kehadiran.index') }}" method="GET" class="me-2">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
-                                <select class="form-control form-control-sm" id="year" name="year" onchange="this.form.submit()">
+                                <select class="form-control form-control-sm me-1" id="year" name="year" onchange="this.form.submit()">
                                     <option value="" selected>Pilih Tahun</option>
                                     @foreach(range(date('Y'), 2022) as $year)
                                         <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
@@ -95,17 +114,17 @@
                             <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="hidden" name="year" value="{{ $selectedYear }}"> <!-- Keep the selected year -->
-                                <select name="acara_id" class="form-control form-control-sm">
+                                <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
                                     <option selected disabled>Pilih Acara</option>
                                     @foreach ($acara as $ac)
-                                        <option value="{{ $ac->id }}">
+                                        <option value="{{ $ac->id }}" {{ $ac->id == $selectedAcara ? 'selected' : '' }}>
                                             {{ Illuminate\Support\Str::limit($ac->nama_acara, 30) }}
                                         </option>
                                     @endforeach
                                 </select>
-                                <select name="sesi" class="form-control form-control-sm">
+                                <select name="sesi" id="sesi_filter" class="form-control form-control-sm">
                                     <option selected disabled>Filter per sesi</option>
-                                    <option value="">Semua Sesi</option>
+                                    <!-- Populate session options -->
                                     @foreach ($sesiOptions as $sesi)
                                         <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
                                             {{ $sesi->sesi }}
@@ -128,6 +147,22 @@
                     </div>
                 </div>
             @endcan
+
+            <!-- Display dynamic header alert -->
+            @if ($headerAcara || $headerSesi || isset($defaultYear))
+            <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                @if (isset($defaultYear))
+                    <small>{{ $defaultYear }},</small>
+                @endif
+                @if ($headerAcara)
+                    <small>{{ $headerAcara->nama_acara }},</small>
+                @endif
+                @if ($headerSesi)
+                    <small>{{ $headerSesi->sesi }},</small>
+                @endif
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            @endif
 
             <!-- Table to display absence data -->
             @if (!$kehadiran->isEmpty())
@@ -169,7 +204,7 @@
             @endif
 
             <!-- Pagination Links -->
-            {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor, 'per_page' => $perPage])->links() }}
+            {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor, 'per_page' => $perPage, 'year' => $selectedYear])->links() }}
 
             <div>
                 <div class="row">
@@ -234,37 +269,6 @@
             @endforeach
         });
     </script>
-
-
-    {{-- <script>
-        // Initialize Laravel Echo
-        const echo = new Echo({
-            broadcaster: 'pusher',
-            key: '{{ env("PUSHER_APP_KEY") }}',
-            cluster: '{{ env("PUSHER_APP_CLUSTER") }}',
-            encrypted: true,
-        });
-
-        // Listen for events
-        echo.channel('absence-channel')
-            .listen('.AbsenceSubmitted', (event) => {
-                // Update UI with updatedData from the event
-                // For example, you can append new absence data to the absence table
-                console.log(event.updatedData); // You can use this data to update your UI
-
-                // Assuming 'event.updatedData' contains the new absence data
-                // You can append a new row to the absence table
-                const newAbsenceData = event.updatedData;
-                const tableBody = document.querySelector('#absence-table tbody');
-                const newRow = document.createElement('tr');
-                newRow.innerHTML = `
-                    <td>${newAbsenceData.name}</td>
-                    <td>${newAbsenceData.date}</td>
-                    <!-- Add more cells as needed -->
-                `;
-                tableBody.appendChild(newRow);
-            });
-    </script> --}}
 
     @include('templates.footer')
 @endsection

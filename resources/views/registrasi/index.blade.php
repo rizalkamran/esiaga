@@ -56,7 +56,8 @@
                                 <select class="form-control form-control-sm mr-2" id="acara" name="acara">
                                     <option value="">Pilih Acara</option>
                                     @foreach($acaraOptions as $acaraOption)
-                                        <option value="{{ $acaraOption->id }}" {{ request('acara_id', $activeAcara->id ?? '') == $acaraOption->id ? 'selected' : '' }}>
+                                        <option value="{{ $acaraOption->id }}"
+                                                {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
                                             {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
                                         </option>
                                     @endforeach
@@ -102,7 +103,8 @@
                                 <select class="form-control form-control-sm mr-2" id="acara" name="acara">
                                     <option value="">Pilih Acara</option>
                                     @foreach($acaraOptions as $acaraOption)
-                                        <option value="{{ $acaraOption->id }}" {{ request('acara_id', $activeAcara->id ?? '') == $acaraOption->id ? 'selected' : '' }}>
+                                        <option value="{{ $acaraOption->id }}"
+                                                {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
                                             {{ Illuminate\Support\Str::limit($acaraOption->nama_acara, 35) }}
                                         </option>
                                     @endforeach

@@ -27,19 +27,23 @@ class Kehadiran2Controller extends Controller
         if (Gate::allows('is-admin') || Gate::allows('is-staf')) {
             $caborOptions = ReffCabor::all();
             $selectedYear = $request->input('year'); // Retrieve the selected year from the request
+            $selectedAcara = $request->input('acara_id'); // Retrieve the selected acara_id
+            $selectedSesi = $request->input('sesi');
+            $selectedCabor = $request->input('cabor');
+            $perPage = $request->input('per_page', 50);
 
             // Filter Acara by year if a year is selected, and ensure tipe = 1
             $acaraQuery = Acara::where('tipe', 2);
             if ($selectedYear) {
                 $acaraQuery->where(function($query) use ($selectedYear) {
                     $query->whereYear('tanggal_awal_acara', $selectedYear)
-                        ->orWhereYear('tanggal_akhir_acara', $selectedYear); // Assuming 'tanggal_awal_acara' and 'tanggal_akhir_acara' are the event date fields
+                        ->orWhereYear('tanggal_akhir_acara', $selectedYear);
                 });
             }
             $acara = $acaraQuery->get();
 
             // Filter SesiAcara based on the filtered acara and ensure tipe = 1
-            $sesiOptions = SesiAcara::whereHas('acara', function ($query) use ($selectedYear) {
+            $sesiOptions = SesiAcara::whereHas('acara', function ($query) use ($selectedYear, $selectedAcara) {
                 $query->where('tipe', 2);
                 if ($selectedYear) {
                     $query->where(function($subQuery) use ($selectedYear) {
@@ -47,11 +51,11 @@ class Kehadiran2Controller extends Controller
                                 ->orWhereYear('tanggal_akhir_acara', $selectedYear);
                     });
                 }
+                // Filter by selectedAcara if provided
+                if ($selectedAcara) {
+                    $query->where('id', $selectedAcara);
+                }
             })->get();
-
-            $selectedSesi = $request->input('sesi');
-            $selectedCabor = $request->input('cabor');
-            $perPage = $request->input('per_page', 50);
 
             $query = AnggotaKehadiranRegistrasi::query();
 
@@ -82,6 +86,60 @@ class Kehadiran2Controller extends Controller
                 });
             }
 
+            // Retrieve the selected event and session details for the header
+            // Determine the default year (you can set this based on your rules)
+            $defaultYear = $request->input('year', date('Y'));
+
+            // Fetch default acara based on the year
+            $headerAcara = Acara::whereYear('tanggal_awal_acara', $defaultYear)
+                                ->where('status_acara', 1)
+                                ->where('tipe', 2)
+                                ->first();
+
+            // Determine the default year (you can set this based on your rules)
+            $defaultYear = $request->input('year', date('Y'));
+
+            // Fetch the first active acara, regardless of the year, for default view
+            $headerAcara = Acara::where('status_acara', 1)
+                                ->where('tipe', 2)
+                                ->orderBy('tanggal_awal_acara', 'desc') // Get the latest active event
+                                ->first();
+
+            // Determine the default year (you can set this based on your rules)
+            $defaultYear = $request->input('year', date('Y'));
+
+            // Fetch the first active acara, regardless of the year, for default view
+            $headerAcara = Acara::where('status_acara', 1)
+                                ->where('tipe', 2)
+                                ->orderBy('tanggal_awal_acara', 'desc') // Get the latest active event
+                                ->first();
+
+            // If an active acara is found, update the defaultYear to match the event's year
+            if ($headerAcara) {
+                $defaultYear = date('Y', strtotime($headerAcara->tanggal_awal_acara));
+            }
+
+            // If no active acara found, fallback to the default year logic
+            if (!$headerAcara) {
+                $headerAcara = Acara::whereYear('tanggal_awal_acara', $defaultYear)
+                                    ->where('status_acara', 1)
+                                    ->where('tipe', 2)
+                                    ->first();
+            }
+
+            // Fetch default sesi based on the acara
+            $headerSesi = $headerAcara ? SesiAcara::where('acara_id', $headerAcara->id)->first() : null;
+
+            if ($selectedAcara) {
+                $headerAcara = Acara::find($selectedAcara);
+                // Update defaultYear based on the selected Acara
+                $defaultYear = date('Y', strtotime($headerAcara->tanggal_awal_acara));
+            }
+
+            if ($selectedSesi) {
+                $headerSesi = SesiAcara::find($selectedSesi);
+            }
+
             $kehadiran = $query->paginate($perPage);
 
             $sesiAcara = SesiAcara::all();
@@ -95,7 +153,11 @@ class Kehadiran2Controller extends Controller
                 'acara' => $acara,
                 'sesiAcara' => $sesiAcara,
                 'selectedYear' => $selectedYear, // Pass the selected year to the view
+                'selectedAcara' => $selectedAcara, // Pass the selected acara to the view
                 'perPage' => $perPage,
+                'defaultYear' => $defaultYear, // Pass the updated defaultYear to the view
+                'headerAcara' => $headerAcara,
+                'headerSesi' => $headerSesi,
             ]);
         }
 

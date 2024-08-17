@@ -31,7 +31,7 @@ class Registrasi2Controller extends Controller
 
         // Retrieve the selected filters from the request
         $userId = $request->input('user_id');
-        $selectedAcara = $request->input('acara');
+        $selectedAcara = $request->input('acara', $activeAcara ? $activeAcara->id : null);
         $selectedCabor = $request->input('cabor');
         $selectedPeran = $request->input('peran');
         $searchQuery = $request->input('search');
@@ -128,7 +128,7 @@ class Registrasi2Controller extends Controller
             'selectedCabor' => $selectedCabor,
             'selectedPeran' => $selectedPeran,
             'searchQuery' => $searchQuery,
-            'selectedYear' => $selectedYear, // Pass selectedYear to the view
+            'selectedYear' => $selectedYear,
             'totalFoto' => $totalFoto,
             'totalKTP' => $totalKTP,
             'totalNPWP' => $totalNPWP,
