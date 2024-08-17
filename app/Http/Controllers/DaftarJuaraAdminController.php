@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Acara;
 use App\Models\Kategori;
 use App\Models\User;
+use App\Models\ReffPemenang;
 use PDF;
 
 class DaftarJuaraAdminController extends Controller
@@ -47,6 +48,11 @@ class DaftarJuaraAdminController extends Controller
                 });
             }
 
+            if ($request->has('kategori_id') && $request->kategori_id != '') {
+                // Apply filter by kategori_id
+                $query->where('kategori_id', $request->kategori_id);
+            }
+
             $daftarjuara = $query->paginate(25);
 
             return view('daftar_juara.index', [
@@ -61,6 +67,12 @@ class DaftarJuaraAdminController extends Controller
         abort(403, 'Unauthorized action');
     }
 
+    public function getKategori($acara_id)
+    {
+        $kategori = Kategori::where('acara_id', $acara_id)->get();
+        return response()->json($kategori);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -72,12 +84,14 @@ class DaftarJuaraAdminController extends Controller
 
         // Retrieve all Kategori to populate dropdown/select
         $kategori = Kategori::all();
+        $reff = ReffPemenang::all();
         $acara = Acara::where('tipe', 2)->get();
 
         return view('daftar_juara.create', [
             'users' => $users,
             'kategori' => $kategori,
             'acara' => $acara,
+            'reff' => $reff,
         ]);
     }
 

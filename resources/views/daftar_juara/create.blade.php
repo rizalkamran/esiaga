@@ -56,15 +56,12 @@
                     </select>
                 </div>
                 <div class="col-md-6">
-                    <label for="status_juara" class="form-label">Status</label>
+                    <label for="status_juara" class="form-label">Status Juara</label>
                         <select class="form-select" aria-label="Small select example" name="status_juara">
-                            <option selected disabled>Pilih Juara</option>
-                            <option value="Juara 1" {{ old('status_juara') == 'Juara 1' ? 'selected' : '' }}>Juara 1</option>
-                            <option value="Juara 2" {{ old('status_juara') == 'Juara 2' ? 'selected' : '' }}>Juara 2</option>
-                            <option value="Juara 3" {{ old('status_juara') == 'Juara 3' ? 'selected' : '' }}>Juara 3</option>
-                            <option value="Harapan 1" {{ old('status_juara') == 'Harapan 1' ? 'selected' : '' }}>Harapan 1</option>
-                            <option value="Harapan 2" {{ old('status_juara') == 'Harapan 2' ? 'selected' : '' }}>Harapan 2</option>
-                            <option value="Harapan 3" {{ old('status_juara') == 'Harapan 3' ? 'selected' : '' }}>Harapan 3</option>
+                            <option selected disabled>Pilih</option>
+                            @foreach($reff as $r)
+                                <option value="{{ $r->deskripsi }}">{{ $r->deskripsi }}</option>
+                            @endforeach
                         </select>
                 </div>
             </div>

@@ -44,6 +44,11 @@ class DaftarAtlitController extends Controller
                 });
             }
 
+            if ($request->has('kategori_id') && $request->kategori_id != '') {
+                // Apply filter by kategori_id
+                $query->where('kategori_id', $request->kategori_id);
+            }
+
             $daftaratlit = $query->paginate(25);
 
             return view('daftar_atlit.index', [
@@ -54,6 +59,12 @@ class DaftarAtlitController extends Controller
         }
 
         abort(403, 'Unauthorized action');
+    }
+
+    public function getKategori($acara_id)
+    {
+        $kategori = Kategori::where('acara_id', $acara_id)->get();
+        return response()->json($kategori);
     }
 
     /**
