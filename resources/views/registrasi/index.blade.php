@@ -12,7 +12,7 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                            <a class="btn btn-primary" href="{{ route('registrasi.create') }}">Create</a>
+                            <a class="btn btn-primary" href="{{ route('registrasi.create', request()->query()) }}">Create</a>
                             <a class="btn btn-secondary me-2" href="{{ route('registrasi.index') }}">Reset</a>
 
                             <form action="{{ route('registrasi.index') }}" method="GET" style="display: inline-flex; align-items: center;">

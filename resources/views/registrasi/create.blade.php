@@ -62,7 +62,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary btn-sm mt-3">Create</button>
-            <a href="{{ route('registrasi.index') }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
+            <a href="{{ route('registrasi.index', request()->query()) }}" class="btn btn-secondary btn-sm mt-3">Cancel</a>
         </form>
     </div>
 </div>

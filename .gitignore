@@ -1,6 +1,7 @@
 /node_modules
 /public/hot
 /public/biodata/*
+/public/dokumentasi
 /public/lisensi/*
 /public/foto_ijazah/*
 /public/foto_lisensi/*

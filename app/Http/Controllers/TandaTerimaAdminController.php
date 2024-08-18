@@ -23,12 +23,14 @@ class TandaTerimaAdminController extends Controller
     {
         if (Gate::allows('is-admin')) {
             $tandaterima = TandaTerima::paginate(25);
-            $acaraOptions = Acara::all();
+            $acaraOptions = Acara::where('tipe', 1)->get();
             $selectedAcara = $request->input('acara');
+            $activeAcara = Acara::where('status_acara', 1)->where('tipe', 1)->first();
             return view('tanda_terima.index', [
                 'tandaterima' => $tandaterima,
                 'acaraOptions' => $acaraOptions,
                 'selectedAcara' => $selectedAcara,
+                'activeAcara' => $activeAcara
             ]);
         }
 

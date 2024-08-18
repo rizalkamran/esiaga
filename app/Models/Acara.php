@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SesiAcara;
 use App\Models\TandaTerima;
 use App\Models\Kategori;
+use App\Models\Galeri;
 
 class Acara extends Model
 {
@@ -59,6 +60,11 @@ class Acara extends Model
     public function kategori()
     {
         return $this->hasMany(Kategori::class, 'acara_id');
+    }
+
+    public function galeri()
+    {
+        return $this->hasMany(Galeri::class, 'acara_id');
     }
 
     // Add a cast for the 'status_acara' attribute to ensure it is treated as an integer

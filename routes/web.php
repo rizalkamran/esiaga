@@ -37,6 +37,7 @@ use App\Http\Controllers\TandaTerimaAdminController;
 use App\Http\Controllers\KategoriAdminController;
 use App\Http\Controllers\DaftarJuaraAdminController;
 use App\Http\Controllers\DaftarAtlitController;
+use App\Http\Controllers\GaleriAdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
@@ -268,6 +269,9 @@ Route::get('/export-pdf-juara', [DaftarJuaraAdminController::class, 'exportPDF']
 Route::resource('/daftar_atlit', DaftarAtlitController::class);
 Route::get('/daftar_atlit', [DaftarAtlitController::class, 'index'])->name('daftar_atlit.index');
 Route::get('/get-kategori/{acara_id}', [DaftarAtlitController::class, 'getKategori'])->name('get.kategori');
+
+// daftar_atlit
+Route::resource('/galeri', GaleriAdminController::class);
 
 //Referensi
 Route::resource('cabor', ReffCaborController::class);

@@ -153,11 +153,11 @@
                                 </a>
                             </div>
                             <div class="col-md-4">
-                                <a href="#">
-                                    <img src="{{ asset('icon/construct.png') }}" style="width:20%;border:none;"
+                                <a href="{{ route('galeri.index') }}">
+                                    <img src="{{ asset('icon/galery.png') }}" style="width:20%;border:none;"
                                         class="img-thumbnail">
                                     <p class="card-text text-wrap" style="font-weight:bold;color:#0356b6;">
-                                        Menu belum tersedia
+                                        Dokumentasi Acara
                                     </p>
                                 </a>
                             </div>

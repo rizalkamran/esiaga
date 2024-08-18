@@ -140,6 +140,7 @@
                                 @endcan
                                 <li><a class="dropdown-item" href="{{ route('kehadiran.index') }}">Data Kehadiran Peserta</a></li>
                                 <li><a class="dropdown-item" href="{{ route('tanda_terima.index') }}">Data Tanda Terima</a></li>
+                                <li><a class="dropdown-item" href="{{ route('galeri.index') }}">Galeri Acara</a></li>
                             </ul>
                         </li>
                         @endcan
