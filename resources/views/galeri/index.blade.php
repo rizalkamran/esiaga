@@ -78,7 +78,7 @@
         @else
             <div class="alert alert-danger" role="alert">
                 <h4 class="alert-heading">Peringatan</h4>
-                <p>Tidak ada data registrasi peserta</p>
+                <p>Tidak ada data</p>
             </div>
         @endif
 

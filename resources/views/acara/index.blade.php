@@ -21,7 +21,7 @@
                             <div class="input-group">
                                 <select name="year" class="form-select form-select-sm">
                                     <option value="">Pilih Tahun</option>
-                                    @foreach(range(date('Y'), 2020) as $year)
+                                    @foreach(range(date('Y'), 2022) as $year)
                                         <option value="{{ $year }}" {{ request('year') == $year ? 'selected' : '' }}>{{ $year }}</option>
                                     @endforeach
                                 </select>

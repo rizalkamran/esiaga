@@ -56,6 +56,7 @@
 
                             <form action="{{ route('kehadiran.index') }}" method="get" style="display: inline-flex; align-items: center;">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                <label for="year" class="me-1">Tahun:</label>
                                 <select class="form-control form-control-sm me-2" id="year" name="year" onchange="this.form.submit()">
                                     <option value="" selected>Pilih Tahun</option>
                                     @foreach(range(date('Y'), 2022) as $year)
@@ -68,6 +69,7 @@
 
                             <form action="{{ route('absen.export-pdf') }}" method="get" target="_blank"
                                 style="display: inline-flex; align-items: center;">
+                                <label for="acara" class="me-1" style="min-width: 125px;">Nama Pelatihan:</label>
                                 <select name="acara_id" class="form-control form-control-sm" id="acara_id_export">
                                     <option selected disabled>Pilih Acara</option>
                                     @foreach ($acara as $ac)
@@ -76,7 +78,9 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <select name="sesi" id="sesi_export" class="form-control form-control-sm">
+
+                                <label for="sesi" class="ms-2">Sesi:</label>
+                                <select name="sesi" id="sesi_export" class="form-control form-control-sm ms-1">
                                     <option selected disabled>Filter per sesi</option>
                                     <!-- Populate session options -->
                                     @foreach ($sesiOptions as $sesi)
@@ -96,12 +100,14 @@
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <div class="d-flex justify-content-start align-items-center">
-                            <!-- Text for Print PDF -->
+                            <!-- Text for Filter Data -->
                             <span class="badge rounded-pill text-bg-info me-2" style="min-width: 100px; text-align: center;">Filter Data</span>
 
-                            <form action="{{ route('kehadiran.index') }}" method="GET" class="me-2">
+                            <!-- Year Filter Form -->
+                            <form action="{{ route('kehadiran.index') }}" method="GET" class="d-flex align-items-center me-1">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
-                                <select class="form-control form-control-sm me-1" id="year" name="year" onchange="this.form.submit()">
+                                <label for="year" class="me-1">Tahun:</label>
+                                <select class="form-control form-control-sm me-2" id="year" name="year" onchange="this.form.submit()">
                                     <option value="" selected>Pilih Tahun</option>
                                     @foreach(range(date('Y'), 2022) as $year)
                                         <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
@@ -111,10 +117,13 @@
                                 </select>
                             </form>
 
-                            <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex">
+                            <!-- Acara, Sesi, and Cabor Filters -->
+                            <form method="GET" action="{{ route('kehadiran.index') }}" class="d-flex align-items-center">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <input type="hidden" name="year" value="{{ $selectedYear }}"> <!-- Keep the selected year -->
-                                <select name="acara_id" class="form-control form-control-sm" id="acara_id_filter">
+
+                                <label for="acara" class="me-1" style="min-width: 125px;">Nama Pelatihan:</label>
+                                <select name="acara_id" class="form-control form-control-sm me-2" id="acara_id_filter">
                                     <option selected disabled>Pilih Acara</option>
                                     @foreach ($acara as $ac)
                                         <option value="{{ $ac->id }}" {{ $ac->id == $selectedAcara ? 'selected' : '' }}>
@@ -122,15 +131,18 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <select name="sesi" id="sesi_filter" class="form-control form-control-sm">
+
+                                <label for="sesi" class="me-1">Sesi:</label>
+                                <select name="sesi" id="sesi_filter" class="form-control form-control-sm me-2">
                                     <option selected disabled>Filter per sesi</option>
-                                    <!-- Populate session options -->
                                     @foreach ($sesiOptions as $sesi)
                                         <option value="{{ $sesi->id }}" {{ $sesi->id == $selectedSesi ? 'selected' : '' }}>
                                             {{ $sesi->sesi }}
                                         </option>
                                     @endforeach
                                 </select>
+
+                                <label for="cabor" class="me-1">Cabor:</label>
                                 <select name="cabor" class="form-control form-control-sm me-2">
                                     <option selected disabled>Pilih Cabor</option>
                                     @foreach ($caborOptions as $cabor)
@@ -139,6 +151,7 @@
                                         </option>
                                     @endforeach
                                 </select>
+
                                 <button type="submit" class="btn btn-sm btn-primary">
                                     <i class="fa-solid fa-magnifying-glass"></i>
                                 </button>

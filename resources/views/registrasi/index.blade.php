@@ -39,8 +39,9 @@
                             <span class="badge rounded-pill text-bg-info mr-3" style="min-width: 100px; text-align: center;">Print PDF</span>
 
                             <!-- Year Filter Form -->
-                            <form action="{{ route('registrasi.index') }}" method="GET" class="d-flex align-items-center mx-2">
+                            <form action="{{ route('registrasi.index') }}" method="GET" class="d-flex align-items-center ms-2 me-1">
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
+                                <label for="year" class="me-1">Tahun:</label> <!-- Label for Year -->
                                 <select class="form-control form-control-sm" id="year" name="year" onchange="this.form.submit()">
                                     <option value="" selected>Pilih Tahun</option>
                                     @foreach(range(date('Y'), 2022) as $year)
@@ -53,8 +54,9 @@
 
                             <!-- PDF Export Form -->
                             <form action="{{ route('regis.export-pdf') }}" method="get" target="_blank" class="d-flex align-items-center mx-2">
+                                <label for="acara" class="me-1" style="min-width: 125px;">Nama Pelatihan:</label> <!-- Label for Acara -->
                                 <select class="form-control form-control-sm mr-2" id="acara" name="acara">
-                                    <option value="">Pilih Acara</option>
+                                    <option value="">Pilih</option>
                                     @foreach($acaraOptions as $acaraOption)
                                         <option value="{{ $acaraOption->id }}"
                                                 {{ $selectedAcara == $acaraOption->id ? 'selected' : '' }}>
@@ -62,7 +64,9 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <select class="form-control form-control-sm mr-2" id="peran" name="peran">
+
+                                <label for="peran" class="ms-2">Peran:</label> <!-- Label for Peran -->
+                                <select class="form-control form-control-sm ms-1" id="peran" name="peran">
                                     <option value="">Pilih Peran</option>
                                     @foreach($peranOptions as $peranOption)
                                         <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
@@ -85,7 +89,8 @@
                             <span class="badge rounded-pill text-bg-info mr-3" style="min-width: 100px; text-align: center;">Filter Data</span>
 
                             <!-- Year Filter Form -->
-                            <form action="{{ route('registrasi.index') }}" method="GET" class="d-flex align-items-center mx-2">
+                            <form action="{{ route('registrasi.index') }}" method="GET" class="d-flex align-items-center ms-2 me-1">
+                                <label for="year" class="me-1">Tahun:</label>
                                 <input type="hidden" name="per_page" value="{{ $perPage }}">
                                 <select class="form-control form-control-sm" id="year" name="year" onchange="this.form.submit()">
                                     <option value="" selected>Pilih Tahun</option>
@@ -99,6 +104,7 @@
 
                             <!-- Filter Data Form -->
                             <form action="{{ route('registrasi.index') }}" method="GET" class="d-flex align-items-center mx-2">
+                                <label for="acara" class="me-1" style="min-width: 125px;">Nama Pelatihan:</label>
                                 <input type="hidden" name="year" value="{{ request('year') }}"> <!-- Preserve selected year -->
                                 <select class="form-control form-control-sm mr-2" id="acara" name="acara">
                                     <option value="">Pilih Acara</option>
@@ -109,7 +115,9 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <select class="form-control form-control-sm mr-2" id="peran" name="peran">
+
+                                <label for="peran" class="ms-2">Peran:</label>
+                                <select class="form-control form-control-sm ms-1" id="peran" name="peran">
                                     <option value="">Pilih Peran</option>
                                     @foreach($peranOptions as $peranOption)
                                         <option value="{{ $peranOption->id }}" {{ $selectedPeran == $peranOption->id ? 'selected' : '' }}>
