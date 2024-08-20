@@ -100,8 +100,6 @@ class Registrasi2Controller extends Controller
             });
         }
 
-        $anggota = $query->paginate($perPage);
-
         // Duplicate the query to apply filters for counting
         $countQuery = clone $query;
 
@@ -117,6 +115,9 @@ class Registrasi2Controller extends Controller
         $totalNPWP = $countQuery->whereHas('user.biodata', function ($q) {
             $q->whereNotNull('foto_npwp');
         })->count();
+
+        // Now apply pagination to the original query
+        $anggota = $query->paginate($perPage);
 
         // Return the view with data and options
         return view('registrasi2.index', [

@@ -158,7 +158,7 @@
                     <small>{{ $headerAcara->nama_acara }},</small>
                 @endif
                 @if ($headerSesi)
-                    <small>{{ $headerSesi->sesi }},</small>
+                    <small>{{ $headerSesi->sesi }}</small>
                 @endif
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -204,7 +204,9 @@
             @endif
 
             <!-- Pagination Links -->
-            {{ $kehadiran->appends(['sesi' => $selectedSesi, 'cabor' => $selectedCabor, 'per_page' => $perPage, 'year' => $selectedYear])->links() }}
+            {{ $kehadiran->appends([
+                'sesi' => $selectedSesi, 'cabor' => $selectedCabor, 'per_page' => $perPage, 'year' => $selectedYear,'acara_id' => $selectedAcara,
+            ])->links() }}
 
             <div>
                 <div class="row">

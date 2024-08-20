@@ -90,8 +90,7 @@ class RegistrasiController extends Controller
             });
         }
 
-        $anggota = $query->paginate($perPage);
-
+        // Clone the original query before pagination to perform counts
         $countQuery = clone $query;
 
         $totalFoto = $countQuery->whereHas('user.biodata', function ($q) {
@@ -105,6 +104,9 @@ class RegistrasiController extends Controller
         $totalNPWP = $countQuery->whereHas('user.biodata', function ($q) {
             $q->whereNotNull('foto_npwp');
         })->count();
+
+        // Now apply pagination to the original query
+        $anggota = $query->paginate($perPage);
 
         return view('registrasi.index', [
             'anggota' => $anggota,
